@@ -6,10 +6,11 @@ import (
 	"testing"
 )
 
+func f(a, b string) string {
+	return a + b
+}
+
 func TestReduce(t *testing.T) {
-	f := func(a, b string) string {
-		return a + b
-	}
 	convey.Convey("Call Reduce on [array]", t, func() {
 		s := [3]string{"a", "b", "c"}
 		expected := "abc"
@@ -29,5 +30,18 @@ func TestReduce(t *testing.T) {
 		actual, err := Reduce(f, s)
 		assert.Nil(t, err)
 		assert.Equal(t, s, actual)
+	})
+}
+
+func TestReduceMap(t *testing.T) {
+	convey.Convey("Call Reduce on [map]", t, func() {
+		m := map[int]string{
+			1: "one",
+			2: "two",
+		}
+		expected := "onetwo"
+		actual, err := ReduceMap(f, m)
+		assert.Nil(t, err)
+		assert.Equal(t, expected, actual)
 	})
 }

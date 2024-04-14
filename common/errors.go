@@ -17,3 +17,7 @@ var ErrNotJudgeFunc = errors.New("the input func is not a function for judge")
 var ErrNoReturn = errors.New("the input function has no return values")
 
 var ErrInvalidCapacity = errors.New("the capacity must be an positive integer")
+
+var ErrNotBool = errors.New("the value is not a boolean value")
+
+var ErrNotMap = errors.New("the input parameter is not a map")
