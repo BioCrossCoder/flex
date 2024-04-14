@@ -15,7 +15,7 @@ func TestMap(t *testing.T) {
 			1: "one",
 			2: "two",
 		}
-		result, err := MapResult(f, m)
+		result, err := Map(f, m)
 		assert.Nil(t, err)
 		output, isMap := result.(map[any]any)
 		assert.True(t, isMap)
@@ -26,7 +26,7 @@ func TestMap(t *testing.T) {
 	})
 	convey.Convey("Call Map on [slice]", t, func() {
 		s := []string{"1", "2", "3"}
-		result, err := MapResult(f, s)
+		result, err := Map(f, s)
 		assert.Nil(t, err)
 		output, isSlice := result.([]any)
 		assert.True(t, isSlice)
@@ -38,7 +38,7 @@ func TestMap(t *testing.T) {
 	})
 	convey.Convey("Call Map on [array]", t, func() {
 		s := [3]string{"1", "2", "3"}
-		result, err := MapResult(f, s)
+		result, err := Map(f, s)
 		assert.Nil(t, err)
 		output, isSlice := result.([]any)
 		assert.True(t, isSlice)
@@ -50,7 +50,7 @@ func TestMap(t *testing.T) {
 	})
 	convey.Convey("Call Map on [string]", t, func() {
 		s := "hello"
-		result, err := MapResult(f, s)
+		result, err := Map(f, s)
 		assert.Nil(t, err)
 		output, isSlice := result.([]any)
 		assert.True(t, isSlice)

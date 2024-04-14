@@ -21,3 +21,19 @@ func TestZip(t *testing.T) {
 		assert.Equal(t, expected, result)
 	})
 }
+
+func TestZipIterator(t *testing.T) {
+	convey.Convey("zip all", t, func() {
+		entry1 := []any{1, 2, 3}
+		entry2 := []any{"a", "b", "c"}
+		expected := [][2]any{
+			{1, "a"},
+			{2, "b"},
+		}
+		iterator := NewZipIterator(entry1, entry2, 2)
+		result := iterator.Pour()
+		assert.Equal(t, expected, result)
+		assert.False(t, iterator.Next())
+		assert.Nil(t, iterator.Value())
+	})
+}

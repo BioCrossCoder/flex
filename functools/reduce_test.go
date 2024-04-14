@@ -13,20 +13,20 @@ func TestReduce(t *testing.T) {
 	convey.Convey("Call Reduce on [array]", t, func() {
 		s := [3]string{"a", "b", "c"}
 		expected := "abc"
-		actual, err := ReduceResult(f, s)
+		actual, err := Reduce(f, s)
 		assert.Nil(t, err)
 		assert.Equal(t, expected, actual)
 	})
 	convey.Convey("Call Reduce on [slice]", t, func() {
 		s := []string{"h", "e", "l", "l", "o"}
 		expected := "hello"
-		actual, err := ReduceResult(f, s)
+		actual, err := Reduce(f, s)
 		assert.Nil(t, err)
 		assert.Equal(t, expected, actual)
 	})
 	convey.Convey("Call Reduce on [string]", t, func() {
 		s := "hello"
-		actual, err := ReduceResult(f, s)
+		actual, err := Reduce(f, s)
 		assert.Nil(t, err)
 		assert.Equal(t, s, actual)
 	})

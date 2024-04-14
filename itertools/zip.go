@@ -5,7 +5,56 @@ import (
 	"reflect"
 )
 
-func Zip(iter1, iter2 any) (iterator Iterator, err error) {
+type zipIterator struct {
+	entry1  []any
+	entry2  []any
+	length  int
+	pointer int
+	value   any
+}
+
+func NewZipIterator(entry1, entry2 []any, length int) common.Iterator {
+	return &zipIterator{
+		entry1:  entry1,
+		entry2:  entry2,
+		length:  length,
+		pointer: 0,
+		value:   nil,
+	}
+}
+
+func (iter *zipIterator) clear() {
+	iter.entry1 = nil
+	iter.entry2 = nil
+	iter.value = nil
+}
+
+func (iter *zipIterator) Next() bool {
+	if iter.pointer == iter.length {
+		iter.clear()
+		return false
+	}
+	iter.value = [2]any{iter.entry1[iter.pointer], iter.entry2[iter.pointer]}
+	iter.pointer++
+	return true
+}
+
+func (iter *zipIterator) Value() any {
+	return iter.value
+}
+
+func (iter *zipIterator) Pour() any {
+	length := iter.length - iter.pointer
+	output := make([][2]any, length)
+	i := 0
+	for iter.Next() {
+		output[i] = iter.Value().([2]any)
+		i++
+	}
+	return output
+}
+
+func Zip(iter1, iter2 any) (iterator common.Iterator, err error) {
 	err = common.IsSequence(iter1)
 	if err != nil {
 		return
