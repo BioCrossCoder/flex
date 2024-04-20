@@ -15,17 +15,13 @@ func Any(iter any) (result bool, err error) {
 		}
 		value := reflect.ValueOf(iter)
 		length := value.Len()
-		iterHandler := func(a any) any {
-			return a
-		}
 		switch value.Kind() {
 		case reflect.Array, reflect.Slice:
-			iterator = itertools.NewListConvertor(common.CopyList(value, length), iterHandler)
+			iterator = itertools.NewListIterator(common.CopyList(value, length))
 		case reflect.String:
-			list := common.ConvertStringToList(iter.(string))
-			iterator = itertools.NewListConvertor(list, iterHandler)
+			iterator = itertools.NewListIterator(common.ConvertStringToList(iter.(string)))
 		case reflect.Map:
-			iterator = itertools.NewMapConvertor(common.CopyMap(value, length), iterHandler)
+			iterator = itertools.NewMapIterator(common.CopyMap(value, length))
 		}
 	}
 	for iterator.Next() {
