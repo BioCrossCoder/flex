@@ -22,11 +22,12 @@ func ReduceMap(handler, entry any) (output any, err error) {
 		err = common.ErrNotMap
 		return
 	}
-	values := make([]any, 0)
+	values := make([]any, entryValue.Len())
 	iter := entryValue.MapRange()
+	i := 0
 	for iter.Next() {
-		value := iter.Value().Interface()
-		values = append(values, value)
+		values[i] = iter.Value().Interface()
+		i++
 	}
 	return Reduce(handler, values)
 }
