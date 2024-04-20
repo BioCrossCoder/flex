@@ -16,3 +16,14 @@ func TestListIterator(t *testing.T) {
 		assert.Nil(t, iterator.Value())
 	})
 }
+
+func TestMapIterator(t *testing.T) {
+	convey.Convey("iterate all", t, func() {
+		entry := map[any]any{"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+		iterator := NewMapIterator(entry)
+		result := iterator.Pour()
+		assert.Equal(t, entry, result)
+		assert.False(t, iterator.Next())
+		assert.Nil(t, iterator.Value())
+	})
+}
