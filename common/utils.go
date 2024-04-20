@@ -27,6 +27,16 @@ func IsJudgeFunc(f any) (err error) {
 	return
 }
 
+func IsList(entry any) error {
+	entryType := reflect.TypeOf(entry).Kind()
+	for _, v := range List {
+		if entryType == v {
+			return nil
+		}
+	}
+	return ErrNotList
+}
+
 func IsSequence(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
 	for _, v := range Sequence {

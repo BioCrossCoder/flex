@@ -21,3 +21,7 @@ var ErrInvalidCapacity = errors.New("the capacity must be an positive integer")
 var ErrNotBool = errors.New("the value is not a boolean value")
 
 var ErrNotMap = errors.New("the input parameter is not a map")
+
+var ErrZeroStep = errors.New("the step cannot be zero")
+
+var ErrNotList = errors.New("the input parameter must be a slice or array")

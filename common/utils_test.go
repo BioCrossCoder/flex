@@ -1,11 +1,10 @@
 package common
 
 import (
-	"reflect"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"reflect"
+	"testing"
 )
 
 func TestIsInputFuncValid(t *testing.T) {
@@ -45,6 +44,24 @@ func TestIsJudgeFunc(t *testing.T) {
 	})
 }
 
+func TestIsList(t *testing.T) {
+	convey.Convey("array", t, func() {
+		entry := [3]int{3, 0, 6}
+		err := IsList(entry)
+		assert.Nil(t, err)
+	})
+	convey.Convey("slice", t, func() {
+		entry := []int{6, 0, 2}
+		err := IsList(entry)
+		assert.Nil(t, err)
+	})
+	convey.Convey("not a list", t, func() {
+		entry := "hello"
+		err := IsList(entry)
+		assert.Equal(t, ErrNotList, err)
+	})
+}
+
 func TestIsSequence(t *testing.T) {
 	convey.Convey("array", t, func() {
 		entry := [3]int{1, 2, 3}
@@ -68,7 +85,7 @@ func TestIsSequence(t *testing.T) {
 	})
 }
 
-func TestIsEntryIterable(t *testing.T) {
+func TestIsIterable(t *testing.T) {
 	convey.Convey("slice", t, func() {
 		err := IsIterable([]int{})
 		assert.Nil(t, err)
