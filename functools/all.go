@@ -19,7 +19,8 @@ func All(iter any) (result bool, err error) {
 		case reflect.Array, reflect.Slice:
 			iterator = itertools.NewListIterator(common.CopyList(value, length))
 		case reflect.String:
-			iterator = itertools.NewListIterator(common.ConvertStringToList(iter.(string)))
+			err = common.ErrNotBool
+			return
 		case reflect.Map:
 			iterator = itertools.NewMapIterator(common.CopyMap(value, length))
 		}
