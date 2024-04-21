@@ -6,26 +6,25 @@ import (
 )
 
 type zipIterator struct {
-	entry1  []any
-	entry2  []any
+	entries [][]any
 	length  int
 	pointer int
 	value   any
+	count   int
 }
 
-func NewZipIterator(entry1, entry2 []any, length int) common.Iterator {
+func NewZipIterator(entries [][]any, length int) common.Iterator {
 	return &zipIterator{
-		entry1:  entry1,
-		entry2:  entry2,
+		entries: entries,
 		length:  length,
 		pointer: 0,
 		value:   nil,
+		count:   len(entries),
 	}
 }
 
 func (iter *zipIterator) clear() {
-	iter.entry1 = nil
-	iter.entry2 = nil
+	iter.entries = nil
 	iter.value = nil
 }
 
@@ -34,7 +33,11 @@ func (iter *zipIterator) Next() bool {
 		iter.clear()
 		return false
 	}
-	iter.value = [2]any{iter.entry1[iter.pointer], iter.entry2[iter.pointer]}
+	values := make([]any, iter.count)
+	for i := 0; i < iter.count; i++ {
+		values[i] = iter.entries[i][iter.pointer]
+	}
+	iter.value = values
 	iter.pointer++
 	return true
 }
@@ -45,53 +48,41 @@ func (iter *zipIterator) Value() any {
 
 func (iter *zipIterator) Pour() any {
 	length := iter.length - iter.pointer
-	output := make([][2]any, length)
+	output := make([]any, length)
 	i := 0
 	for iter.Next() {
-		output[i] = iter.Value().([2]any)
+		output[i] = iter.Value()
 		i++
 	}
 	return output
 }
 
-func Zip(iter1, iter2 any) (iterator common.Iterator, err error) {
-	err = common.IsSequence(iter1)
-	if err != nil {
+func Zip(entries ...any) (iterator common.Iterator, err error) {
+	entryCount := len(entries)
+	if entryCount < 2 {
+		err = common.ErrIllegalParamCount
 		return
 	}
-	value1 := reflect.ValueOf(iter1)
-	length1 := value1.Len()
-	if value1.Kind() == reflect.String {
-		iter1 = common.ConvertStringToList(iter1.(string))
-		length1 = len(iter1.([]any))
-	} else {
-		iter1 = common.CopyList(value1, length1)
+	entryLength := -1
+	iterEntries := make([][]any, entryCount)
+	for i, entry := range entries {
+		err = common.IsSequence(entry)
+		if err != nil {
+			return
+		}
+		value := reflect.ValueOf(entry)
+		length := value.Len()
+		if entryLength == -1 {
+			entryLength = length
+		} else if length < entryLength {
+			entryLength = length
+		}
+		if value.Kind() == reflect.String {
+			iterEntries[i] = common.ConvertStringToList(entry.(string))
+		} else {
+			iterEntries[i] = common.CopyList(value, length)
+		}
 	}
-	err = common.IsSequence(iter2)
-	if err != nil {
-		return
-	}
-	value2 := reflect.ValueOf(iter2)
-	length2 := value2.Len()
-	if value2.Kind() == reflect.String {
-		iter2 = common.ConvertStringToList(iter2.(string))
-		length2 = len(iter2.([]any))
-	} else {
-		iter2 = common.CopyList(value2, length2)
-	}
-	length := length1
-	if length2 < length1 {
-		length = length2
-	}
-	iterator = NewZipIterator(iter1.([]any), iter2.([]any), length)
-	return
-}
-
-func ZipResult(iter1, iter2 any) (output [][2]any, err error) {
-	iterator, err := Zip(iter1, iter2)
-	if err != nil {
-		return
-	}
-	output = iterator.Pour().([][2]any)
+	iterator = NewZipIterator(iterEntries, entryLength)
 	return
 }
