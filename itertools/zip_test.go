@@ -21,3 +21,21 @@ func TestZip(t *testing.T) {
 		assert.Equal(t, expected, result.Pour())
 	})
 }
+
+func TestZipLongest(t *testing.T) {
+	convey.Convey("Call ZipLongest on [string|array|slice]", t, func() {
+		arr := [3]int{1, 2, 3}
+		str := "hello"
+		sli := []any{1, "a", true}
+		expected := []any{
+			[]any{1, "h", 1},
+			[]any{2, "e", "a"},
+			[]any{3, "l", true},
+			[]any{nil, "l", nil},
+			[]any{nil, "o", nil},
+		}
+		result, err := ZipLongest(arr, str, sli)
+		assert.Nil(t, err)
+		assert.Equal(t, expected, result.Pour())
+	})
+}

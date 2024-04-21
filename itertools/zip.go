@@ -78,10 +78,51 @@ func Zip(entries ...any) (iterator common.Iterator, err error) {
 			entryLength = length
 		}
 		if value.Kind() == reflect.String {
-			iterEntries[i] = common.ConvertStringToList(entry.(string))
+			list := common.ConvertStringToList(entry.(string))
+			iterEntries[i] = list
+			charCount := len(list)
+			if charCount < entryLength {
+				entryLength = charCount
+			}
 		} else {
 			iterEntries[i] = common.CopyList(value, length)
 		}
+	}
+	iterator = NewZipIterator(iterEntries, entryLength)
+	return
+}
+
+func ZipLongest(entries ...any) (iterator common.Iterator, err error) {
+	entryCount := len(entries)
+	if entryCount < 2 {
+		err = common.ErrIllegalParamCount
+		return
+	}
+	entryLength := 0
+	iterEntries := make([][]any, entryCount)
+	for _, entry := range entries {
+		err = common.IsSequence(entry)
+		if err != nil {
+			return
+		}
+		length := reflect.ValueOf(entry).Len()
+		if length > entryLength {
+			entryLength = length
+		}
+	}
+	repeater := Repeat(nil)
+	for i, entry := range entries {
+		value := reflect.ValueOf(entry)
+		var list []any
+		var tailLength int
+		if value.Kind() == reflect.String {
+			list = common.ConvertStringToList(entry.(string))
+			tailLength = entryLength - len(list)
+		} else {
+			list = common.CopyList(value, value.Len())
+			tailLength = entryLength - value.Len()
+		}
+		iterEntries[i] = append(list, repeater.Repeat(tailLength)...)
 	}
 	iterator = NewZipIterator(iterEntries, entryLength)
 	return
