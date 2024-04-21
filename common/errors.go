@@ -25,3 +25,7 @@ var ErrNotMap = errors.New("the input parameter is not a map")
 var ErrZeroStep = errors.New("the step cannot be zero")
 
 var ErrNotList = errors.New("the input parameter must be a slice or array")
+
+var ErrInvalidRange = errors.New("the range is invalid with the step: [start < end and step < 0] or [start > end and step > 0]")
+
+var ErrOutOfRange = errors.New("the start index is out of range")
