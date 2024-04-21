@@ -65,6 +65,9 @@ func Enumerate(entry any, start, end, step int) (iterator common.Iterator, err e
 	}
 	value := reflect.ValueOf(entry)
 	length := value.Len()
+	if value.Kind() == reflect.String {
+		length = len([]rune(entry.(string)))
+	}
 	if start >= length {
 		err = common.ErrOutOfRange
 		return

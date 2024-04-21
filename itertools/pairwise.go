@@ -57,10 +57,9 @@ func PairWise(entry any) (iterator common.Iterator, err error) {
 		return
 	}
 	value := reflect.ValueOf(entry)
-	length := value.Len()
 	switch value.Kind() {
 	case reflect.Slice, reflect.Array:
-		iterator = NewPairIterator(common.CopyList(value, length))
+		iterator = NewPairIterator(common.CopyList(value, value.Len()))
 	case reflect.String:
 		iterator = NewPairIterator(common.ConvertStringToList(entry.(string)))
 	}

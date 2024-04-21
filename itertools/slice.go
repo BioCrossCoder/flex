@@ -65,6 +65,9 @@ func Slice(entry any, start, end, step int) (slice any, err error) {
 	}
 	value := reflect.ValueOf(entry)
 	length := value.Len()
+	if value.Kind() == reflect.String {
+		length = len([]rune(entry.(string)))
+	}
 	if start >= length {
 		err = common.ErrOutOfRange
 		return

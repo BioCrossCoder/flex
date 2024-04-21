@@ -72,18 +72,16 @@ func Zip(entries ...any) (iterator common.Iterator, err error) {
 		}
 		value := reflect.ValueOf(entry)
 		length := value.Len()
+		if value.Kind() == reflect.String {
+			length = len([]rune(entry.(string)))
+		}
 		if entryLength == -1 {
 			entryLength = length
 		} else if length < entryLength {
 			entryLength = length
 		}
 		if value.Kind() == reflect.String {
-			list := common.ConvertStringToList(entry.(string))
-			iterEntries[i] = list
-			charCount := len(list)
-			if charCount < entryLength {
-				entryLength = charCount
-			}
+			iterEntries[i] = common.ConvertStringToList(entry.(string))
 		} else {
 			iterEntries[i] = common.CopyList(value, length)
 		}
@@ -105,7 +103,11 @@ func ZipLongest(entries ...any) (iterator common.Iterator, err error) {
 		if err != nil {
 			return
 		}
-		length := reflect.ValueOf(entry).Len()
+		value := reflect.ValueOf(entry)
+		length := value.Len()
+		if value.Kind() == reflect.String {
+			length = len([]rune(entry.(string)))
+		}
 		if length > entryLength {
 			entryLength = length
 		}
