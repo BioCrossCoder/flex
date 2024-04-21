@@ -3,6 +3,7 @@ package itertools
 import (
 	"flex/common"
 	"reflect"
+	"unicode/utf8"
 )
 
 type listEnumerator struct {
@@ -64,9 +65,11 @@ func Enumerate(entry any, start, end, step int) (iterator common.Iterator, err e
 		return
 	}
 	value := reflect.ValueOf(entry)
-	length := value.Len()
+	var length int
 	if value.Kind() == reflect.String {
-		length = len([]rune(entry.(string)))
+		length = utf8.RuneCountInString(entry.(string))
+	} else {
+		length = value.Len()
 	}
 	if start >= length {
 		err = common.ErrOutOfRange
@@ -79,8 +82,7 @@ func Enumerate(entry any, start, end, step int) (iterator common.Iterator, err e
 	case reflect.Array, reflect.Slice:
 		iterator = NewListEnumerator(common.CopyList(value, length), start, end, step)
 	case reflect.String:
-		list := common.ConvertStringToList(entry.(string))
-		iterator = NewListEnumerator(list, start, end, step)
+		iterator = NewListEnumerator(common.ConvertStringToList(entry.(string)), start, end, step)
 	}
 	return
 }

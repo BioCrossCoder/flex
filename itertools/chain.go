@@ -13,10 +13,9 @@ func Chain(entries ...any) (iterator common.Iterator, err error) {
 			return
 		}
 		value := reflect.ValueOf(entry)
-		length := value.Len()
 		switch value.Kind() {
 		case reflect.Array, reflect.Slice:
-			elements = append(elements, common.CopyList(value, length)...)
+			elements = append(elements, common.CopyList(value, value.Len())...)
 		case reflect.String:
 			elements = append(elements, common.ConvertStringToList(entry.(string))...)
 		}

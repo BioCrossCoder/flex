@@ -81,8 +81,7 @@ func Filter(handler, entry any) (iterator common.Iterator, err error) {
 	case reflect.Array, reflect.Slice:
 		iterator = NewListFilter(common.CopyList(value, length), iterHandler)
 	case reflect.String:
-		list := common.ConvertStringToList(entry.(string))
-		iterator = NewListFilter(list, iterHandler)
+		iterator = NewListFilter(common.ConvertStringToList(entry.(string)), iterHandler)
 	case reflect.Map:
 		iterator = NewMapFilter(common.CopyMap(value, length), iterHandler)
 	}

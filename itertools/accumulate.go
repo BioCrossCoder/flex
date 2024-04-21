@@ -61,17 +61,15 @@ func Accumulate(handler, entry interface{}) (iterator common.Iterator, err error
 		return
 	}
 	value := reflect.ValueOf(entry)
-	length := value.Len()
 	iterHandler := func(p1, p2 any) any {
 		params := []reflect.Value{reflect.ValueOf(p1), reflect.ValueOf(p2)}
 		return reflect.ValueOf(handler).Call(params)[0].Interface()
 	}
 	switch value.Kind() {
 	case reflect.Array, reflect.Slice:
-		iterator = NewAccumulator(common.CopyList(value, length), iterHandler)
+		iterator = NewAccumulator(common.CopyList(value, value.Len()), iterHandler)
 	case reflect.String:
-		list := common.ConvertStringToList(entry.(string))
-		iterator = NewAccumulator(list, iterHandler)
+		iterator = NewAccumulator(common.ConvertStringToList(entry.(string)), iterHandler)
 	}
 	return
 }

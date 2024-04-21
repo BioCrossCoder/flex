@@ -125,8 +125,7 @@ func Map(handler, entry any) (iterator common.Iterator, err error) {
 	case reflect.Array, reflect.Slice:
 		iterator = NewListConvertor(common.CopyList(value, length), iterHandler)
 	case reflect.String:
-		list := common.ConvertStringToList(entry.(string))
-		iterator = NewListConvertor(list, iterHandler)
+		iterator = NewListConvertor(common.ConvertStringToList(entry.(string)), iterHandler)
 	case reflect.Map:
 		iterator = NewMapConvertor(common.CopyMap(value, length), iterHandler)
 	}

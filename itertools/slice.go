@@ -3,6 +3,7 @@ package itertools
 import (
 	"flex/common"
 	"reflect"
+	"unicode/utf8"
 )
 
 type sliceIterator struct {
@@ -64,9 +65,11 @@ func Slice(entry any, start, end, step int) (slice any, err error) {
 		return
 	}
 	value := reflect.ValueOf(entry)
-	length := value.Len()
+	var length int
 	if value.Kind() == reflect.String {
-		length = len([]rune(entry.(string)))
+		length = utf8.RuneCountInString(entry.(string))
+	}else{
+		length = value.Len()
 	}
 	if start >= length {
 		err = common.ErrOutOfRange
