@@ -37,3 +37,7 @@ var ErrTooManyArguments = errors.New("too many arguments")
 var ErrEmptyList = errors.New("the input list is empty")
 
 var ErrEmptySet = errors.New("the input set is empty")
+
+var ErrEmptyDict = errors.New("the input dict is empty")
+
+var ErrKeyNotFound = errors.New("the key is not found in the dict")
