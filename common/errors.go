@@ -35,3 +35,5 @@ var ErrListLengthMismatch = errors.New("the length of the input lists are not eq
 var ErrTooManyArguments = errors.New("too many arguments")
 
 var ErrEmptyList = errors.New("the input list is empty")
+
+var ErrEmptySet = errors.New("the input set is empty")
