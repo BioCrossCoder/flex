@@ -28,6 +28,10 @@ var ErrNotList = errors.New("the input parameter must be a slice or array")
 
 var ErrInvalidRange = errors.New("the range is invalid with the step: [start < end and step < 0] or [start > end and step > 0]")
 
-var ErrOutOfRange = errors.New("the start index is out of range")
+var ErrOutOfRange = errors.New("the index is out of range")
 
 var ErrListLengthMismatch = errors.New("the length of the input lists are not equal")
+
+var ErrTooManyArguments = errors.New("too many arguments")
+
+var ErrEmptyList = errors.New("the input list is empty")
