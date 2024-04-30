@@ -1,0 +1,10 @@
+{
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.formatOnSave": true,
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ]
+}
