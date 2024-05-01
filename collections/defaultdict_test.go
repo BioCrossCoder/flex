@@ -35,6 +35,7 @@ func TestDefaultDict(t *testing.T) {
 		df := 6
 		dd := NewDefaultDict(d, df)
 		dd2 := dd.Copy()
+		assert.True(t, dd.Equal(dd2))
 		assert.Equal(t, dd.Set("a", 1), dd)
 		assert.Equal(t, dd.Update(dd2), dd)
 		assert.Equal(t, dd.Get("a"), dd2.Get("a"))

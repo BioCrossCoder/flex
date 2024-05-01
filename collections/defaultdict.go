@@ -1,6 +1,9 @@
 package collections
 
-import "flex/collections/dict"
+import (
+	"flex/collections/dict"
+	"flex/collections/set"
+)
 
 type DefaultDict struct {
 	dict.Dict
@@ -57,4 +60,18 @@ func (d *DefaultDict) SetDefault(value any) *DefaultDict {
 		return value
 	}
 	return d
+}
+
+func (d DefaultDict) Equal(another DefaultDict) bool {
+	keys1 := set.Of(d.Keys()...)
+	keys2 := set.Of(another.Keys()...)
+	if !keys1.SymmetricDifference(keys2).Empty() {
+		return false
+	}
+	for k, v := range d.Dict {
+		if another.Get(k) != v {
+			return false
+		}
+	}
+	return true
 }
