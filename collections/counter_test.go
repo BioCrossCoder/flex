@@ -70,4 +70,13 @@ func TestCounter(t *testing.T) {
 		}
 		assert.Equal(t, len(c.Clear().Elements()), 0)
 	})
+	convey.Convey("merge several counters", t, func() {
+		c1 := NewCounter(l, -1)
+		c2 := c1.Copy()
+		assert.True(t, c1.Equal(c2))
+		mc := MergeCounts(c1, &c2)
+		for _, element := range c2.Elements() {
+			assert.Equal(t, mc.Get(element), c1.Get(element)+c2.Get(element))
+		}
+	})
 }

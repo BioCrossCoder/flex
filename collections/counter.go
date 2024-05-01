@@ -148,3 +148,41 @@ func (c *Counter) Clear() *Counter {
 	c.groups = make(dict.Dict)
 	return c
 }
+
+func (c Counter) Equal(another Counter) bool {
+	keys1 := set.Of(c.Elements()...)
+	keys2 := set.Of(another.Elements()...)
+	if !keys1.SymmetricDifference(keys2).Empty() {
+		return false
+	}
+	for k, v := range c.records {
+		if v != another.Get(k) {
+			return false
+		}
+	}
+	return true
+}
+
+func (c Counter) Copy() Counter {
+	return Counter{
+		c.records.Copy(),
+		c.groups.Copy(),
+		c.defaultCount,
+	}
+}
+
+func MergeCounts(counters ...*Counter) *Counter {
+	counter := &Counter{
+		records:      make(dict.Dict),
+		groups:       make(dict.Dict),
+		defaultCount: 0,
+	}
+	for _, c := range counters {
+		elements := c.Elements()
+		elements.ForEach(func(a any) any {
+			_ = counter.Increment(a, c.Get(a))
+			return a
+		})
+	}
+	return counter
+}
