@@ -1,0 +1,150 @@
+package collections
+
+import (
+	"flex/collections/dict"
+	"flex/collections/list"
+	"flex/collections/set"
+	"math"
+)
+
+type Counter struct {
+	records      *dict.Dict
+	groups       *dict.Dict
+	defaultCount int
+}
+
+func NewCounter(items list.List, defaultCounts ...int) *Counter {
+	records := &dict.Dict{}
+	for _, item := range items {
+		_ = records.Set(item, records.Get(item, 0).(int)+1)
+	}
+	groups := &dict.Dict{}
+	for k, v := range *records {
+		count := v.(int)
+		members := groups.Get(count, set.Set{}).(set.Set)
+		_ = members.Add(k)
+		_ = groups.Set(count, members)
+	}
+	defaultCount := 0
+	if len(defaultCounts) > 0 {
+		defaultCount = defaultCounts[0]
+	}
+	return &Counter{
+		records,
+		groups,
+		defaultCount,
+	}
+}
+
+func (c *Counter) Get(item any) int {
+	return c.records.Get(item, c.defaultCount).(int)
+}
+
+func (c *Counter) Set(item any, count int) *Counter {
+	_ = c.records.Set(item, count)
+	members := c.groups.Get(count, set.Set{}).(set.Set)
+	_ = members.Add(item)
+	_ = c.groups.Set(count, members)
+	return c
+}
+
+func (c *Counter) Increment(item any, counts ...int) *Counter {
+	count := 1
+	if len(counts) > 0 {
+		count = counts[0]
+	}
+	return c.Set(item, c.Get(item)+count)
+}
+
+func (c *Counter) Subtract(item any, counts ...int) *Counter {
+	count := 1
+	if len(counts) > 0 {
+		count = counts[0]
+	}
+	return c.Set(item, c.Get(item)-count)
+}
+
+func (c *Counter) Remove(item any) (exist bool) {
+	exist = c.records.Has(item)
+	if exist {
+		count := c.Get(item)
+		group := c.groups.Get(count).(set.Set)
+		if group.Discard(item) && group.Empty() {
+			_ = c.groups.Delete(count)
+		}
+		_ = c.records.Delete(item)
+	}
+	return
+}
+
+func (c *Counter) SetDefault(count int) *Counter {
+	c.defaultCount = count
+	return c
+}
+
+func (c *Counter) MostCommon() list.List {
+	maxCount := 0
+	for k := range *c.groups {
+		count := k.(int)
+		if count > maxCount {
+			maxCount = count
+		}
+	}
+	items := make(list.List, 0)
+	group := c.groups.Get(maxCount, set.Set{}).(set.Set)
+	for item := range group {
+		items = append(items, item)
+	}
+	return items
+}
+
+func (c *Counter) LeastCommon() list.List {
+	minCount := math.MaxInt
+	for k := range *c.groups {
+		count := k.(int)
+		if count < minCount {
+			minCount = count
+		}
+	}
+	items := make(list.List, 0)
+	group := c.groups.Get(minCount, set.Set{}).(set.Set)
+	for item := range group {
+		items = append(items, item)
+	}
+	return items
+}
+
+func (c *Counter) Total() (total int) {
+	for _, v := range *c.records {
+		total += v.(int)
+	}
+	return
+}
+
+func (c *Counter) Elements() list.List {
+	elements := make(list.List, len(*c.records))
+	i := 0
+	for k := range *c.records {
+		elements[i] = k
+		i++
+	}
+	return elements
+}
+
+func (c *Counter) Reset() *Counter {
+	items := make(set.Set)
+	for k := range *c.records {
+		_ = c.records.Set(k, c.defaultCount)
+		_ = items.Add(k)
+	}
+	c.groups = &dict.Dict{
+		c.defaultCount: items,
+	}
+	return c
+}
+
+func (c *Counter) Clear() *Counter {
+	c.records = &dict.Dict{}
+	c.groups = &dict.Dict{}
+	return c
+}
