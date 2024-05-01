@@ -8,18 +8,18 @@ import (
 )
 
 type Counter struct {
-	records      *dict.Dict
-	groups       *dict.Dict
+	records      dict.Dict
+	groups       dict.Dict
 	defaultCount int
 }
 
 func NewCounter(items list.List, defaultCounts ...int) *Counter {
-	records := &dict.Dict{}
+	records := make(dict.Dict)
 	for _, item := range items {
 		_ = records.Set(item, records.Get(item, 0).(int)+1)
 	}
-	groups := &dict.Dict{}
-	for k, v := range *records {
+	groups := make(dict.Dict)
+	for k, v := range records {
 		count := v.(int)
 		members := groups.Get(count, set.Set{}).(set.Set)
 		_ = members.Add(k)
@@ -84,7 +84,7 @@ func (c *Counter) SetDefault(count int) *Counter {
 
 func (c *Counter) MostCommon() list.List {
 	maxCount := 0
-	for k := range *c.groups {
+	for k := range c.groups {
 		count := k.(int)
 		if count > maxCount {
 			maxCount = count
@@ -100,7 +100,7 @@ func (c *Counter) MostCommon() list.List {
 
 func (c *Counter) LeastCommon() list.List {
 	minCount := math.MaxInt
-	for k := range *c.groups {
+	for k := range c.groups {
 		count := k.(int)
 		if count < minCount {
 			minCount = count
@@ -115,16 +115,16 @@ func (c *Counter) LeastCommon() list.List {
 }
 
 func (c *Counter) Total() (total int) {
-	for _, v := range *c.records {
+	for _, v := range c.records {
 		total += v.(int)
 	}
 	return
 }
 
 func (c *Counter) Elements() list.List {
-	elements := make(list.List, len(*c.records))
+	elements := make(list.List, len(c.records))
 	i := 0
-	for k := range *c.records {
+	for k := range c.records {
 		elements[i] = k
 		i++
 	}
@@ -133,18 +133,18 @@ func (c *Counter) Elements() list.List {
 
 func (c *Counter) Reset() *Counter {
 	items := make(set.Set)
-	for k := range *c.records {
+	for k := range c.records {
 		_ = c.records.Set(k, c.defaultCount)
 		_ = items.Add(k)
 	}
-	c.groups = &dict.Dict{
+	c.groups = dict.Dict{
 		c.defaultCount: items,
 	}
 	return c
 }
 
 func (c *Counter) Clear() *Counter {
-	c.records = &dict.Dict{}
-	c.groups = &dict.Dict{}
+	c.records = make(dict.Dict)
+	c.groups = make(dict.Dict)
 	return c
 }
