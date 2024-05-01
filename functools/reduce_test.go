@@ -39,9 +39,9 @@ func TestReduceMap(t *testing.T) {
 			1: "one",
 			2: "two",
 		}
-		expected := "onetwo"
+		candidates := []string{"onetwo", "twoone"}
 		actual, err := ReduceMap(f, m)
 		assert.Nil(t, err)
-		assert.Equal(t, expected, actual)
+		assert.Contains(t, candidates, actual)
 	})
 }
