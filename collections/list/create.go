@@ -19,8 +19,9 @@ func (l List) Slice(args ...int) List {
 	if argsCount == 0 {
 		return l.Copy()
 	}
+	srcListLength := l.Len()
 	start := 0
-	end := l.Len()
+	end := srcListLength
 	step := 1
 	if argsCount >= 1 {
 		start = l.parseIndex(args[0])
@@ -31,10 +32,11 @@ func (l List) Slice(args ...int) List {
 	if argsCount >= 3 {
 		step = args[2]
 	}
-	list := make(List, 0)
-	if (start < end && step < 0) || (start > end && step > 0) {
-		return list
+	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
+		return make(List, 0)
 	}
+	sliceListLength := 0
+	list := make(List, srcListLength)
 	condition := func(start, end, step int) bool {
 		if step > 0 {
 			return start < end
@@ -43,9 +45,10 @@ func (l List) Slice(args ...int) List {
 		}
 	}
 	for i := start; condition(i, end, step); i += step {
-		list = append(list, l[i])
+		list[sliceListLength] = l[i]
+		sliceListLength++
 	}
-	return list
+	return list[:sliceListLength].Copy()
 }
 
 func (l List) ToSpliced(start, deleteCount int, items ...any) List {

@@ -50,6 +50,16 @@ func (d *Dict) PopItem() (key, value any, err error) {
 }
 
 func (d *Dict) Update(another Dict) *Dict {
+	count1 := d.Size()
+	count2 := another.Size()
+	if common.WillReHash(count1, count2) {
+		capacity := common.GetMapInitialCapacity(count1 + count2)
+		newDict := make(Dict, capacity)
+		for k, v := range *d {
+			newDict.Set(k, v)
+		}
+		*d = newDict
+	}
 	for k, v := range another {
 		d.Set(k, v)
 	}

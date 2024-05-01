@@ -23,6 +23,16 @@ func (s *Set) Clear() *Set {
 }
 
 func (s *Set) Update(another Set) *Set {
+	count1 := s.Size()
+	count2 := another.Size()
+	if common.WillReHash(count1, count2) {
+		capacity := common.GetMapInitialCapacity(count1 + count2)
+		newSet := make(Set, capacity)
+		for k := range *s {
+			newSet.Add(k)
+		}
+		*s = newSet
+	}
 	for k := range another {
 		s.Add(k)
 	}

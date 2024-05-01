@@ -146,8 +146,13 @@ func (l *List) Splice(start, deleteCount int, items ...any) List {
 	removed := (*l)[start:endIndex]
 	head := (*l)[:start]
 	tail := (*l)[endIndex:]
-	*l = head.Concat(List(items)).Concat(tail)
-	return removed
+	insertCount := len(items)
+	newList := make(List, l.Len()-removed.Len()+insertCount)
+	copy(newList, head)
+	copy(newList[start:], items)
+	copy(newList[start+insertCount:], tail)
+	*l = newList
+	return removed.Copy()
 }
 
 func (l *List) Fill(element any, area ...int) *List {

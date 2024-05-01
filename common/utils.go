@@ -1,6 +1,9 @@
 package common
 
-import "reflect"
+import (
+	"math"
+	"reflect"
+)
 
 func IsInputFuncValid(f any, inputCount, outputCount int) error {
 	fType := reflect.TypeOf(f)
@@ -96,4 +99,12 @@ func ConvertMapToLists(entry map[any]any) (keys, values []any, length int) {
 		i++
 	}
 	return
+}
+
+func GetMapInitialCapacity(elementCount int) int {
+	return int(math.Ceil(float64(elementCount) / hashTableFillFactor))
+}
+
+func WillReHash(oldElementCount, newElementCount int) bool {
+	return float64(newElementCount)/float64(oldElementCount) >= reHashThreshold-1
 }
