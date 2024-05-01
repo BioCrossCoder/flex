@@ -177,3 +177,15 @@ func (l *List) Reverse() *List {
 	}
 	return l
 }
+
+func (l *List) Set(index int, element any) (err error) {
+	if index < 0 {
+		index += l.Len()
+	}
+	err = l.isIndexValid(index)
+	if err != nil {
+		return
+	}
+	(*l)[index] = element
+	return
+}

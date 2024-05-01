@@ -193,3 +193,13 @@ func TestReverse(t *testing.T) {
 		assert.Equal(t, l, List{5, 4, 3, 2, 1})
 	})
 }
+
+func TestSet(t *testing.T) {
+	convey.Convey("set the element of list by index", t, func() {
+		l := List{1, 2, 3, 4, 5}
+		assert.Nil(t, l.Set(-2, 6))
+		result, err := l.At(-2)
+		assert.Nil(t, err)
+		assert.Equal(t, result, 6)
+	})
+}
