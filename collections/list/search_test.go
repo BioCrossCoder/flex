@@ -2,10 +2,9 @@ package list
 
 import (
 	"flex/common"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestSearchElement(t *testing.T) {
