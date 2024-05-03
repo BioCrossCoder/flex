@@ -47,6 +47,12 @@ func TestNamedList(t *testing.T) {
 			nl2 := nl.Copy()
 			assert.True(t, nl2.Equal(*nl))
 			assert.False(t, nl2.Empty())
+			assert.Equal(t, nl2.Reset(), &nl2)
+			for _, field := range nl2.Fields() {
+				value, err := nl2.GetByName(field)
+				assert.Nil(t, err)
+				assert.Nil(t, value)
+			}
 			assert.Equal(t, nl2.Clear(), &nl2)
 			assert.True(t, nl2.Empty())
 			nl3 := nl2.With("f", 50)

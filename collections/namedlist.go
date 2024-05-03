@@ -161,6 +161,11 @@ func (nl *NamedList) Clear() *NamedList {
 	return nl
 }
 
+func (nl *NamedList) Reset() *NamedList {
+	_ = nl.elements.Fill(nil)
+	return nl
+}
+
 func (nl NamedList) Items() arraylist.ArrayList {
 	items := make(arraylist.ArrayList, nl.Len())
 	for i, field := range nl.fields {
