@@ -32,7 +32,7 @@ func IsJudgeFunc(f any) (err error) {
 
 func IsList(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
-	for _, v := range List {
+	for _, v := range ArrayType {
 		if entryType == v {
 			return nil
 		}
@@ -42,7 +42,7 @@ func IsList(entry any) error {
 
 func IsSequence(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
-	for _, v := range Sequence {
+	for _, v := range SequenceType {
 		if entryType == v {
 			return nil
 		}
