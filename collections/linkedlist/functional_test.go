@@ -1,4 +1,4 @@
-package deque
+package linkedlist
 
 import (
 	"flex/common"

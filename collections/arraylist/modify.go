@@ -1,8 +1,8 @@
-package list
+package arraylist
 
 import "flex/common"
 
-func (l *List) Remove(element any, counts ...int) *List {
+func (l *ArrayList) Remove(element any, counts ...int) *ArrayList {
 	argCount := len(counts)
 	count := 1
 	if argCount >= 1 {
@@ -18,7 +18,7 @@ func (l *List) Remove(element any, counts ...int) *List {
 	return l
 }
 
-func (l *List) RemoveRight(element any, counts ...int) *List {
+func (l *ArrayList) RemoveRight(element any, counts ...int) *ArrayList {
 	argCount := len(counts)
 	count := 1
 	if argCount >= 1 {
@@ -34,18 +34,18 @@ func (l *List) RemoveRight(element any, counts ...int) *List {
 	return l
 }
 
-func (l *List) Clear() *List {
-	*l = make(List, 0)
+func (l *ArrayList) Clear() *ArrayList {
+	*l = make(ArrayList, 0)
 	return l
 }
 
-func (l *List) Push(elements ...any) (length int) {
+func (l *ArrayList) Push(elements ...any) (length int) {
 	length = l.Len() + len(elements)
-	*l = l.Concat(List(elements))
+	*l = l.Concat(ArrayList(elements))
 	return
 }
 
-func (l *List) Pop(indexes ...int) (element any, err error) {
+func (l *ArrayList) Pop(indexes ...int) (element any, err error) {
 	argCount := len(indexes)
 	if argCount >= 2 {
 		err = common.ErrTooManyArguments
@@ -71,17 +71,17 @@ func (l *List) Pop(indexes ...int) (element any, err error) {
 	return
 }
 
-func (l *List) Unshift(elements ...any) (length int) {
+func (l *ArrayList) Unshift(elements ...any) (length int) {
 	length = l.Len() + len(elements)
-	*l = List(elements).Concat(*l)
+	*l = ArrayList(elements).Concat(*l)
 	return
 }
 
-func (l *List) Shift() (element any, err error) {
+func (l *ArrayList) Shift() (element any, err error) {
 	return l.Pop(0)
 }
 
-func (l *List) Insert(index int, element any) *List {
+func (l *ArrayList) Insert(index int, element any) *ArrayList {
 	length := l.Len()
 	validIndex := l.parseIndex(index)
 	*l = append(*l, nil)
@@ -92,14 +92,14 @@ func (l *List) Insert(index int, element any) *List {
 	return l
 }
 
-func (l *List) ForEach(action func(any) any) *List {
+func (l *ArrayList) ForEach(action func(any) any) *ArrayList {
 	for i, item := range *l {
 		(*l)[i] = action(item)
 	}
 	return l
 }
 
-func (l *List) Replace(oldElement, newElement any, counts ...int) *List {
+func (l *ArrayList) Replace(oldElement, newElement any, counts ...int) *ArrayList {
 	if oldElement == newElement {
 		return l
 	}
@@ -118,7 +118,7 @@ func (l *List) Replace(oldElement, newElement any, counts ...int) *List {
 	return l
 }
 
-func (l *List) ReplaceRight(oldElement, newElement any, counts ...int) *List {
+func (l *ArrayList) ReplaceRight(oldElement, newElement any, counts ...int) *ArrayList {
 	if oldElement == newElement {
 		return l
 	}
@@ -137,9 +137,9 @@ func (l *List) ReplaceRight(oldElement, newElement any, counts ...int) *List {
 	return l
 }
 
-func (l *List) Splice(start, deleteCount int, items ...any) List {
+func (l *ArrayList) Splice(start, deleteCount int, items ...any) ArrayList {
 	if deleteCount <= 0 {
-		return make(List, 0)
+		return make(ArrayList, 0)
 	}
 	start = l.parseIndex(start)
 	endIndex := l.parseIndex(start + deleteCount)
@@ -147,7 +147,7 @@ func (l *List) Splice(start, deleteCount int, items ...any) List {
 	head := (*l)[:start]
 	tail := (*l)[endIndex:]
 	insertCount := len(items)
-	newList := make(List, l.Len()-removed.Len()+insertCount)
+	newList := make(ArrayList, l.Len()-removed.Len()+insertCount)
 	copy(newList, head)
 	copy(newList[start:], items)
 	copy(newList[start+insertCount:], tail)
@@ -155,7 +155,7 @@ func (l *List) Splice(start, deleteCount int, items ...any) List {
 	return removed.Copy()
 }
 
-func (l *List) Fill(element any, area ...int) *List {
+func (l *ArrayList) Fill(element any, area ...int) *ArrayList {
 	argCount := len(area)
 	start := 0
 	end := l.Len()
@@ -171,14 +171,14 @@ func (l *List) Fill(element any, area ...int) *List {
 	return l
 }
 
-func (l *List) Reverse() *List {
+func (l *ArrayList) Reverse() *ArrayList {
 	for i, j := 0, l.Len()-1; i < j; i, j = i+1, j-1 {
 		(*l)[i], (*l)[j] = (*l)[j], (*l)[i]
 	}
 	return l
 }
 
-func (l *List) Set(index int, element any) (err error) {
+func (l *ArrayList) Set(index int, element any) (err error) {
 	if index < 0 {
 		index += l.Len()
 	}

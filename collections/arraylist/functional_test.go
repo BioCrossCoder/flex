@@ -1,25 +1,26 @@
-package list
+package arraylist
 
 import (
 	"flex/common"
+	"testing"
+
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestMap(t *testing.T) {
 	convey.Convey("mapping list", t, func() {
-		l := List{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		l := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		f := func(x any) any {
 			return x.(int) * 2
 		}
-		assert.Equal(t, List{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, l.Map(f))
+		assert.Equal(t, ArrayList{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, l.Map(f))
 	})
 }
 
 func TestReduce(t *testing.T) {
 	convey.Convey("reduce list", t, func() {
-		l := List{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		l := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		f := func(x, y any) any {
 			if ix, ok := x.(int); ok {
 				x = float64(ix)
@@ -47,7 +48,7 @@ func TestReduce(t *testing.T) {
 			assert.Equal(t, 2.755731922398589e-06, result)
 		})
 		convey.Convey("reduce on empty list", func() {
-			l := List{}
+			l := ArrayList{}
 			result, err := l.Reduce(f)
 			assert.Equal(t, common.ErrEmptyList, err)
 			assert.Nil(t, result)
@@ -68,17 +69,17 @@ func TestReduce(t *testing.T) {
 
 func TestFilter(t *testing.T) {
 	convey.Convey("filter list", t, func() {
-		l := List{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		l := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		f := func(x any) bool {
 			return x.(int)%2 == 0
 		}
-		assert.Equal(t, List{2, 4, 6, 8, 10}, l.Filter(f))
+		assert.Equal(t, ArrayList{2, 4, 6, 8, 10}, l.Filter(f))
 	})
 }
 
 func TestSomeAndEvery(t *testing.T) {
 	convey.Convey("check condition on list", t, func() {
-		l := List{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		l := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		f := func(x any) bool {
 			return x.(int) > 9
 		}

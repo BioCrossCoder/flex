@@ -1,10 +1,11 @@
-package deque
+package linkedlist
 
 import (
-	"flex/collections/list"
+	"flex/collections/arraylist"
+	"testing"
+
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestRemove(t *testing.T) {
@@ -149,7 +150,7 @@ func TestForEach(t *testing.T) {
 }
 
 func TestReplace(t *testing.T) {
-	d := NewDeque(list.Repeat(1, 10)...)
+	d := NewDeque(arraylist.Repeat(1, 10)...)
 	convey.Convey("replace the first specified element with another element", t, func() {
 		d2 := d.Copy()
 		assert.Equal(t, 10, d2.Count(1))
@@ -206,7 +207,7 @@ func TestSplice(t *testing.T) {
 }
 
 func TestFill(t *testing.T) {
-	d := NewDeque(list.Repeat(1, 5)...)
+	d := NewDeque(arraylist.Repeat(1, 5)...)
 	convey.Convey("fill the deque with the specified element", t, func() {
 		d2 := d.Copy()
 		_ = d2.Fill(2)

@@ -1,7 +1,6 @@
-package deque
+package linkedlist
 
 import (
-	"flex/collections/list"
 	"flex/common"
 )
 
@@ -121,14 +120,14 @@ func (d *Deque) PopLeft() (element any, err error) {
 }
 
 func (d *Deque) Extend(another *Deque) *Deque {
-	for _, value := range another.ToList() {
+	for _, value := range another.ToArrayList() {
 		_ = d.Append(value)
 	}
 	return d
 }
 
 func (d *Deque) ExtendLeft(another *Deque) *Deque {
-	for _, value := range another.ToList() {
+	for _, value := range another.ToArrayList() {
 		_ = d.AppendLeft(value)
 	}
 	return d
@@ -271,7 +270,7 @@ func (d *Deque) Splice(start, deleteCount int, items ...any) Deque {
 	start = d.parseIndex(start)
 	end := d.parseIndex(start + deleteCount)
 	count := end - start
-	removedValues := make(list.List, count)
+	removedValues := make([]any, count)
 	tail := d.getNodeByIndex(start)
 	head := tail.Prev
 	tail.Prev = nil

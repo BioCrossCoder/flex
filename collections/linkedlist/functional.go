@@ -1,21 +1,19 @@
-package deque
-
-import "flex/collections/list"
+package linkedlist
 
 func (d Deque) Map(handler func(any) any) Deque {
-	return *NewDeque(d.ToList().Map(handler)...)
+	return *NewDeque(d.ToArrayList().Map(handler)...)
 }
 
 func (d Deque) Reduce(handler func(any, any) any, initial ...any) (any, error) {
-	return d.ToList().Reduce(handler, initial...)
+	return d.ToArrayList().Reduce(handler, initial...)
 }
 
 func (d Deque) ReduceRight(handler func(any, any) any, initial ...any) (any, error) {
-	return d.ToList().ReduceRight(handler, initial...)
+	return d.ToArrayList().ReduceRight(handler, initial...)
 }
 
 func (d Deque) Filter(condition func(any) bool) Deque {
-	values := make(list.List, 0)
+	values := make([]any, 0)
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		if condition(node.Value) {
 			values = append(values, node.Value)

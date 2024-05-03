@@ -1,16 +1,16 @@
-package list
+package arraylist
 
 import "flex/common"
 
-func (l List) Map(handler func(any) any) List {
-	list := make(List, l.Len())
+func (l ArrayList) Map(handler func(any) any) ArrayList {
+	list := make(ArrayList, l.Len())
 	for i, item := range l {
 		list[i] = handler(item)
 	}
 	return list
 }
 
-func (l List) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
+func (l ArrayList) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
 	if l.Len() == 0 {
 		err = common.ErrEmptyList
 		return
@@ -33,7 +33,7 @@ func (l List) Reduce(handler func(any, any) any, initial ...any) (result any, er
 	return
 }
 
-func (l List) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
+func (l ArrayList) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
 	if l.Len() == 0 {
 		err = common.ErrEmptyList
 		return
@@ -56,8 +56,8 @@ func (l List) ReduceRight(handler func(any, any) any, initial ...any) (result an
 	return
 }
 
-func (l List) Filter(condition func(any) bool) List {
-	list := make(List, 0)
+func (l ArrayList) Filter(condition func(any) bool) ArrayList {
+	list := make(ArrayList, 0)
 	for _, item := range l {
 		if condition(item) {
 			list = append(list, item)
@@ -66,7 +66,7 @@ func (l List) Filter(condition func(any) bool) List {
 	return list
 }
 
-func (l List) Some(condition func(any) bool) bool {
+func (l ArrayList) Some(condition func(any) bool) bool {
 	for _, item := range l {
 		if condition(item) {
 			return true
@@ -75,7 +75,7 @@ func (l List) Some(condition func(any) bool) bool {
 	return false
 }
 
-func (l List) Every(condition func(any) bool) bool {
+func (l ArrayList) Every(condition func(any) bool) bool {
 	for _, item := range l {
 		if !condition(item) {
 			return false

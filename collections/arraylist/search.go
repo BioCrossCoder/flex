@@ -1,8 +1,8 @@
-package list
+package arraylist
 
 import "flex/common"
 
-func (l List) IndexOf(element any) (index int) {
+func (l ArrayList) IndexOf(element any) (index int) {
 	index = -1
 	for i, item := range l {
 		if item == element {
@@ -13,7 +13,7 @@ func (l List) IndexOf(element any) (index int) {
 	return
 }
 
-func (l List) LastIndexOf(element any) (index int) {
+func (l ArrayList) LastIndexOf(element any) (index int) {
 	index = -1
 	for i := l.Len() - 1; i >= 0; i-- {
 		if l[i] == element {
@@ -24,7 +24,7 @@ func (l List) LastIndexOf(element any) (index int) {
 	return
 }
 
-func (l List) At(index int) (element any, err error) {
+func (l ArrayList) At(index int) (element any, err error) {
 	if index < 0 {
 		index += l.Len()
 	}
@@ -36,7 +36,7 @@ func (l List) At(index int) (element any, err error) {
 	return
 }
 
-func (l List) Find(by func(any) bool) (element any) {
+func (l ArrayList) Find(by func(any) bool) (element any) {
 	for _, item := range l {
 		if by(item) {
 			element = item
@@ -46,7 +46,7 @@ func (l List) Find(by func(any) bool) (element any) {
 	return
 }
 
-func (l List) FindIndex(by func(any) bool) (index int) {
+func (l ArrayList) FindIndex(by func(any) bool) (index int) {
 	index = -1
 	for i, item := range l {
 		if by(item) {
@@ -57,7 +57,7 @@ func (l List) FindIndex(by func(any) bool) (index int) {
 	return
 }
 
-func (l List) FindLast(by func(any) bool) (element any) {
+func (l ArrayList) FindLast(by func(any) bool) (element any) {
 	for i := l.Len() - 1; i >= 0; i-- {
 		if by(l[i]) {
 			element = l[i]
@@ -67,7 +67,7 @@ func (l List) FindLast(by func(any) bool) (element any) {
 	return
 }
 
-func (l List) FindLastIndex(by func(any) bool) (index int) {
+func (l ArrayList) FindLastIndex(by func(any) bool) (index int) {
 	index = -1
 	for i := l.Len() - 1; i >= 0; i-- {
 		if by(l[i]) {
@@ -78,7 +78,7 @@ func (l List) FindLastIndex(by func(any) bool) (index int) {
 	return
 }
 
-func (l List) Head() (element any, err error) {
+func (l ArrayList) Head() (element any, err error) {
 	if l.Empty() {
 		err = common.ErrEmptyList
 		return
@@ -87,7 +87,7 @@ func (l List) Head() (element any, err error) {
 	return
 }
 
-func (l List) Tail() (element any, err error) {
+func (l ArrayList) Tail() (element any, err error) {
 	if l.Empty() {
 		err = common.ErrEmptyList
 		return

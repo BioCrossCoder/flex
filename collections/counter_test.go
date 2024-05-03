@@ -1,7 +1,7 @@
 package collections
 
 import (
-	"flex/collections/list"
+	"flex/collections/arraylist"
 	"flex/collections/set"
 	"math"
 	"testing"
@@ -11,7 +11,7 @@ import (
 )
 
 func TestCounter(t *testing.T) {
-	l := list.List{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
+	l := arraylist.ArrayList{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
 	convey.Convey("count elements in a list", t, func() {
 		c := NewCounter(l, -1)
 		nums := c.Elements()
@@ -53,7 +53,7 @@ func TestCounter(t *testing.T) {
 	convey.Convey("reset a counter", t, func() {
 		c := NewCounter(l, -1)
 		nums := c.Elements()
-		rest := list.List{}
+		rest := arraylist.ArrayList{}
 		for i, num := range nums {
 			assert.Equal(t, c.Get(num), l.Count(num))
 			if i%2 == 0 {

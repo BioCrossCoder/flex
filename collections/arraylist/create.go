@@ -1,20 +1,20 @@
-package list
+package arraylist
 
-func (l List) Copy() List {
-	backup := make(List, l.Len())
+func (l ArrayList) Copy() ArrayList {
+	backup := make(ArrayList, l.Len())
 	copy(backup, l)
 	return backup
 }
 
-func (l List) Concat(another List) List {
+func (l ArrayList) Concat(another ArrayList) ArrayList {
 	mid := l.Len()
-	linkedList := make(List, mid+another.Len())
+	linkedList := make(ArrayList, mid+another.Len())
 	copy(linkedList, l)
 	copy(linkedList[mid:], another)
 	return linkedList
 }
 
-func (l List) Slice(args ...int) List {
+func (l ArrayList) Slice(args ...int) ArrayList {
 	argsCount := len(args)
 	if argsCount == 0 {
 		return l.Copy()
@@ -33,10 +33,10 @@ func (l List) Slice(args ...int) List {
 		step = args[2]
 	}
 	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
-		return make(List, 0)
+		return make(ArrayList, 0)
 	}
 	sliceListLength := 0
-	list := make(List, srcListLength)
+	list := make(ArrayList, srcListLength)
 	condition := func(start, end, step int) bool {
 		if step > 0 {
 			return start < end
@@ -51,30 +51,30 @@ func (l List) Slice(args ...int) List {
 	return list[:sliceListLength].Copy()
 }
 
-func (l List) ToSpliced(start, deleteCount int, items ...any) List {
+func (l ArrayList) ToSpliced(start, deleteCount int, items ...any) ArrayList {
 	list := l.Copy()
 	_ = list.Splice(start, deleteCount, items...)
 	return list
 }
 
-func (l List) ToReversed() List {
+func (l ArrayList) ToReversed() ArrayList {
 	list := l.Copy()
 	_ = list.Reverse()
 	return list
 }
 
-func (l List) With(index int, element any) List {
+func (l ArrayList) With(index int, element any) ArrayList {
 	list := l.Copy()
 	list[l.parseIndex(index)] = element
 	return list
 }
 
-func Of(elements ...any) List {
-	return List(elements)
+func Of(elements ...any) ArrayList {
+	return ArrayList(elements)
 }
 
-func Repeat(element any, count int) List {
-	list := make(List, count)
+func Repeat(element any, count int) ArrayList {
+	list := make(ArrayList, count)
 	for i := 0; i < count; i++ {
 		list[i] = element
 	}

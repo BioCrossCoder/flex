@@ -1,19 +1,19 @@
 package orderedcontainers
 
 import (
-	"flex/collections/list"
+	"flex/collections/arraylist"
 	"flex/collections/set"
 	"flex/common"
 )
 
 type OrderedSet struct {
 	set.Set
-	sequence list.List
+	sequence arraylist.ArrayList
 }
 
 func NewOrderedSet(entries ...any) *OrderedSet {
 	elements := set.Of()
-	sequence := list.Of()
+	sequence := arraylist.Of()
 	for _, entry := range entries {
 		if elements.Has(entry) {
 			continue
@@ -64,7 +64,7 @@ func (s *OrderedSet) Pop() (element any, err error) {
 	return
 }
 
-func (s OrderedSet) Elements() list.List {
+func (s OrderedSet) Elements() arraylist.ArrayList {
 	return s.sequence
 }
 
@@ -97,6 +97,6 @@ func (s OrderedSet) IndexOf(element any) int {
 	return s.sequence.IndexOf(element)
 }
 
-func (s OrderedSet) ToList() list.List {
+func (s OrderedSet) ToList() arraylist.ArrayList {
 	return s.sequence.Copy()
 }

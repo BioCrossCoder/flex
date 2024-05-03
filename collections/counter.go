@@ -1,8 +1,8 @@
 package collections
 
 import (
+	"flex/collections/arraylist"
 	"flex/collections/dict"
-	"flex/collections/list"
 	"flex/collections/set"
 	"math"
 )
@@ -13,7 +13,7 @@ type Counter struct {
 	defaultCount int
 }
 
-func NewCounter(items list.List, defaultCounts ...int) *Counter {
+func NewCounter(items arraylist.ArrayList, defaultCounts ...int) *Counter {
 	records := make(dict.Dict)
 	for _, item := range items {
 		_ = records.Set(item, records.Get(item, 0).(int)+1)
@@ -82,7 +82,7 @@ func (c *Counter) SetDefault(count int) *Counter {
 	return c
 }
 
-func (c *Counter) MostCommon() list.List {
+func (c *Counter) MostCommon() arraylist.ArrayList {
 	maxCount := 0
 	for k := range c.groups {
 		count := k.(int)
@@ -90,7 +90,7 @@ func (c *Counter) MostCommon() list.List {
 			maxCount = count
 		}
 	}
-	items := make(list.List, 0)
+	items := make(arraylist.ArrayList, 0)
 	group := c.groups.Get(maxCount, set.Set{}).(set.Set)
 	for item := range group {
 		items = append(items, item)
@@ -98,7 +98,7 @@ func (c *Counter) MostCommon() list.List {
 	return items
 }
 
-func (c *Counter) LeastCommon() list.List {
+func (c *Counter) LeastCommon() arraylist.ArrayList {
 	minCount := math.MaxInt
 	for k := range c.groups {
 		count := k.(int)
@@ -106,7 +106,7 @@ func (c *Counter) LeastCommon() list.List {
 			minCount = count
 		}
 	}
-	items := make(list.List, 0)
+	items := make(arraylist.ArrayList, 0)
 	group := c.groups.Get(minCount, set.Set{}).(set.Set)
 	for item := range group {
 		items = append(items, item)
@@ -121,8 +121,8 @@ func (c *Counter) Total() (total int) {
 	return
 }
 
-func (c *Counter) Elements() list.List {
-	elements := make(list.List, len(c.records))
+func (c *Counter) Elements() arraylist.ArrayList {
+	elements := make(arraylist.ArrayList, len(c.records))
 	i := 0
 	for k := range c.records {
 		elements[i] = k

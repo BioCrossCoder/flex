@@ -1,15 +1,15 @@
 package collections
 
 import (
+	"flex/collections/arraylist"
 	"flex/collections/dict"
-	"flex/collections/list"
 	"flex/common"
 )
 
 type NamedList struct {
 	fields   []string
 	mappings dict.Dict
-	elements list.List
+	elements arraylist.ArrayList
 }
 
 func NewNamedList(fields []string) *NamedList {
@@ -18,7 +18,7 @@ func NewNamedList(fields []string) *NamedList {
 	for i, field := range fields {
 		_ = mapping.Set(field, i)
 	}
-	elements := make(list.List, count)
+	elements := make(arraylist.ArrayList, count)
 	return &NamedList{fields, mapping, elements}
 }
 
@@ -26,7 +26,7 @@ func (nl NamedList) Fields() []string {
 	return nl.fields
 }
 
-func (nl NamedList) Elements() list.List {
+func (nl NamedList) Elements() arraylist.ArrayList {
 	return nl.elements
 }
 
@@ -159,8 +159,8 @@ func (nl *NamedList) Clear() *NamedList {
 	return nl
 }
 
-func (nl NamedList) Items() list.List {
-	items := make(list.List, nl.Len())
+func (nl NamedList) Items() arraylist.ArrayList {
+	items := make(arraylist.ArrayList, nl.Len())
 	for i, field := range nl.fields {
 		items[i] = [2]any{field, nl.elements[i]}
 	}

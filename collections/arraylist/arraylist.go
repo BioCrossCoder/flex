@@ -1,12 +1,12 @@
-package list
+package arraylist
 
 import (
 	"flex/common"
 )
 
-type List []any
+type ArrayList []any
 
-func (l List) parseIndex(index int) int {
+func (l ArrayList) parseIndex(index int) int {
 	length := l.Len()
 	if index < 0 {
 		index += length
@@ -19,18 +19,18 @@ func (l List) parseIndex(index int) int {
 	return index
 }
 
-func (l List) isIndexValid(index int) (err error) {
+func (l ArrayList) isIndexValid(index int) (err error) {
 	if index < 0 || index >= l.Len() {
 		err = common.ErrOutOfRange
 	}
 	return
 }
 
-func (l List) Len() int {
+func (l ArrayList) Len() int {
 	return len(l)
 }
 
-func (l List) Count(element any) (count int) {
+func (l ArrayList) Count(element any) (count int) {
 	for _, item := range l {
 		if item == element {
 			count++
@@ -39,10 +39,10 @@ func (l List) Count(element any) (count int) {
 	return
 }
 
-func (l List) Includes(element any) bool {
+func (l ArrayList) Includes(element any) bool {
 	return l.IndexOf(element) != -1
 }
 
-func (l List) Empty() bool {
+func (l ArrayList) Empty() bool {
 	return l.Len() == 0
 }

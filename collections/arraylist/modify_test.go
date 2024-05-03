@@ -1,13 +1,14 @@
-package list
+package arraylist
 
 import (
+	"testing"
+
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestRemove(t *testing.T) {
-	l := List{1, 2, 3, 2, 4, 2, 3, 2, 1}
+	l := ArrayList{1, 2, 3, 2, 4, 2, 3, 2, 1}
 	entry := l[1]
 	count := l.Count(entry)
 	length := l.Len()
@@ -48,7 +49,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestAddOrCutElement(t *testing.T) {
-	l := List{1, 2, 3, 4, 5}
+	l := ArrayList{1, 2, 3, 4, 5}
 	length := l.Len()
 	convey.Convey("add elements to list tail", t, func() {
 		l2 := l.Copy()
@@ -58,7 +59,7 @@ func TestAddOrCutElement(t *testing.T) {
 	})
 	convey.Convey("add elements to list head", t, func() {
 		l2 := l.Copy()
-		s := List{1, 2, 3}
+		s := ArrayList{1, 2, 3}
 		_ = l2.Unshift(s...)
 		assert.Equal(t, length+s.Len(), l2.Len())
 		assert.Equal(t, l2[:3], s)
@@ -108,12 +109,12 @@ func TestAddOrCutElement(t *testing.T) {
 
 func TestForEach(t *testing.T) {
 	convey.Convey("convert list elements", t, func() {
-		l := List{1, 2, 3, 4, 5}
+		l := ArrayList{1, 2, 3, 4, 5}
 		f := func(x any) any {
 			return -x.(int)
 		}
 		_ = l.ForEach(f)
-		assert.Equal(t, List{-1, -2, -3, -4, -5}, l)
+		assert.Equal(t, ArrayList{-1, -2, -3, -4, -5}, l)
 	})
 }
 
@@ -154,21 +155,21 @@ func TestReplace(t *testing.T) {
 }
 
 func TestSplice(t *testing.T) {
-	l := List{1, 2, 3, 4, 5}
+	l := ArrayList{1, 2, 3, 4, 5}
 	convey.Convey("remove elements from list by area", t, func() {
 		l2 := l.Copy()
 		_ = l2.Splice(1, 3)
-		assert.Equal(t, l2, List{1, 5})
+		assert.Equal(t, l2, ArrayList{1, 5})
 	})
 	convey.Convey("remove elements from list by area and insert new elements", t, func() {
 		l2 := l.Copy()
 		_ = l2.Splice(1, 2, 6, 0)
-		assert.Equal(t, l2, List{1, 6, 0, 4, 5})
+		assert.Equal(t, l2, ArrayList{1, 6, 0, 4, 5})
 	})
 }
 
 func TestFill(t *testing.T) {
-	l := make(List, 5)
+	l := make(ArrayList, 5)
 	convey.Convey("fill the list with specified element", t, func() {
 		l2 := l.Copy()
 		l2.Fill(6)
@@ -182,21 +183,21 @@ func TestFill(t *testing.T) {
 	convey.Convey("fill the list with specified element from start index to end index", t, func() {
 		l2 := l.Copy()
 		l2.Fill(6, 1, 3)
-		assert.Equal(t, l2, List{nil, 6, 6, nil, nil})
+		assert.Equal(t, l2, ArrayList{nil, 6, 6, nil, nil})
 	})
 }
 
 func TestReverse(t *testing.T) {
 	convey.Convey("reverse the list", t, func() {
-		l := List{1, 2, 3, 4, 5}
+		l := ArrayList{1, 2, 3, 4, 5}
 		_ = l.Reverse()
-		assert.Equal(t, l, List{5, 4, 3, 2, 1})
+		assert.Equal(t, l, ArrayList{5, 4, 3, 2, 1})
 	})
 }
 
 func TestSet(t *testing.T) {
 	convey.Convey("set the element of list by index", t, func() {
-		l := List{1, 2, 3, 4, 5}
+		l := ArrayList{1, 2, 3, 4, 5}
 		assert.Nil(t, l.Set(-2, 6))
 		result, err := l.At(-2)
 		assert.Nil(t, err)

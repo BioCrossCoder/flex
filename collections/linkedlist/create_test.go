@@ -1,4 +1,4 @@
-package deque
+package linkedlist
 
 import (
 	"github.com/smartystreets/goconvey/convey"

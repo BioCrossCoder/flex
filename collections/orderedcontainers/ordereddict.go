@@ -1,19 +1,19 @@
 package orderedcontainers
 
 import (
+	"flex/collections/arraylist"
 	"flex/collections/dict"
-	"flex/collections/list"
 	"flex/common"
 )
 
 type OrderedDict struct {
 	dict.Dict
-	sequence list.List
+	sequence arraylist.ArrayList
 }
 
 func NewOrderedDict(entries ...[2]any) *OrderedDict {
 	elements := dict.FromEntries()
-	sequence := list.Of()
+	sequence := arraylist.Of()
 	for _, entry := range entries {
 		key := entry[0]
 		value := entry[1]
@@ -73,20 +73,20 @@ func (d *OrderedDict) Update(another OrderedDict) *OrderedDict {
 	return d
 }
 
-func (d OrderedDict) Keys() list.List {
+func (d OrderedDict) Keys() arraylist.ArrayList {
 	return d.sequence
 }
 
-func (d OrderedDict) Values() list.List {
-	values := make(list.List, d.Size())
+func (d OrderedDict) Values() arraylist.ArrayList {
+	values := make(arraylist.ArrayList, d.Size())
 	for i, key := range d.sequence {
 		values[i] = d.Get(key)
 	}
 	return values
 }
 
-func (d OrderedDict) Items() list.List {
-	items := make(list.List, d.Size())
+func (d OrderedDict) Items() arraylist.ArrayList {
+	items := make(arraylist.ArrayList, d.Size())
 	for i, key := range d.sequence {
 		items[i] = [2]any{key, d.Get(key)}
 	}
@@ -123,6 +123,6 @@ func (d OrderedDict) KeyAt(index int) (any, error) {
 	return d.sequence.At(index)
 }
 
-func (d OrderedDict) IndexOf(key any) int{
-    return d.sequence.IndexOf(key)
+func (d OrderedDict) IndexOf(key any) int {
+	return d.sequence.IndexOf(key)
 }

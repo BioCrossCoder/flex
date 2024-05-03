@@ -1,6 +1,4 @@
-package deque
-
-import "flex/collections/list"
+package linkedlist
 
 func NewDeque(elements ...any) *Deque {
 	head := &Node{}
@@ -27,11 +25,11 @@ func NewDeque(elements ...any) *Deque {
 }
 
 func (d Deque) Copy() Deque {
-	return *NewDeque(d.ToList()...)
+	return *NewDeque(d.ToArrayList()...)
 }
 
 func (d Deque) Concat(another Deque) Deque {
-	return *NewDeque(d.ToList().Concat(another.ToList())...)
+	return *NewDeque(d.ToArrayList().Concat(another.ToArrayList())...)
 }
 
 func (d Deque) Slice(args ...int) Deque {
@@ -61,7 +59,7 @@ func (d Deque) Slice(args ...int) Deque {
 			return start > end
 		}
 	}
-	values := make(list.List, 0)
+	values := make([]any, 0)
 	var node *Node
 	if d.size-1-start < start {
 		node = d.tail

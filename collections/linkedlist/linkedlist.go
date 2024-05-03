@@ -1,7 +1,7 @@
-package deque
+package linkedlist
 
 import (
-	"flex/collections/list"
+	"flex/collections/arraylist"
 	"flex/common"
 )
 
@@ -66,8 +66,8 @@ func (d Deque) Empty() bool {
 	return d.size == 0
 }
 
-func (d Deque) ToList() list.List {
-	l := make(list.List, d.size)
+func (d Deque) ToArrayList() arraylist.ArrayList {
+	l := make(arraylist.ArrayList, d.size)
 	i := 0
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		l[i] = node.Value
