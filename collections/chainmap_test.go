@@ -2,10 +2,9 @@ package collections
 
 import (
 	"flex/collections/dict"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestChainMap(t *testing.T) {

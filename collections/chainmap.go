@@ -21,8 +21,9 @@ func NewChainMap(maps ...*dict.Dict) *ChainMap {
 	return cm
 }
 
-func (cm *ChainMap) Set(key, value any) {
+func (cm *ChainMap) Set(key, value any) *ChainMap {
 	_ = cm.items.Set(key, value)
+	return cm
 }
 
 func (cm *ChainMap) Parent() *ChainMap {
