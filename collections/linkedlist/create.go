@@ -25,11 +25,11 @@ func NewDeque(elements ...any) *Deque {
 }
 
 func (d Deque) Copy() Deque {
-	return *NewDeque(d.ToArrayList()...)
+	return *NewDeque(d.ToArray()...)
 }
 
 func (d Deque) Concat(another Deque) Deque {
-	return *NewDeque(d.ToArrayList().Concat(another.ToArrayList())...)
+	return *NewDeque(append(d.ToArray(), another.ToArray()...)...)
 }
 
 func (d Deque) Slice(args ...int) Deque {

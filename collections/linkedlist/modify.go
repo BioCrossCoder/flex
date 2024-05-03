@@ -120,14 +120,14 @@ func (d *Deque) PopLeft() (element any, err error) {
 }
 
 func (d *Deque) Extend(another *Deque) *Deque {
-	for _, value := range another.ToArrayList() {
+	for _, value := range another.ToArray() {
 		_ = d.Append(value)
 	}
 	return d
 }
 
 func (d *Deque) ExtendLeft(another *Deque) *Deque {
-	for _, value := range another.ToArrayList() {
+	for _, value := range another.ToArray() {
 		_ = d.AppendLeft(value)
 	}
 	return d

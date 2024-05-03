@@ -1,15 +1,61 @@
 package linkedlist
 
+import "flex/common"
+
 func (d Deque) Map(handler func(any) any) Deque {
-	return *NewDeque(d.ToArrayList().Map(handler)...)
+	list := d.ToArray()
+	for i, item := range list {
+		list[i] = handler(item)
+	}
+	return *NewDeque(list...)
 }
 
-func (d Deque) Reduce(handler func(any, any) any, initial ...any) (any, error) {
-	return d.ToArrayList().Reduce(handler, initial...)
+func (d Deque) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
+	if d.Len() == 0 {
+		err = common.ErrEmptyList
+		return
+	}
+	initialCount := len(initial)
+	if initialCount > 1 {
+		err = common.ErrTooManyArguments
+		return
+	}
+	list := d.ToArray()
+	startIndex := 0
+	if initialCount == 0 {
+		result = list[startIndex]
+		startIndex++
+	} else {
+		result = initial[0]
+	}
+	for i := startIndex; i < d.Len(); i++ {
+		result = handler(result, list[i])
+	}
+	return
 }
 
-func (d Deque) ReduceRight(handler func(any, any) any, initial ...any) (any, error) {
-	return d.ToArrayList().ReduceRight(handler, initial...)
+func (d Deque) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
+	if d.Len() == 0 {
+		err = common.ErrEmptyList
+		return
+	}
+	initialCount := len(initial)
+	if initialCount > 1 {
+		err = common.ErrTooManyArguments
+		return
+	}
+	list := d.ToArray()
+	startIndex := d.Len() - 1
+	if initialCount == 0 {
+		result = list[startIndex]
+		startIndex--
+	} else {
+		result = initial[0]
+	}
+	for i := startIndex; i >= 0; i-- {
+		result = handler(result, list[i])
+	}
+	return
 }
 
 func (d Deque) Filter(condition func(any) bool) Deque {

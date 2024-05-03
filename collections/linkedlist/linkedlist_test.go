@@ -1,11 +1,9 @@
 package linkedlist
 
 import (
-	"flex/collections/arraylist"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestLen(t *testing.T) {
@@ -44,6 +42,6 @@ func TestEmpty(t *testing.T) {
 func TestToList(t *testing.T) {
 	convey.Convey("convert deque to list", t, func() {
 		d := NewDeque(1, 2, 3, 4, 5)
-		assert.Equal(t, arraylist.ArrayList{1, 2, 3, 4, 5}, d.ToArrayList())
+		assert.Equal(t, []any{1, 2, 3, 4, 5}, d.ToArray())
 	})
 }
