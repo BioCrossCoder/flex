@@ -19,7 +19,11 @@ func NewNamedList(fields []string) *NamedList {
 		_ = mapping.Set(field, i)
 	}
 	elements := make(arraylist.ArrayList, count)
-	return &NamedList{fields, mapping, elements}
+	return &NamedList{
+		append(make([]string, 0), fields...),
+		mapping,
+		elements,
+	}
 }
 
 func (nl NamedList) Fields() []string {
@@ -37,8 +41,7 @@ func (nl *NamedList) SetByName(field string, value any) (err error) {
 		return
 	}
 	index := nl.mappings.Get(field).(int)
-	nl.elements[index] = value
-	return
+	return nl.SetByIndex(index, value)
 }
 
 func (nl NamedList) GetByName(field string) (value any, err error) {
@@ -48,8 +51,7 @@ func (nl NamedList) GetByName(field string) (value any, err error) {
 		return
 	}
 	index := nl.mappings.Get(field).(int)
-	value = nl.elements[index]
-	return
+	return nl.GetByIndex(index)
 }
 
 func (nl NamedList) GetByIndex(index int) (value any, err error) {
@@ -69,7 +71,7 @@ func (nl *NamedList) Add(field string, values ...any) (ok bool) {
 	_ = nl.mappings.Set(field, index)
 	nl.fields = append(nl.fields, field)
 	if len(values) == 0 {
-		values = append(values, nil)
+		values = make([]any, 1)
 	}
 	_ = nl.elements.Push(values[0])
 	return true
@@ -175,7 +177,10 @@ func (nl NamedList) Equal(another NamedList) bool {
 	}
 	items1 := nl.Items()
 	items2 := another.Items()
-	return nl.mappings.Values().Every(func(a any) bool {
-		return items1[a.(int)] == items2[a.(int)]
-	})
+	for i := 0; i < length1; i++ {
+		if items1[i] != items2[i] {
+			return false
+		}
+	}
+	return true
 }
