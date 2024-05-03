@@ -1,6 +1,6 @@
 package linkedlist
 
-func NewDeque(elements ...any) *Deque {
+func NewLinkedList(elements ...any) *LinkedList {
 	head := &Node{}
 	prev := head
 	count := 0
@@ -17,22 +17,22 @@ func NewDeque(elements ...any) *Deque {
 		Prev: prev,
 	}
 	prev.Next = tail
-	return &Deque{
+	return &LinkedList{
 		head: head,
 		tail: tail,
 		size: count,
 	}
 }
 
-func (d Deque) Copy() Deque {
-	return *NewDeque(d.ToArray()...)
+func (d LinkedList) Copy() LinkedList {
+	return *NewLinkedList(d.ToArray()...)
 }
 
-func (d Deque) Concat(another Deque) Deque {
-	return *NewDeque(append(d.ToArray(), another.ToArray()...)...)
+func (d LinkedList) Concat(another LinkedList) LinkedList {
+	return *NewLinkedList(append(d.ToArray(), another.ToArray()...)...)
 }
 
-func (d Deque) Slice(args ...int) Deque {
+func (d LinkedList) Slice(args ...int) LinkedList {
 	argsCount := len(args)
 	if argsCount == 0 {
 		return d.Copy()
@@ -50,7 +50,7 @@ func (d Deque) Slice(args ...int) Deque {
 		step = args[2]
 	}
 	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
-		return *NewDeque()
+		return *NewLinkedList()
 	}
 	condition := func(start, end, step int) bool {
 		if step > 0 {
@@ -86,22 +86,22 @@ func (d Deque) Slice(args ...int) Deque {
 			}
 		}
 	}
-	return *NewDeque(values...)
+	return *NewLinkedList(values...)
 }
 
-func (d Deque) ToSpliced(start, deleteCount int, items ...any) Deque {
+func (d LinkedList) ToSpliced(start, deleteCount int, items ...any) LinkedList {
 	newDeque := d.Copy()
 	_ = newDeque.Splice(start, deleteCount, items...)
 	return newDeque
 }
 
-func (d Deque) ToReversed() Deque {
+func (d LinkedList) ToReversed() LinkedList {
 	newDeque := d.Copy()
 	_ = newDeque.Reverse()
 	return newDeque
 }
 
-func (d Deque) With(index int, value any) Deque {
+func (d LinkedList) With(index int, value any) LinkedList {
 	newDeque := d.Copy()
 	_ = newDeque.Set(index, value)
 	return newDeque

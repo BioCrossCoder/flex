@@ -9,7 +9,7 @@ import (
 
 func TestSearchElement(t *testing.T) {
 	convey.Convey("search element in deque", t, func() {
-		d := NewDeque(1, 2, 3, 2, 4)
+		d := NewLinkedList(1, 2, 3, 2, 4)
 		convey.Convey("search by index", func() {
 			assert.Equal(t, 1, d.IndexOf(2))
 			assert.Equal(t, 3, d.LastIndexOf(2))
@@ -48,7 +48,7 @@ func TestSearchElement(t *testing.T) {
 			assert.Equal(t, -1, d.FindLastIndex(f))
 		})
 		convey.Convey("empty deque", func() {
-			d := NewDeque()
+			d := NewLinkedList()
 			head, err := d.Head()
 			assert.Equal(t, err, common.ErrEmptyList)
 			assert.Nil(t, head)

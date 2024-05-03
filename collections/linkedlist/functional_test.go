@@ -9,17 +9,17 @@ import (
 
 func TestMap(t *testing.T) {
 	convey.Convey("mapping deque", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		d := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x any) any {
 			return x.(int) * 3
 		}
-		assert.True(t, NewDeque(3, 6, 9, 12, 15, 18, 21, 24, 27, 30).Equal(d.Map(f)))
+		assert.True(t, NewLinkedList(3, 6, 9, 12, 15, 18, 21, 24, 27, 30).Equal(d.Map(f)))
 	})
 }
 
 func TestReduce(t *testing.T) {
 	convey.Convey("reduce deque", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		d := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x, y any) any {
 			return x.(int) - y.(int)
 		}
@@ -44,7 +44,7 @@ func TestReduce(t *testing.T) {
 			assert.Equal(t, 45, result)
 		})
 		convey.Convey("reduce on empty deque", func() {
-			d := NewDeque()
+			d := NewLinkedList()
 			result, err := d.Reduce(f)
 			assert.Equal(t, common.ErrEmptyList, err)
 			assert.Nil(t, result)
@@ -65,17 +65,17 @@ func TestReduce(t *testing.T) {
 
 func TestFilter(t *testing.T) {
 	convey.Convey("filter deque", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		d := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x any) bool {
 			return x.(int) > 5
 		}
-		assert.True(t, NewDeque(6, 7, 8, 9, 10).Equal(d.Filter(f)))
+		assert.True(t, NewLinkedList(6, 7, 8, 9, 10).Equal(d.Filter(f)))
 	})
 }
 
 func TestSomeAndAny(t *testing.T) {
 	convey.Convey("check condition on deque", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		d := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x any) bool {
 			return x.(int) > 5
 		}

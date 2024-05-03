@@ -4,7 +4,7 @@ import (
 	"flex/common"
 )
 
-func (d *Deque) Remove(element any, counts ...int) *Deque {
+func (d *LinkedList) Remove(element any, counts ...int) *LinkedList {
 	argCount := len(counts)
 	count := 1
 	if argCount >= 1 {
@@ -30,7 +30,7 @@ func (d *Deque) Remove(element any, counts ...int) *Deque {
 	return d
 }
 
-func (d *Deque) RemoveRight(element any, counts ...int) *Deque {
+func (d *LinkedList) RemoveRight(element any, counts ...int) *LinkedList {
 	argCount := len(counts)
 	count := 1
 	if argCount >= 1 {
@@ -56,14 +56,14 @@ func (d *Deque) RemoveRight(element any, counts ...int) *Deque {
 	return d
 }
 
-func (d *Deque) Clear() *Deque {
+func (d *LinkedList) Clear() *LinkedList {
 	d.head.Next = d.tail
 	d.tail.Prev = d.head
 	d.size = 0
 	return d
 }
 
-func (d *Deque) Append(element any) *Deque {
+func (d *LinkedList) Append(element any) *LinkedList {
 	following := d.tail
 	previous := following.Prev
 	node := &Node{
@@ -77,7 +77,7 @@ func (d *Deque) Append(element any) *Deque {
 	return d
 }
 
-func (d *Deque) AppendLeft(element any) *Deque {
+func (d *LinkedList) AppendLeft(element any) *LinkedList {
 	previous := d.head
 	following := previous.Next
 	node := &Node{
@@ -91,7 +91,7 @@ func (d *Deque) AppendLeft(element any) *Deque {
 	return d
 }
 
-func (d *Deque) Pop() (element any, err error) {
+func (d *LinkedList) Pop() (element any, err error) {
 	if d.Empty() {
 		err = common.ErrEmptyList
 		return
@@ -105,7 +105,7 @@ func (d *Deque) Pop() (element any, err error) {
 	return
 }
 
-func (d *Deque) PopLeft() (element any, err error) {
+func (d *LinkedList) PopLeft() (element any, err error) {
 	if d.Empty() {
 		err = common.ErrEmptyList
 		return
@@ -119,21 +119,21 @@ func (d *Deque) PopLeft() (element any, err error) {
 	return
 }
 
-func (d *Deque) Extend(another *Deque) *Deque {
+func (d *LinkedList) Extend(another *LinkedList) *LinkedList {
 	for _, value := range another.ToArray() {
 		_ = d.Append(value)
 	}
 	return d
 }
 
-func (d *Deque) ExtendLeft(another *Deque) *Deque {
+func (d *LinkedList) ExtendLeft(another *LinkedList) *LinkedList {
 	for _, value := range another.ToArray() {
 		_ = d.AppendLeft(value)
 	}
 	return d
 }
 
-func (d *Deque) Insert(index int, element any) *Deque {
+func (d *LinkedList) Insert(index int, element any) *LinkedList {
 	validIndex := d.parseIndex(index)
 	following := d.getNodeByIndex(validIndex)
 	previous := following.Prev
@@ -148,7 +148,7 @@ func (d *Deque) Insert(index int, element any) *Deque {
 	return d
 }
 
-func (d *Deque) RemoveByIndex(index int) (element any, err error) {
+func (d *LinkedList) RemoveByIndex(index int) (element any, err error) {
 	if index < 0 {
 		index += d.size
 	}
@@ -166,7 +166,7 @@ func (d *Deque) RemoveByIndex(index int) (element any, err error) {
 	return
 }
 
-func (d *Deque) Rotate(steps ...int) *Deque {
+func (d *LinkedList) Rotate(steps ...int) *LinkedList {
 	if d.size <= 1 {
 		return d
 	}
@@ -187,7 +187,7 @@ func (d *Deque) Rotate(steps ...int) *Deque {
 	return d
 }
 
-func (d *Deque) Reverse() *Deque {
+func (d *LinkedList) Reverse() *LinkedList {
 	previous := d.head
 	node := previous.Next
 	for node != nil {
@@ -208,7 +208,7 @@ func (d *Deque) Reverse() *Deque {
 	return d
 }
 
-func (d *Deque) ForEach(action func(any) any) *Deque {
+func (d *LinkedList) ForEach(action func(any) any) *LinkedList {
 	node := d.head.Next
 	for node != d.tail {
 		node.Value = action(node.Value)
@@ -217,7 +217,7 @@ func (d *Deque) ForEach(action func(any) any) *Deque {
 	return d
 }
 
-func (d *Deque) Replace(oldElement, newElement any, counts ...int) *Deque {
+func (d *LinkedList) Replace(oldElement, newElement any, counts ...int) *LinkedList {
 	if oldElement == newElement {
 		return d
 	}
@@ -240,7 +240,7 @@ func (d *Deque) Replace(oldElement, newElement any, counts ...int) *Deque {
 	return d
 }
 
-func (d *Deque) ReplaceRight(oldElement, newElement any, counts ...int) *Deque {
+func (d *LinkedList) ReplaceRight(oldElement, newElement any, counts ...int) *LinkedList {
 	if oldElement == newElement {
 		return d
 	}
@@ -263,9 +263,9 @@ func (d *Deque) ReplaceRight(oldElement, newElement any, counts ...int) *Deque {
 	return d
 }
 
-func (d *Deque) Splice(start, deleteCount int, items ...any) Deque {
+func (d *LinkedList) Splice(start, deleteCount int, items ...any) LinkedList {
 	if deleteCount <= 0 {
-		return *NewDeque()
+		return *NewLinkedList()
 	}
 	start = d.parseIndex(start)
 	end := d.parseIndex(start + deleteCount)
@@ -295,10 +295,10 @@ func (d *Deque) Splice(start, deleteCount int, items ...any) Deque {
 	}
 	head.Next = tail
 	tail.Prev = head
-	return *NewDeque(removedValues...)
+	return *NewLinkedList(removedValues...)
 }
 
-func (d *Deque) Fill(element any, area ...int) *Deque {
+func (d *LinkedList) Fill(element any, area ...int) *LinkedList {
 	argCount := len(area)
 	start := 0
 	end := d.size
@@ -327,7 +327,7 @@ func (d *Deque) Fill(element any, area ...int) *Deque {
 	return d
 }
 
-func (d *Deque) Set(index int, element any) (err error) {
+func (d *LinkedList) Set(index int, element any) (err error) {
 	if index < 0 {
 		index += d.size
 	}

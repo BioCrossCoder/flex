@@ -10,13 +10,13 @@ type Node struct {
 	Next  *Node
 }
 
-type Deque struct {
+type LinkedList struct {
 	head *Node
 	tail *Node
 	size int
 }
 
-func (d Deque) parseIndex(index int) int {
+func (d LinkedList) parseIndex(index int) int {
 	length := d.Len()
 	if index < 0 {
 		index += length
@@ -29,26 +29,26 @@ func (d Deque) parseIndex(index int) int {
 	return index
 }
 
-func (d Deque) isIndexValid(index int) (err error) {
+func (d LinkedList) isIndexValid(index int) (err error) {
 	if index < 0 || index >= d.Len() {
 		err = common.ErrOutOfRange
 	}
 	return
 }
 
-func (d Deque) nearTail(index int) bool {
+func (d LinkedList) nearTail(index int) bool {
 	return d.size-index <= index
 }
 
-func (d Deque) reverseIndex(index int) int {
+func (d LinkedList) reverseIndex(index int) int {
 	return index - d.size
 }
 
-func (d Deque) Len() int {
+func (d LinkedList) Len() int {
 	return d.size
 }
 
-func (d Deque) Count(element any) (count int) {
+func (d LinkedList) Count(element any) (count int) {
 	for node := d.head; node != nil; node = node.Next {
 		if node.Value == element {
 			count++
@@ -57,15 +57,15 @@ func (d Deque) Count(element any) (count int) {
 	return
 }
 
-func (d Deque) Includes(element any) bool {
+func (d LinkedList) Includes(element any) bool {
 	return d.IndexOf(element) != -1
 }
 
-func (d Deque) Empty() bool {
+func (d LinkedList) Empty() bool {
 	return d.size == 0
 }
 
-func (d Deque) ToArray() []any {
+func (d LinkedList) ToArray() []any {
 	l := make([]any, d.size)
 	i := 0
 	for node := d.head.Next; node != d.tail; node = node.Next {
@@ -75,7 +75,7 @@ func (d Deque) ToArray() []any {
 	return l
 }
 
-func (d Deque) Equal(another Deque) bool {
+func (d LinkedList) Equal(another LinkedList) bool {
 	length1 := d.Len()
 	length2 := another.Len()
 	if length1 != length2 {

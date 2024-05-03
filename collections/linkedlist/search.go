@@ -2,7 +2,7 @@ package linkedlist
 
 import "flex/common"
 
-func (d Deque) IndexOf(element any) (index int) {
+func (d LinkedList) IndexOf(element any) (index int) {
 	index = -1
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		index++
@@ -13,7 +13,7 @@ func (d Deque) IndexOf(element any) (index int) {
 	return -1
 }
 
-func (d Deque) LastIndexOf(element any) (index int) {
+func (d LinkedList) LastIndexOf(element any) (index int) {
 	index = d.size
 	for node := d.tail.Prev; node != d.head; node = node.Prev {
 		index--
@@ -24,7 +24,7 @@ func (d Deque) LastIndexOf(element any) (index int) {
 	return -1
 }
 
-func (d Deque) At(index int) (value any, err error) {
+func (d LinkedList) At(index int) (value any, err error) {
 	if index < 0 {
 		index += d.size
 	}
@@ -36,7 +36,7 @@ func (d Deque) At(index int) (value any, err error) {
 	return
 }
 
-func (d Deque) Find(by func(any) bool) (element any) {
+func (d LinkedList) Find(by func(any) bool) (element any) {
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		if by(node.Value) {
 			element = node.Value
@@ -46,7 +46,7 @@ func (d Deque) Find(by func(any) bool) (element any) {
 	return
 }
 
-func (d Deque) FindIndex(by func(any) bool) (index int) {
+func (d LinkedList) FindIndex(by func(any) bool) (index int) {
 	index = -1
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		index++
@@ -57,7 +57,7 @@ func (d Deque) FindIndex(by func(any) bool) (index int) {
 	return -1
 }
 
-func (d Deque) FindLast(by func(any) bool) (element any) {
+func (d LinkedList) FindLast(by func(any) bool) (element any) {
 	for node := d.tail.Prev; node != d.head; node = node.Prev {
 		if by(node.Value) {
 			element = node.Value
@@ -67,7 +67,7 @@ func (d Deque) FindLast(by func(any) bool) (element any) {
 	return
 }
 
-func (d Deque) FindLastIndex(by func(any) bool) (index int) {
+func (d LinkedList) FindLastIndex(by func(any) bool) (index int) {
 	index = d.size
 	for node := d.tail.Prev; node != d.head; node = node.Prev {
 		index--
@@ -78,7 +78,7 @@ func (d Deque) FindLastIndex(by func(any) bool) (index int) {
 	return -1
 }
 
-func (d Deque) Head() (element any, err error) {
+func (d LinkedList) Head() (element any, err error) {
 	if d.Empty() {
 		err = common.ErrEmptyList
 		return
@@ -87,7 +87,7 @@ func (d Deque) Head() (element any, err error) {
 	return
 }
 
-func (d Deque) Tail() (element any, err error) {
+func (d LinkedList) Tail() (element any, err error) {
 	if d.Empty() {
 		err = common.ErrEmptyList
 		return
@@ -96,7 +96,7 @@ func (d Deque) Tail() (element any, err error) {
 	return
 }
 
-func (d Deque) getNodeByIndex(index int) *Node {
+func (d LinkedList) getNodeByIndex(index int) *Node {
 	var node *Node
 	if d.nearTail(index) {
 		node = d.tail

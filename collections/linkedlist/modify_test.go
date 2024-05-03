@@ -8,7 +8,7 @@ import (
 )
 
 func TestRemove(t *testing.T) {
-	d := NewDeque(1, 2, 3, 2, 4, 2, 3, 2, 1)
+	d := NewLinkedList(1, 2, 3, 2, 4, 2, 3, 2, 1)
 	entry, err := d.At(1)
 	assert.Nil(t, err)
 	count := d.Count(entry)
@@ -50,7 +50,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestAddOrCutElement(t *testing.T) {
-	d := NewDeque(1, 2, 3, 4, 5)
+	d := NewLinkedList(1, 2, 3, 4, 5)
 	length := d.Len()
 	convey.Convey("add one element to deque tail", t, func() {
 		d2 := d.Copy()
@@ -100,18 +100,18 @@ func TestAddOrCutElement(t *testing.T) {
 }
 
 func TestExtend(t *testing.T) {
-	d := NewDeque(1, 2, 3, 4, 5)
+	d := NewLinkedList(1, 2, 3, 4, 5)
 	length := d.Len()
 	convey.Convey("extend deque tail with another deque", t, func() {
 		d2 := d.Copy()
-		d3 := NewDeque(6, 7, 8)
+		d3 := NewLinkedList(6, 7, 8)
 		_ = d2.Extend(d3)
 		assert.Equal(t, length+3, d2.Len())
 		assert.True(t, d2.Equal(d.Concat(*d3)))
 	})
 	convey.Convey("extend deque head with another deque", t, func() {
 		d2 := d.Copy()
-		d3 := NewDeque(0, -1, -2)
+		d3 := NewLinkedList(0, -1, -2)
 		_ = d2.ExtendLeft(d3)
 		assert.Equal(t, length+3, d2.Len())
 		assert.True(t, d2.Equal(d3.Reverse().Concat(*d)))
@@ -119,37 +119,37 @@ func TestExtend(t *testing.T) {
 }
 
 func TestRotate(t *testing.T) {
-	d := NewDeque(1, 2, 3, 4, 5)
+	d := NewLinkedList(1, 2, 3, 4, 5)
 	length := d.Len()
 	convey.Convey("rotate deque to the left", t, func() {
 		steps := 2
 		d2 := d.Copy()
 		_ = d2.Rotate(steps)
 		assert.Equal(t, length, d2.Len())
-		assert.True(t, NewDeque(4, 5, 1, 2, 3).Equal(d2))
+		assert.True(t, NewLinkedList(4, 5, 1, 2, 3).Equal(d2))
 	})
 	convey.Convey("rotate deque to the right", t, func() {
 		steps := -2
 		d2 := d.Copy()
 		_ = d2.Rotate(steps)
 		assert.Equal(t, length, d2.Len())
-		assert.True(t, NewDeque(3, 4, 5, 1, 2).Equal(d2))
+		assert.True(t, NewLinkedList(3, 4, 5, 1, 2).Equal(d2))
 	})
 }
 
 func TestForEach(t *testing.T) {
 	convey.Convey("convert deque elements", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5)
+		d := NewLinkedList(1, 2, 3, 4, 5)
 		f := func(x any) any {
 			return x.(int) * 2
 		}
 		_ = d.ForEach(f)
-		assert.True(t, NewDeque(2, 4, 6, 8, 10).Equal(*d))
+		assert.True(t, NewLinkedList(2, 4, 6, 8, 10).Equal(*d))
 	})
 }
 
 func TestReplace(t *testing.T) {
-	d := NewDeque(arraylist.Repeat(1, 10)...)
+	d := NewLinkedList(arraylist.Repeat(1, 10)...)
 	convey.Convey("replace the first specified element with another element", t, func() {
 		d2 := d.Copy()
 		assert.Equal(t, 10, d2.Count(1))
@@ -192,49 +192,49 @@ func TestReplace(t *testing.T) {
 }
 
 func TestSplice(t *testing.T) {
-	d := NewDeque(1, 2, 3, 4, 5)
+	d := NewLinkedList(1, 2, 3, 4, 5)
 	convey.Convey("remove elements from deque by area", t, func() {
 		d2 := d.Copy()
 		_ = d2.Splice(1, 4)
-		assert.True(t, NewDeque(1).Equal(d2))
+		assert.True(t, NewLinkedList(1).Equal(d2))
 	})
 	convey.Convey("remove elements from deque by area and insert new elements", t, func() {
 		d2 := d.Copy()
 		_ = d2.Splice(1, 2, 6, 7)
-		assert.True(t, NewDeque(1, 6, 7, 4, 5).Equal(d2))
+		assert.True(t, NewLinkedList(1, 6, 7, 4, 5).Equal(d2))
 	})
 }
 
 func TestFill(t *testing.T) {
-	d := NewDeque(arraylist.Repeat(1, 5)...)
+	d := NewLinkedList(arraylist.Repeat(1, 5)...)
 	convey.Convey("fill the deque with the specified element", t, func() {
 		d2 := d.Copy()
 		_ = d2.Fill(2)
-		assert.True(t, NewDeque(2, 2, 2, 2, 2).Equal(d2))
+		assert.True(t, NewLinkedList(2, 2, 2, 2, 2).Equal(d2))
 	})
 	convey.Convey("fill the deque with the specified element and start index", t, func() {
 		d2 := d.Copy()
 		_ = d2.Fill(2, 2)
-		assert.True(t, NewDeque(1, 1, 2, 2, 2).Equal(d2))
+		assert.True(t, NewLinkedList(1, 1, 2, 2, 2).Equal(d2))
 	})
 	convey.Convey("fill the deque with the specified element from start index to end index", t, func() {
 		d2 := d.Copy()
 		_ = d2.Fill(2, 1, 3)
-		assert.True(t, NewDeque(1, 2, 2, 1, 1).Equal(d2))
+		assert.True(t, NewLinkedList(1, 2, 2, 1, 1).Equal(d2))
 	})
 }
 
 func TestReverse(t *testing.T) {
 	convey.Convey("reverse the deque", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5)
+		d := NewLinkedList(1, 2, 3, 4, 5)
 		_ = d.Reverse()
-		assert.True(t, NewDeque(5, 4, 3, 2, 1).Equal(*d))
+		assert.True(t, NewLinkedList(5, 4, 3, 2, 1).Equal(*d))
 	})
 }
 
 func TestSet(t *testing.T) {
 	convey.Convey("set the element of deque by index", t, func() {
-		d := NewDeque(1, 2, 3, 4, 5)
+		d := NewLinkedList(1, 2, 3, 4, 5)
 		assert.Nil(t, d.Set(-2, 9))
 		result, err := d.At(-2)
 		assert.Nil(t, err)
