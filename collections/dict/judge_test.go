@@ -1,6 +1,7 @@
 package dict
 
 import (
+	"flex/collections/arraylist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -19,7 +20,7 @@ func TestHas(t *testing.T) {
 		values := d.Values()
 		for _, k := range d.Keys() {
 			assert.True(t, d.Has(k))
-			assert.True(t, values.Includes(d.Get(k)))
+			assert.True(t, arraylist.ArrayList(values).Includes(d.Get(k)))
 		}
 	})
 }
