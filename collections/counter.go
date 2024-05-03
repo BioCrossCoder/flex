@@ -43,8 +43,7 @@ func (c *Counter) Get(item any) int {
 func (c *Counter) Set(item any, count int) *Counter {
 	_ = c.records.Set(item, count)
 	members := c.groups.Get(count, set.Set{}).(set.Set)
-	_ = members.Add(item)
-	_ = c.groups.Set(count, members)
+	_ = c.groups.Set(count, *members.Add(item))
 	return c
 }
 
@@ -93,7 +92,7 @@ func (c *Counter) MostCommon() arraylist.ArrayList {
 	items := make(arraylist.ArrayList, 0)
 	group := c.groups.Get(maxCount, set.Set{}).(set.Set)
 	for item := range group {
-		items = append(items, item)
+		_ = items.Push(item)
 	}
 	return items
 }
@@ -109,7 +108,7 @@ func (c *Counter) LeastCommon() arraylist.ArrayList {
 	items := make(arraylist.ArrayList, 0)
 	group := c.groups.Get(minCount, set.Set{}).(set.Set)
 	for item := range group {
-		items = append(items, item)
+		_ = items.Push(item)
 	}
 	return items
 }
@@ -144,8 +143,8 @@ func (c *Counter) Reset() *Counter {
 }
 
 func (c *Counter) Clear() *Counter {
-	c.records = make(dict.Dict)
-	c.groups = make(dict.Dict)
+	_ = c.records.Clear()
+	_ = c.groups.Clear()
 	return c
 }
 

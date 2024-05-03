@@ -3,11 +3,10 @@ package collections
 import (
 	"flex/collections/arraylist"
 	"flex/collections/set"
-	"math"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"math"
+	"testing"
 )
 
 func TestCounter(t *testing.T) {
