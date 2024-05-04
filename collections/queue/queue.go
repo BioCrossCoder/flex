@@ -3,7 +3,7 @@ package queue
 import "flex/collections/linkedlist"
 
 type Queue interface {
-	Enqueue(element any) bool
+	Enqueue(element any) (ok bool)
 	Dequeue() (element any, ok bool)
 	Peek() (element any, ok bool)
 	Empty() bool
@@ -22,25 +22,25 @@ func NewQueue(capacity int) Queue {
 	}
 }
 
-func (q *linearQueue) Enqueue(element any) bool {
-	if q.Full() {
-		return false
+func (q *linearQueue) Enqueue(element any) (ok bool) {
+	if !q.Full() {
+		_ = q.data.Append(element)
+		ok = true
 	}
-	_ = q.data.Append(element)
-	return true
+	return
 }
 
 func (q *linearQueue) Dequeue() (element any, ok bool) {
-	element, err := q.data.PopLeft()
-	if err == nil {
+	if !q.Empty() {
+		element, _ = q.data.PopLeft()
 		ok = true
 	}
 	return
 }
 
 func (q linearQueue) Peek() (element any, ok bool) {
-	element, err := q.data.Head()
-	if err == nil {
+	if !q.Empty() {
+		element, _ = q.data.Head()
 		ok = true
 	}
 	return
