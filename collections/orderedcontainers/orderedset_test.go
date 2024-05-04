@@ -32,8 +32,7 @@ func TestOrderedSet(t *testing.T) {
 	convey.Convey("pop an element from the set", t, func() {
 		s2 := s.Copy()
 		assert.Equal(t, s2.Size(), size)
-		expected, err := s2.Elements().Tail()
-		assert.Nil(t, err)
+		expected := s2.Elements()[s2.Size()-1]
 		element, err := s2.Pop()
 		assert.Nil(t, err)
 		assert.Equal(t, element, expected)

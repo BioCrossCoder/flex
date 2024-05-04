@@ -59,13 +59,13 @@ func (s *OrderedSet) Pop() (element any, err error) {
 		err = common.ErrEmptySet
 		return
 	}
-	element, _ = s.sequence.Pop()
+	element, err = s.sequence.Pop()
 	_ = s.Set.Discard(element)
 	return
 }
 
-func (s OrderedSet) Elements() arraylist.ArrayList {
-	return s.sequence
+func (s OrderedSet) Elements() []any {
+	return s.sequence.Copy()
 }
 
 func (s OrderedSet) Copy() OrderedSet {
