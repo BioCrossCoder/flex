@@ -50,8 +50,7 @@ func TestOrderedDict(t *testing.T) {
 	convey.Convey("pop a key-value pair from dict", t, func() {
 		d2 := d.Copy()
 		assert.Equal(t, d2.Size(), size)
-		expectedKey, err := d2.Keys().Tail()
-		assert.Nil(t, err)
+		expectedKey := d2.Keys()[d2.Size()-1]
 		expectedValue := d2.Get(expectedKey)
 		key, value, err := d2.PopItem()
 		assert.Nil(t, err)

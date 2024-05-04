@@ -73,20 +73,20 @@ func (d *OrderedDict) Update(another OrderedDict) *OrderedDict {
 	return d
 }
 
-func (d OrderedDict) Keys() arraylist.ArrayList {
-	return d.sequence
+func (d OrderedDict) Keys() []any {
+	return d.sequence.Copy()
 }
 
-func (d OrderedDict) Values() arraylist.ArrayList {
-	values := make(arraylist.ArrayList, d.Size())
+func (d OrderedDict) Values() []any {
+	values := make([]any, d.Size())
 	for i, key := range d.sequence {
 		values[i] = d.Get(key)
 	}
 	return values
 }
 
-func (d OrderedDict) Items() arraylist.ArrayList {
-	items := make(arraylist.ArrayList, d.Size())
+func (d OrderedDict) Items() [][2]any {
+	items := make([][2]any, d.Size())
 	for i, key := range d.sequence {
 		items[i] = [2]any{key, d.Get(key)}
 	}
