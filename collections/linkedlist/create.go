@@ -1,11 +1,11 @@
 package linkedlist
 
 func NewLinkedList(elements ...any) *LinkedList {
-	head := &Node{}
+	head := &listNode{}
 	prev := head
 	count := 0
 	for _, element := range elements {
-		node := &Node{
+		node := &listNode{
 			Value: element,
 			Prev:  prev,
 		}
@@ -13,7 +13,7 @@ func NewLinkedList(elements ...any) *LinkedList {
 		prev = node
 		count++
 	}
-	tail := &Node{
+	tail := &listNode{
 		Prev: prev,
 	}
 	prev.Next = tail
@@ -60,7 +60,7 @@ func (d LinkedList) Slice(args ...int) LinkedList {
 		}
 	}
 	values := make([]any, 0)
-	var node *Node
+	var node *listNode
 	if d.size-1-start < start {
 		node = d.tail
 		reverseIndex := start - d.size

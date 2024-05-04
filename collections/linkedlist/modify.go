@@ -66,7 +66,7 @@ func (d *LinkedList) Clear() *LinkedList {
 func (d *LinkedList) Append(element any) *LinkedList {
 	following := d.tail
 	previous := following.Prev
-	node := &Node{
+	node := &listNode{
 		Value: element,
 		Prev:  previous,
 		Next:  following,
@@ -80,7 +80,7 @@ func (d *LinkedList) Append(element any) *LinkedList {
 func (d *LinkedList) AppendLeft(element any) *LinkedList {
 	previous := d.head
 	following := previous.Next
-	node := &Node{
+	node := &listNode{
 		Value: element,
 		Prev:  previous,
 		Next:  following,
@@ -137,7 +137,7 @@ func (d *LinkedList) Insert(index int, element any) *LinkedList {
 	validIndex := d.parseIndex(index)
 	following := d.getNodeByIndex(validIndex)
 	previous := following.Prev
-	node := &Node{
+	node := &listNode{
 		Value: element,
 		Prev:  previous,
 		Next:  following,
@@ -285,7 +285,7 @@ func (d *LinkedList) Splice(start, deleteCount int, items ...any) LinkedList {
 	tail.Prev.Next = nil
 	tail.Prev = nil
 	for _, item := range items {
-		head.Next = &Node{
+		head.Next = &listNode{
 			Value: item,
 			Prev:  head,
 			Next:  nil,

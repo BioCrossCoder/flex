@@ -4,15 +4,15 @@ import (
 	"flex/common"
 )
 
-type Node struct {
+type listNode struct {
 	Value any
-	Prev  *Node
-	Next  *Node
+	Prev  *listNode
+	Next  *listNode
 }
 
 type LinkedList struct {
-	head *Node
-	tail *Node
+	head *listNode
+	tail *listNode
 	size int
 }
 

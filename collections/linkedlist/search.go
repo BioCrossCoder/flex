@@ -96,8 +96,8 @@ func (d LinkedList) Tail() (element any, err error) {
 	return
 }
 
-func (d LinkedList) getNodeByIndex(index int) *Node {
-	var node *Node
+func (d LinkedList) getNodeByIndex(index int) *listNode {
+	var node *listNode
 	if d.nearTail(index) {
 		node = d.tail
 		reverseIndex := d.reverseIndex(index)
