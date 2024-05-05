@@ -1,10 +1,11 @@
 package common
 
 import (
-	"github.com/smartystreets/goconvey/convey"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
+
+	"github.com/smartystreets/goconvey/convey"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestIsInputFuncValid(t *testing.T) {
@@ -159,5 +160,18 @@ func TestConvertMapToLists(t *testing.T) {
 		for i := 0; i < length; i++ {
 			assert.Equal(t, entry[keys[i]], values[i])
 		}
+	})
+}
+
+func TestEqual(t *testing.T) {
+	convey.Convey("compare normal values", t, func() {
+		assert.True(t, Equal(1, 1))
+		assert.True(t, Equal(1.0, 1.0))
+		assert.True(t, Equal("hello", "hello"))
+		assert.True(t, Equal(true, true))
+	})
+	convey.Convey("compare special values", t, func() {
+		assert.True(t, Equal(nil, nil))
+		assert.True(t, Equal([]int{1, 2, 3}, []int{1, 2, 3}))
 	})
 }

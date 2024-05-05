@@ -108,3 +108,13 @@ func GetMapInitialCapacity(elementCount int) int {
 func WillReHash(oldElementCount, newElementCount int) bool {
 	return float64(newElementCount)/float64(oldElementCount) >= reHashThreshold-1
 }
+
+func Equal(a, b any) (equal bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			equal = reflect.DeepEqual(a, b)
+		}
+	}()
+	equal = a == b
+	return
+}
