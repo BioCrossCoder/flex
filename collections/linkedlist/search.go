@@ -6,7 +6,7 @@ func (d LinkedList) IndexOf(element any) (index int) {
 	index = -1
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		index++
-		if node.Value == element {
+		if common.Equal(node.Value, element) {
 			return
 		}
 	}
@@ -17,7 +17,7 @@ func (d LinkedList) LastIndexOf(element any) (index int) {
 	index = d.size
 	for node := d.tail.Prev; node != d.head; node = node.Prev {
 		index--
-		if node.Value == element {
+		if common.Equal(node.Value, element) {
 			return
 		}
 	}
@@ -36,10 +36,11 @@ func (d LinkedList) At(index int) (value any, err error) {
 	return
 }
 
-func (d LinkedList) Find(by func(any) bool) (element any) {
+func (d LinkedList) Find(by func(any) bool) (element any, found bool) {
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		if by(node.Value) {
 			element = node.Value
+			found = true
 			break
 		}
 	}
@@ -57,10 +58,11 @@ func (d LinkedList) FindIndex(by func(any) bool) (index int) {
 	return -1
 }
 
-func (d LinkedList) FindLast(by func(any) bool) (element any) {
+func (d LinkedList) FindLast(by func(any) bool) (element any, found bool) {
 	for node := d.tail.Prev; node != d.head; node = node.Prev {
 		if by(node.Value) {
 			element = node.Value
+			found = true
 			break
 		}
 	}

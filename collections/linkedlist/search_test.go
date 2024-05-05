@@ -23,8 +23,12 @@ func TestSearchElement(t *testing.T) {
 			f := func(num any) bool {
 				return num.(int)%2 == 0
 			}
-			assert.Equal(t, 2, d.Find(f))
-			assert.Equal(t, 4, d.FindLast(f))
+			v, found := d.Find(f)
+			assert.True(t, found)
+			assert.Equal(t, 2, v)
+			v, found = d.FindLast(f)
+			assert.True(t, found)
+			assert.Equal(t, 4, v)
 			assert.Equal(t, 1, d.FindIndex(f))
 			assert.Equal(t, 4, d.FindLastIndex(f))
 		})
@@ -42,8 +46,12 @@ func TestSearchElement(t *testing.T) {
 			f := func(num any) bool {
 				return num.(int) > 5
 			}
-			assert.Nil(t, d.Find(f))
-			assert.Nil(t, d.FindLast(f))
+			v, found := d.Find(f)
+			assert.False(t, found)
+			assert.Nil(t, v)
+			v, found = d.FindLast(f)
+			assert.False(t, found)
+			assert.Nil(t, v)
 			assert.Equal(t, -1, d.FindIndex(f))
 			assert.Equal(t, -1, d.FindLastIndex(f))
 		})

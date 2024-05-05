@@ -50,7 +50,7 @@ func (d LinkedList) Len() int {
 
 func (d LinkedList) Count(element any) (count int) {
 	for node := d.head; node != nil; node = node.Next {
-		if node.Value == element {
+		if common.Equal(node.Value, element) {
 			count++
 		}
 	}
@@ -84,7 +84,7 @@ func (d LinkedList) Equal(another LinkedList) bool {
 	node1 := d.head.Next
 	node2 := another.head.Next
 	for node1 != d.tail {
-		if node1.Value != node2.Value {
+		if !common.Equal(node1.Value, node2.Value) {
 			return false
 		}
 		node1 = node1.Next

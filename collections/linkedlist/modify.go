@@ -15,7 +15,7 @@ func (d *LinkedList) Remove(element any, counts ...int) *LinkedList {
 	}
 	node := d.head.Next
 	for count > 0 && node.Next != nil {
-		if node.Value != element {
+		if !common.Equal(node.Value, element) {
 			node = node.Next
 			continue
 		}
@@ -41,7 +41,7 @@ func (d *LinkedList) RemoveRight(element any, counts ...int) *LinkedList {
 	}
 	node := d.tail.Prev
 	for count > 0 && node.Prev != nil {
-		if node.Value != element {
+		if !common.Equal(node.Value, element) {
 			node = node.Prev
 			continue
 		}
@@ -218,7 +218,7 @@ func (d *LinkedList) ForEach(action func(any) any) *LinkedList {
 }
 
 func (d *LinkedList) Replace(oldElement, newElement any, counts ...int) *LinkedList {
-	if oldElement == newElement {
+	if common.Equal(oldElement, newElement) {
 		return d
 	}
 	argCount := len(counts)
@@ -231,7 +231,7 @@ func (d *LinkedList) Replace(oldElement, newElement any, counts ...int) *LinkedL
 	}
 	node := d.head.Next
 	for count > 0 && node.Next != nil {
-		if node.Value == oldElement {
+		if common.Equal(node.Value, oldElement) {
 			node.Value = newElement
 			count--
 		}
@@ -241,7 +241,7 @@ func (d *LinkedList) Replace(oldElement, newElement any, counts ...int) *LinkedL
 }
 
 func (d *LinkedList) ReplaceRight(oldElement, newElement any, counts ...int) *LinkedList {
-	if oldElement == newElement {
+	if common.Equal(oldElement, newElement) {
 		return d
 	}
 	argCount := len(counts)
@@ -254,7 +254,7 @@ func (d *LinkedList) ReplaceRight(oldElement, newElement any, counts ...int) *Li
 	}
 	node := d.tail.Prev
 	for count > 0 && node.Prev != nil {
-		if node.Value == oldElement {
+		if common.Equal(node.Value, oldElement) {
 			node.Value = newElement
 			count--
 		}
