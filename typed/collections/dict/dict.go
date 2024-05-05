@@ -37,16 +37,16 @@ func (d Dict[K, V]) Values() []V {
 	return values
 }
 
-type dictItem[K comparable, V any] struct {
+type DictItem[K comparable, V any] struct {
 	Key   K
 	Value V
 }
 
-func (d Dict[K, V]) Items() []*dictItem[K, V] {
-	items := make([]*dictItem[K, V], d.Size())
+func (d Dict[K, V]) Items() []*DictItem[K, V] {
+	items := make([]*DictItem[K, V], d.Size())
 	i := 0
 	for k, v := range d {
-		items[i] = &dictItem[K, V]{k, v}
+		items[i] = &DictItem[K, V]{k, v}
 		i++
 	}
 	return items
