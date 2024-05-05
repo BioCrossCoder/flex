@@ -65,7 +65,7 @@ func (l ArrayList) ToReversed() ArrayList {
 
 func (l ArrayList) With(index int, element any) ArrayList {
 	list := l.Copy()
-	list[l.parseIndex(index)] = element
+	_ = list.Set(index, element)
 	return list
 }
 
