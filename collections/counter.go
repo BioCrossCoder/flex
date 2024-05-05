@@ -4,6 +4,7 @@ import (
 	"flex/collections/arraylist"
 	"flex/collections/dict"
 	"flex/collections/set"
+	"flex/common"
 	"math"
 )
 
@@ -155,7 +156,7 @@ func (c Counter) Equal(another Counter) bool {
 		return false
 	}
 	for k, v := range c.records {
-		if v != another.Get(k) {
+		if !common.Equal(v, another.Get(k)) {
 			return false
 		}
 	}
