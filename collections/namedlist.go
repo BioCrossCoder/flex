@@ -183,7 +183,7 @@ func (nl NamedList) Equal(another NamedList) bool {
 	items1 := nl.Items()
 	items2 := another.Items()
 	for i := 0; i < length1; i++ {
-		if items1[i] != items2[i] {
+		if !common.Equal(items1[i], items2[i]) {
 			return false
 		}
 	}
