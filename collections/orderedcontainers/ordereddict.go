@@ -112,7 +112,7 @@ func (d OrderedDict) Equal(another OrderedDict) bool {
 		if key1 != key2 {
 			return false
 		}
-		if d.Get(key1) != another.Get(key2) {
+		if !common.Equal(d.Get(key1), another.Get(key2)) {
 			return false
 		}
 	}

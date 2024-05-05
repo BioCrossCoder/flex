@@ -82,7 +82,7 @@ func (s OrderedSet) Equal(another OrderedSet) bool {
 	elements1 := s.Elements()
 	elements2 := another.Elements()
 	for i := 0; i < s.Size(); i++ {
-		if elements1[i] != elements2[i] {
+		if !common.Equal(elements1[i], elements2[i]) {
 			return false
 		}
 	}
