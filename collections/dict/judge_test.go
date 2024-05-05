@@ -11,8 +11,7 @@ func TestHas(t *testing.T) {
 	convey.Convey("check the value matches the key in the dict", t, func() {
 		d := newTestDict()
 		for _, item := range d.Items() {
-			pair := item.([2]any)
-			assert.Equal(t, pair[1], d.Get(pair[0]))
+			assert.Equal(t, item[1], d.Get(item[0]))
 		}
 	})
 	convey.Convey("check if the values are included in the dict", t, func() {

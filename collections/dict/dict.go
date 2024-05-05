@@ -35,8 +35,8 @@ func (d Dict) Values() []any {
 	return values
 }
 
-func (d Dict) Items() []any {
-	items := make([]any, d.Size())
+func (d Dict) Items() [][2]any {
+	items := make([][2]any, d.Size())
 	i := 0
 	for k, v := range d {
 		items[i] = [2]any{k, v}
