@@ -5,7 +5,7 @@ import "flex/common"
 func (l ArrayList) IndexOf(element any) (index int) {
 	index = -1
 	for i, item := range l {
-		if item == element {
+		if common.Equal(item, element) {
 			index = i
 			break
 		}
@@ -16,7 +16,7 @@ func (l ArrayList) IndexOf(element any) (index int) {
 func (l ArrayList) LastIndexOf(element any) (index int) {
 	index = -1
 	for i := l.Len() - 1; i >= 0; i-- {
-		if l[i] == element {
+		if common.Equal(l[i], element) {
 			index = i
 			break
 		}
@@ -36,12 +36,11 @@ func (l ArrayList) At(index int) (element any, err error) {
 	return
 }
 
-func (l ArrayList) Find(by func(any) bool) (element any) {
-	for _, item := range l {
-		if by(item) {
-			element = item
-			break
-		}
+func (l ArrayList) Find(by func(any) bool) (element any, found bool) {
+	index := l.FindIndex(by)
+	if index != -1 {
+		found = true
+		element = l[index]
 	}
 	return
 }
@@ -57,12 +56,11 @@ func (l ArrayList) FindIndex(by func(any) bool) (index int) {
 	return
 }
 
-func (l ArrayList) FindLast(by func(any) bool) (element any) {
-	for i := l.Len() - 1; i >= 0; i-- {
-		if by(l[i]) {
-			element = l[i]
-			break
-		}
+func (l ArrayList) FindLast(by func(any) bool) (element any, found bool) {
+	index := l.FindLastIndex(by)
+	if index != -1 {
+		found = true
+		element = l[index]
 	}
 	return
 }

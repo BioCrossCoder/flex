@@ -2,10 +2,9 @@ package arraylist
 
 import (
 	"flex/common"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestMap(t *testing.T) {

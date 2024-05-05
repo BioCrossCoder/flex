@@ -32,7 +32,7 @@ func (l ArrayList) Len() int {
 
 func (l ArrayList) Count(element any) (count int) {
 	for _, item := range l {
-		if item == element {
+		if common.Equal(item, element) {
 			count++
 		}
 	}

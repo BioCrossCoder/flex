@@ -2,10 +2,9 @@ package arraylist
 
 import (
 	"flex/common"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestSearchElement(t *testing.T) {
@@ -24,8 +23,12 @@ func TestSearchElement(t *testing.T) {
 			f := func(num any) bool {
 				return num.(int)%2 == 0
 			}
-			assert.Equal(t, 2, l.Find(f))
-			assert.Equal(t, 4, l.FindLast(f))
+			v, found := l.Find(f)
+			assert.True(t, found)
+			assert.Equal(t, 2, v)
+			v, found = l.FindLast(f)
+			assert.True(t, found)
+			assert.Equal(t, 4, v)
 			assert.Equal(t, 1, l.FindIndex(f))
 			assert.Equal(t, 4, l.FindLastIndex(f))
 		})
@@ -43,8 +46,12 @@ func TestSearchElement(t *testing.T) {
 			f := func(num any) bool {
 				return num.(int) < 0
 			}
-			assert.Nil(t, l.Find(f))
-			assert.Nil(t, l.FindLast(f))
+			v, found := l.Find(f)
+			assert.False(t, found)
+			assert.Nil(t, v)
+			v, found = l.FindLast(f)
+			assert.False(t, found)
+			assert.Nil(t, v)
 			assert.Equal(t, -1, l.FindIndex(f))
 			assert.Equal(t, -1, l.FindLastIndex(f))
 		})

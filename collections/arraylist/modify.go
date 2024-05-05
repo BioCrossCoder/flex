@@ -100,7 +100,7 @@ func (l *ArrayList) ForEach(action func(any) any) *ArrayList {
 }
 
 func (l *ArrayList) Replace(oldElement, newElement any, counts ...int) *ArrayList {
-	if oldElement == newElement {
+	if common.Equal(oldElement, newElement) {
 		return l
 	}
 	argCount := len(counts)
@@ -119,7 +119,7 @@ func (l *ArrayList) Replace(oldElement, newElement any, counts ...int) *ArrayLis
 }
 
 func (l *ArrayList) ReplaceRight(oldElement, newElement any, counts ...int) *ArrayList {
-	if oldElement == newElement {
+	if common.Equal(oldElement, newElement) {
 		return l
 	}
 	argCount := len(counts)
