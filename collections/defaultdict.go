@@ -3,6 +3,7 @@ package collections
 import (
 	"flex/collections/dict"
 	"flex/collections/set"
+	"flex/common"
 )
 
 type DefaultDict struct {
@@ -69,7 +70,7 @@ func (d DefaultDict) Equal(another DefaultDict) bool {
 		return false
 	}
 	for k, v := range d.Dict {
-		if another.Get(k) != v {
+		if !common.Equal(v, another.Get(k)) {
 			return false
 		}
 	}
