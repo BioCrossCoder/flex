@@ -45,6 +45,20 @@ func TestRemove(t *testing.T) {
 		_ = l2.Clear()
 		assert.True(t, l2.Empty())
 	})
+	convey.Convey("remove elements satisfy the condition from list", t, func() {
+		l2 := l.Copy().Concat(Of(6, 8))
+		l3 := l2.Copy()
+		f := func(x int) bool {
+			return x%2 == 0
+		}
+		removed := l2.RemoveIf(f, 3)
+		assert.Equal(t, removed, ArrayList[int]{2, 2, 4})
+		assert.Equal(t, l2, ArrayList[int]{1, 3, 2, 3, 2, 1, 6, 8})
+		removed = l3.RemoveRightIf(f, 3)
+		assert.Equal(t, removed, ArrayList[int]{8, 6, 2})
+		assert.Equal(t, l3, ArrayList[int]{1, 2, 3, 2, 4, 2, 3, 1})
+	})
+
 }
 
 func TestAddOrCutElement(t *testing.T) {
@@ -150,6 +164,19 @@ func TestReplace(t *testing.T) {
 		_ = l2.ReplaceRight(1, 2)
 		assert.Equal(t, l2.Count(1), 4)
 		assert.Equal(t, l2.LastIndexOf(1), 3)
+	})
+	convey.Convey("replece elements satisfy the condition with another element", t, func() {
+		l2 := l.Copy().Concat(Of(3, 5, 7))
+		l3 := l2.Copy()
+		f := func(x int) bool {
+			return x%2 == 1
+		}
+		replaced := l2.ReplaceIf(f, 0, 3)
+		assert.Equal(t, replaced, Repeat(1, 3))
+		assert.Equal(t, l2, ArrayList[int]{0, 0, 0, 1, 1, 3, 5, 7})
+		replaced = l3.ReplaceRightIf(f, 0, 3)
+		assert.Equal(t, replaced, ArrayList[int]{7, 5, 3})
+		assert.Equal(t, l3, ArrayList[int]{1, 1, 1, 1, 1, 0, 0, 0})
 	})
 }
 

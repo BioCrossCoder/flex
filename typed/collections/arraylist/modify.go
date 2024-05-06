@@ -116,17 +116,15 @@ func (l *ArrayList[T]) Replace(oldElement, newElement T, counts ...int) *ArrayLi
 	if common.Equal(oldElement, newElement) {
 		return l
 	}
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = l.Count(oldElement)
-	}
-	for i := 0; i < count; i++ {
-		index := l.IndexOf(oldElement)
-		(*l)[index] = newElement
+	count := l.parseCount(counts...)
+	for i, v := range *l {
+		if count == 0 {
+			break
+		}
+		if common.Equal(v, oldElement) {
+			(*l)[i] = newElement
+			count--
+		}
 	}
 	return l
 }
@@ -135,17 +133,15 @@ func (l *ArrayList[T]) ReplaceRight(oldElement, newElement T, counts ...int) *Ar
 	if common.Equal(oldElement, newElement) {
 		return l
 	}
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = l.Count(oldElement)
-	}
-	for i := 0; i < count; i++ {
-		index := l.LastIndexOf(oldElement)
-		(*l)[index] = newElement
+	count := l.parseCount(counts...)
+	for i := l.Len() - 1; i >= 0; i-- {
+		if count == 0 {
+			break
+		}
+		if common.Equal((*l)[i], oldElement) {
+			(*l)[i] = newElement
+			count--
+		}
 	}
 	return l
 }
@@ -201,4 +197,84 @@ func (l *ArrayList[T]) Set(index int, element T) (err error) {
 	}
 	(*l)[index] = element
 	return
+}
+
+func (l *ArrayList[T]) RemoveIf(condition func(T) bool, counts ...int) ArrayList[T] {
+	count := l.parseCount(counts...)
+	array := make(ArrayList[T], l.Len())
+	i := 0
+	removed := make(ArrayList[T], count)
+	j := 0
+	for _, v := range *l {
+		if count > 0 && condition(v) {
+			count--
+			removed[j] = v
+			j++
+			continue
+		}
+		array[i] = v
+		i++
+	}
+	*l = array[:i:i]
+	return removed[:j:j]
+}
+
+func (l *ArrayList[T]) RemoveRightIf(condition func(T) bool, counts ...int) ArrayList[T] {
+	count := l.parseCount(counts...)
+	length := l.Len()
+	array := make(ArrayList[T], length)
+	end := length - 1
+	i := end
+	removed := make(ArrayList[T], count)
+	j := 0
+	for k := end; k >= 0; k-- {
+		v := (*l)[k]
+		if count > 0 && condition(v) {
+			count--
+			removed[j] = v
+			j++
+			continue
+		}
+		array[i] = v
+		i--
+	}
+	*l = array[i+1 : end+1].Copy()
+	return removed[:j:j]
+}
+
+func (l *ArrayList[T]) ReplaceIf(condition func(T) bool, newElement T, counts ...int) ArrayList[T] {
+	count := l.parseCount(counts...)
+	replaced := make(ArrayList[T], count)
+	j := 0
+	for i, v := range *l {
+		if count == 0 {
+			break
+		}
+		if condition(v) {
+			replaced[j] = v
+			j++
+			(*l)[i] = newElement
+			count--
+		}
+	}
+	return replaced[:j:j]
+}
+
+func (l *ArrayList[T]) ReplaceRightIf(condition func(T) bool, newElement T, counts ...int) ArrayList[T] {
+	count := l.parseCount(counts...)
+	replaced := make(ArrayList[T], count)
+	j := 0
+	for i := l.Len() - 1; i >= 0; i-- {
+		if count == 0 {
+			break
+		}
+		v := (*l)[i]
+		if condition(v) {
+			replaced[j] = v
+			j++
+			(*l)[i] = newElement
+			count--
+		}
+	}
+	return replaced[:j:j]
 }
