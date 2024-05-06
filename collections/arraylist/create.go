@@ -24,10 +24,10 @@ func (l ArrayList) Slice(args ...int) ArrayList {
 	end := srcListLength
 	step := 1
 	if argsCount >= 1 {
-		start = l.parseIndex(args[0])
+		start = l.sliceIndex(args[0], true)
 	}
 	if argsCount >= 2 {
-		end = l.parseIndex(args[1])
+		end = l.sliceIndex(args[1], false)
 	}
 	if argsCount >= 3 {
 		step = args[2]
@@ -35,20 +35,22 @@ func (l ArrayList) Slice(args ...int) ArrayList {
 	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
 		return make(ArrayList, 0)
 	}
-	sliceListLength := 0
-	list := make(ArrayList, srcListLength)
-	condition := func(start, end, step int) bool {
-		if step > 0 {
-			return start < end
-		} else {
-			return start > end
+	i := 0
+	var list ArrayList
+	if step < 0 {
+		list = make(ArrayList, (start-end-step-1)/(-step))
+		for j := start; j > end; j += step {
+			list[i] = l[j]
+			i++
+		}
+	} else {
+		list = make(ArrayList, (end-start+step-1)/step)
+		for j := start; j < end; j += step {
+			list[i] = l[j]
+			i++
 		}
 	}
-	for i := start; condition(i, end, step); i += step {
-		list[sliceListLength] = l[i]
-		sliceListLength++
-	}
-	return list[:sliceListLength].Copy()
+	return list
 }
 
 func (l ArrayList) ToSpliced(start, deleteCount int, items ...any) ArrayList {

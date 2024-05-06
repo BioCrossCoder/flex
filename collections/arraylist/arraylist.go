@@ -6,6 +6,26 @@ import (
 
 type ArrayList []any
 
+func (l ArrayList) sliceIndex(index int, accessible bool) int {
+	length := l.Len()
+	if index < 0 {
+		index += length
+	}
+	if index < 0 {
+		index = -1
+		if accessible {
+			index++
+		}
+	}
+	if index >= length {
+		index = length
+		if accessible {
+			index--
+		}
+	}
+	return index
+}
+
 func (l ArrayList) parseIndex(index int) int {
 	length := l.Len()
 	if index < 0 {

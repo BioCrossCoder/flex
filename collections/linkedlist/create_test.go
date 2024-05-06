@@ -29,14 +29,24 @@ func TestSlice(t *testing.T) {
 		assert.True(t, d.Equal(d.Slice()))
 	})
 	convey.Convey("slice with start index", t, func() {
-		assert.True(t, NewLinkedList(5, 7, 9).Equal(d.Slice(2)))
+		expected := NewLinkedList(5, 7, 9)
+		assert.True(t, expected.Equal(d.Slice(2)))
+		assert.True(t, expected.Equal(d.Slice(-3)))
 	})
 	convey.Convey("slice with start and end index", t, func() {
-		assert.True(t, NewLinkedList(5, 7).Equal(d.Slice(2, 4)))
+		expected := NewLinkedList(5, 7)
+		assert.True(t, expected.Equal(d.Slice(2, 4)))
+		assert.True(t, expected.Equal(d.Slice(2, -1)))
+		assert.True(t, expected.Equal(d.Slice(-3, 4)))
+		assert.True(t, expected.Equal(d.Slice(-3, -1)))
 	})
 	convey.Convey("slice with start index, end index and step", t, func() {
-		assert.True(t, NewLinkedList(1, 5, 9).Equal(d.Slice(0, 6, 2)))
-		assert.True(t, NewLinkedList(9, 5).Equal(d.Slice(-1, -5, -2)))
+		expected := NewLinkedList(1, 5, 9)
+		assert.True(t, expected.Equal(d.Slice(0, 10, 2)))
+		assert.True(t, expected.Equal(d.Slice(-6, 5, 2)))
+		assert.True(t, expected.ToReversed().Equal(d.Slice(-1, -10, -2)))
+		assert.True(t, expected.ToReversed().Equal(d.Slice(4, -6, -2)))
+		assert.True(t, NewLinkedList().Equal(d.Slice(-1, 2, 1)))
 	})
 }
 

@@ -14,6 +14,26 @@ type LinkedList[T any] struct {
 	size int
 }
 
+func (l LinkedList[T]) sliceIndex(index int, accessible bool) int {
+	length := l.Len()
+	if index < 0 {
+		index += length
+	}
+	if index < 0 {
+		index = -1
+		if accessible {
+			index++
+		}
+	}
+	if index >= length {
+		index = length
+		if accessible {
+			index--
+		}
+	}
+	return index
+}
+
 func (d LinkedList[T]) parseIndex(index int) int {
 	length := d.Len()
 	if index < 0 {

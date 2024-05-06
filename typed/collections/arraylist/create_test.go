@@ -29,14 +29,24 @@ func TestSlice(t *testing.T) {
 		assert.Equal(t, l, l.Slice())
 	})
 	convey.Convey("slice with start index", t, func() {
-		assert.Equal(t, ArrayList[int]{5, 7, 9}, l.Slice(2))
+		expected := ArrayList[int]{5, 7, 9}
+		assert.Equal(t, expected, l.Slice(2))
+		assert.Equal(t, expected, l.Slice(-3))
 	})
 	convey.Convey("slice with start and end index", t, func() {
-		assert.Equal(t, ArrayList[int]{5, 7}, l.Slice(2, 4))
+		expected := ArrayList[int]{5, 7}
+		assert.Equal(t, expected, l.Slice(2, 4))
+		assert.Equal(t, expected, l.Slice(2, -1))
+		assert.Equal(t, expected, l.Slice(-3, 4))
+		assert.Equal(t, expected, l.Slice(-3, -1))
 	})
 	convey.Convey("slice with start index, end index and step", t, func() {
-		assert.Equal(t, ArrayList[int]{9, 5}, l.Slice(-1, -5, -2))
-		assert.Equal(t, ArrayList[int]{1, 5, 9}, l.Slice(0, 5, 2))
+		expected := ArrayList[int]{1, 5, 9}
+		assert.Equal(t, expected, l.Slice(0, 10, 2))
+		assert.Equal(t, expected, l.Slice(-6, 5, 2))
+		assert.Equal(t, expected.ToReversed(), l.Slice(-1, -10, -2))
+		assert.Equal(t, expected.ToReversed(), l.Slice(4, -6, -2))
+		assert.Equal(t, ArrayList[int]{}, l.Slice(-1, 2, 1))
 	})
 }
 

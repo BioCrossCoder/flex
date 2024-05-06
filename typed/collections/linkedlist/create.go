@@ -41,10 +41,10 @@ func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	end := d.size
 	step := 1
 	if argsCount >= 1 {
-		start = d.parseIndex(args[0])
+		start = d.sliceIndex(args[0], true)
 	}
 	if argsCount >= 2 {
-		end = d.parseIndex(args[1])
+		end = d.sliceIndex(args[1], false)
 	}
 	if argsCount >= 3 {
 		step = args[2]
@@ -52,14 +52,8 @@ func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
 		return *NewLinkedList[T]()
 	}
-	condition := func(start, end, step int) bool {
-		if step > 0 {
-			return start < end
-		} else {
-			return start > end
-		}
-	}
-	values := make([]T, 0)
+	i := 0
+	var values []T
 	var node *listNode[T]
 	if d.size-1-start < start {
 		node = d.tail
@@ -74,14 +68,21 @@ func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
 			node = node.Next
 		}
 	}
-	for i := start; condition(i, end, step); i += step {
-		values = append(values, node.Value)
-		if step < 0 {
-			for j := 0; j > step; j-- {
+	if step < 0 {
+		values = make([]T, (start-end-step-1)/(-step))
+		for j := start; j > end; j += step {
+			values[i] = node.Value
+			i++
+			for k := 0; k > step; k-- {
 				node = node.Prev
 			}
-		} else {
-			for j := 0; j < step; j++ {
+		}
+	} else {
+		values = make([]T, (end-start+step-1)/step)
+		for j := start; j < end; j += step {
+			values[i] = node.Value
+			i++
+			for k := 0; k < step; k++ {
 				node = node.Next
 			}
 		}
