@@ -68,3 +68,17 @@ func (l *SortedList[T]) Reverse() *SortedList[T] {
 	}
 	return l
 }
+
+func (l *SortedList[T]) RemoveIf(condition func(T) bool, counts ...int) SortedList[T] {
+	return SortedList[T]{
+		l.elements.RemoveIf(condition, counts...),
+		l.cmp,
+	}
+}
+
+func (l *SortedList[T]) RemoveRightIf(condition func(T) bool, counts ...int) SortedList[T] {
+	return SortedList[T]{
+		l.elements.RemoveRightIf(condition, counts...),
+		l.cmp,
+	}
+}

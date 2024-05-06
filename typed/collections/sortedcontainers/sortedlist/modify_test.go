@@ -51,6 +51,19 @@ func TestRemove(t *testing.T) {
 		_ = l2.Clear()
 		assert.True(t, l2.Empty())
 	})
+	convey.Convey("remove elements satisfy the condition from list", t, func() {
+		l2 := l.Copy()
+		l3 := l2.Copy()
+		f := func(x int) bool {
+			return x%2 == 0
+		}
+		removed := l2.RemoveIf(f, 3)
+		assert.Equal(t, removed.ToArray(), []int{2, 2, 2})
+		assert.Equal(t, l2.ToArray(), []int{1, 1, 2, 3, 3, 4})
+		removed = l3.RemoveRightIf(f, 3)
+		assert.Equal(t, removed.ToArray(), []int{4, 2, 2})
+		assert.Equal(t, l3.ToArray(), []int{1, 1, 2, 2, 3, 3})
+	})
 }
 
 func TestAddOrCutElement(t *testing.T) {
