@@ -21,6 +21,10 @@ func (l *SortedList[T]) Remove(element T, counts ...int) *SortedList[T] {
 	if !exist {
 		return l
 	}
+	for index >= 0 && l.elements[index] == element {
+		index--
+	}
+	index++
 	i := index
 	for count > 0 && i < l.Len() && common.Equal(l.elements[i], element) {
 		count--
