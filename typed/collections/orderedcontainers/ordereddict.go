@@ -13,8 +13,8 @@ type OrderedDict[K comparable, V any] struct {
 
 func NewOrderedDict[K comparable, V any]() *OrderedDict[K, V] {
 	return &OrderedDict[K, V]{
-		dict.Dict[K, V]{},
-		arraylist.ArrayList[K]{},
+		make(dict.Dict[K, V]),
+		make(arraylist.ArrayList[K], 0),
 	}
 }
 
