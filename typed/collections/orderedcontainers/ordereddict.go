@@ -33,8 +33,7 @@ func (d *OrderedDict[K, V]) Set(key K, value V) *OrderedDict[K, V] {
 }
 
 func (d *OrderedDict[K, V]) Delete(key K) bool {
-	if d.Has(key) {
-		_ = d.Dict.Delete(key)
+	if d.Dict.Delete(key) {
 		_ = d.sequence.Remove(key)
 		return true
 	}
@@ -49,11 +48,11 @@ func (d *OrderedDict[K, V]) Pop(key K, args ...V) (value V, err error) {
 }
 
 func (d *OrderedDict[K, V]) PopItem() (key K, value V, err error) {
-	if d.Empty() {
+	key, err = d.sequence.Tail()
+	if err != nil {
 		err = common.ErrEmptyDict
 		return
 	}
-	key, _ = d.sequence.Tail()
 	value, _ = d.Pop(key)
 	return
 }

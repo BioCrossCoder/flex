@@ -33,8 +33,7 @@ func (s *OrderedSet[T]) Add(element T) *OrderedSet[T] {
 }
 
 func (s *OrderedSet[T]) Discard(element T) bool {
-	if s.Has(element) {
-		_ = s.Set.Discard(element)
+	if s.Set.Discard(element) {
 		_ = s.sequence.Remove(element)
 		return true
 	}
