@@ -2,35 +2,48 @@ package arraylist
 
 import "flex/common"
 
+func (l ArrayList) parseCount(counts ...int) int {
+	if len(counts) == 0 {
+		return 1
+	}
+	if counts[0] <= 0 {
+		return l.Len()
+	}
+	return counts[0]
+}
+
 func (l *ArrayList) Remove(element any, counts ...int) *ArrayList {
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
+	count := l.parseCount(counts...)
+	array := make(ArrayList, l.Len())
+	i := 0
+	for _, v := range *l {
+		if count > 0 && common.Equal(v, element) {
+			count--
+			continue
+		}
+		array[i] = v
+		i++
 	}
-	if count <= 0 {
-		count = l.Count(element)
-	}
-	for i := 0; i < count; i++ {
-		index := l.IndexOf(element)
-		_, _ = l.Pop(index)
-	}
+	*l = array[:i:i]
 	return l
 }
 
 func (l *ArrayList) RemoveRight(element any, counts ...int) *ArrayList {
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
+	count := l.parseCount(counts...)
+	length := l.Len()
+	array := make(ArrayList, length)
+	end := length - 1
+	i := end
+	for j := end; j >= 0; j-- {
+		v := (*l)[j]
+		if count > 0 && common.Equal(v, element) {
+			count--
+			continue
+		}
+		array[i] = v
+		i--
 	}
-	if count <= 0 {
-		count = l.Count(element)
-	}
-	for i := 0; i < count; i++ {
-		index := l.LastIndexOf(element)
-		_, _ = l.Pop(index)
-	}
+	*l = array[i+1 : end+1].Copy()
 	return l
 }
 
