@@ -33,12 +33,23 @@ func (l SortedList[T]) Len() int {
 	return l.elements.Len()
 }
 
-func (l SortedList[T]) Count(element T) int {
-	return l.elements.Count(element)
+func (l SortedList[T]) Count(element T) (count int) {
+	index, exist := slices.BinarySearchFunc(l.elements, element, l.cmp)
+	if !exist {
+		return
+	}
+	for i := index; i < l.Len() && l.elements[i] == element; i++ {
+		count++
+	}
+	for i := index - 1; i >= 0 && l.elements[i] == element; i-- {
+		count++
+	}
+	return
 }
 
 func (l SortedList[T]) Includes(element T) bool {
-	return l.elements.Includes(element)
+	_, exist := slices.BinarySearchFunc(l.elements, element, l.cmp)
+	return exist
 }
 
 func (l SortedList[T]) Empty() bool {
