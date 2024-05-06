@@ -4,54 +4,49 @@ import (
 	"flex/common"
 )
 
+func (d LinkedList) parseCount(counts ...int) int {
+	if len(counts) == 0 {
+		return 1
+	}
+	if counts[0] <= 0 {
+		return d.Len()
+	}
+	return counts[0]
+}
+
+func (d *LinkedList) removeNode(node *listNode) (prev, next *listNode) {
+	prev = node.Prev
+	next = node.Next
+	prev.Next = next
+	next.Prev = prev
+	d.size--
+	return
+}
+
 func (d *LinkedList) Remove(element any, counts ...int) *LinkedList {
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = d.Count(element)
-	}
+	count := d.parseCount(counts...)
 	node := d.head.Next
 	for count > 0 && node.Next != nil {
 		if !common.Equal(node.Value, element) {
 			node = node.Next
 			continue
 		}
-		previous := node.Prev
-		following := node.Next
-		previous.Next = following
-		following.Prev = previous
-		node = following
+		_, node = d.removeNode(node)
 		count--
-		d.size--
 	}
 	return d
 }
 
 func (d *LinkedList) RemoveRight(element any, counts ...int) *LinkedList {
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = d.Count(element)
-	}
+	count := d.parseCount(counts...)
 	node := d.tail.Prev
 	for count > 0 && node.Prev != nil {
 		if !common.Equal(node.Value, element) {
 			node = node.Prev
 			continue
 		}
-		previous := node.Prev
-		following := node.Next
-		previous.Next = following
-		following.Prev = previous
-		node = previous
+		node, _ = d.removeNode(node)
 		count--
-		d.size--
 	}
 	return d
 }
@@ -221,14 +216,7 @@ func (d *LinkedList) Replace(oldElement, newElement any, counts ...int) *LinkedL
 	if common.Equal(oldElement, newElement) {
 		return d
 	}
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = d.Count(oldElement)
-	}
+	count := d.parseCount(counts...)
 	node := d.head.Next
 	for count > 0 && node.Next != nil {
 		if common.Equal(node.Value, oldElement) {
@@ -244,14 +232,7 @@ func (d *LinkedList) ReplaceRight(oldElement, newElement any, counts ...int) *Li
 	if common.Equal(oldElement, newElement) {
 		return d
 	}
-	argCount := len(counts)
-	count := 1
-	if argCount >= 1 {
-		count = counts[0]
-	}
-	if count <= 0 {
-		count = d.Count(oldElement)
-	}
+	count := d.parseCount(counts...)
 	node := d.tail.Prev
 	for count > 0 && node.Prev != nil {
 		if common.Equal(node.Value, oldElement) {
@@ -338,4 +319,74 @@ func (d *LinkedList) Set(index int, element any) (err error) {
 	node := d.getNodeByIndex(index)
 	node.Value = element
 	return
+}
+
+func (d *LinkedList) RemoveIf(condition func(any) bool, counts ...int) LinkedList {
+	count := d.parseCount(counts...)
+	node := d.head.Next
+	removedValues := make([]any, count)
+	i := 0
+	for count > 0 && node.Next != nil {
+		if !condition(node.Value) {
+			node = node.Next
+			continue
+		}
+		removedValues[i] = node.Value
+		i++
+		_, node = d.removeNode(node)
+		count--
+	}
+	return *NewLinkedList(removedValues[:i:i]...)
+}
+
+func (d *LinkedList) RemoveRightIf(condition func(any) bool, counts ...int) LinkedList {
+	count := d.parseCount(counts...)
+	node := d.tail.Prev
+	removedValues := make([]any, count)
+	i := 0
+	for count > 0 && node.Prev != nil {
+		if !condition(node.Value) {
+			node = node.Prev
+			continue
+		}
+		removedValues[i] = node.Value
+		i++
+		node, _ = d.removeNode(node)
+		count--
+	}
+	return *NewLinkedList(removedValues[:i:i]...)
+}
+
+func (d *LinkedList) ReplaceIf(condition func(any) bool, newElement any, counts ...int) LinkedList {
+	count := d.parseCount(counts...)
+	node := d.head.Next
+	replacedValues := make([]any, count)
+	i := 0
+	for count > 0 && node.Next != nil {
+		if condition(node.Value) {
+			replacedValues[i] = node.Value
+			i++
+			node.Value = newElement
+			count--
+		}
+		node = node.Next
+	}
+	return *NewLinkedList(replacedValues[:i:i]...)
+}
+
+func (d *LinkedList) ReplaceRightIf(condition func(any) bool, newElement any, counts ...int) LinkedList {
+	count := d.parseCount(counts...)
+	node := d.tail.Prev
+	replacedValues := make([]any, count)
+	i := 0
+	for count > 0 && node.Prev != nil {
+		if condition(node.Value) {
+			replacedValues[i] = node.Value
+			i++
+			node.Value = newElement
+			count--
+		}
+		node = node.Prev
+	}
+	return *NewLinkedList(replacedValues[:i:i]...)
 }

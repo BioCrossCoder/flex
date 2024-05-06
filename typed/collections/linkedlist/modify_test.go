@@ -47,6 +47,19 @@ func TestRemove(t *testing.T) {
 		_ = d2.Clear()
 		assert.True(t, d2.Empty())
 	})
+	convey.Convey("remove elements satisfy the condition from list", t, func() {
+		d2 := d.Copy().Concat(*NewLinkedList(6, 8))
+		d3 := d2.Copy()
+		f := func(x int) bool {
+			return x%2 == 0
+		}
+		removed := d2.RemoveIf(f, 3)
+		assert.True(t, NewLinkedList(2, 2, 4).Equal(removed))
+		assert.True(t, NewLinkedList(1, 3, 2, 3, 2, 1, 6, 8).Equal(d2))
+		removed = d3.RemoveRightIf(f, 3)
+		assert.True(t, NewLinkedList(8, 6, 2).Equal(removed))
+		assert.True(t, NewLinkedList(1, 2, 3, 2, 4, 2, 3, 1).Equal(d3))
+	})
 }
 
 func TestAddOrCutElement(t *testing.T) {
@@ -188,6 +201,19 @@ func TestReplace(t *testing.T) {
 		assert.Equal(t, 0, d2.Count(1))
 		assert.Equal(t, -1, d2.IndexOf(1))
 		assert.False(t, d2.Includes(1))
+	})
+	convey.Convey("replace elements satisfy the condition with another element", t, func() {
+		d2 := d.Copy().Concat(*NewLinkedList(3, 5, 7))
+		d3 := d2.Copy()
+		f := func(x int) bool {
+			return x%2 == 1
+		}
+		replaced := d2.ReplaceIf(f, 0, 3)
+		assert.True(t, NewLinkedList(arraylist.Repeat(1, 3)...).Equal(replaced))
+		assert.True(t, NewLinkedList(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 3, 5, 7).Equal(d2))
+		replaced = d3.ReplaceRightIf(f, 0, 3)
+		assert.True(t, NewLinkedList(7, 5, 3).Equal(replaced))
+		assert.True(t, NewLinkedList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0).Equal(d3))
 	})
 }
 
