@@ -1,9 +1,32 @@
 package sortedlist
 
-import "slices"
+import (
+	"flex/common"
+	"slices"
+)
+
+func (l SortedList[T]) parseCount(counts ...int) int {
+	if len(counts) == 0 {
+		return 1
+	}
+	if counts[0] <= 0 {
+		return l.Len()
+	}
+	return counts[0]
+}
 
 func (l *SortedList[T]) Remove(element T, counts ...int) *SortedList[T] {
-	_ = l.elements.Remove(element, counts...)
+	count := l.parseCount(counts...)
+	index, exist := slices.BinarySearchFunc(l.elements, element, l.cmp)
+	if !exist {
+		return l
+	}
+	i := index
+	for count > 0 && i < l.Len() && common.Equal(l.elements[i], element) {
+		count--
+		i++
+	}
+	_ = l.RemoveRange(index, i)
 	return l
 }
 
