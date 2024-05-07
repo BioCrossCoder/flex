@@ -3,6 +3,7 @@ package itertools
 import (
 	"flex/common"
 	"reflect"
+	"unicode/utf8"
 )
 
 func Reversed(entry any) (output any, err error) {
@@ -19,7 +20,7 @@ func Reversed(entry any) (output any, err error) {
 		iterator = NewSliceIterator(common.CopyList(value, length), length-1, 0, -1)
 		output = iterator.Pour()
 	case reflect.String:
-		length = len([]rune(entry.(string)))
+		length = utf8.RuneCountInString(entry.(string))
 		iterator = NewSliceIterator(common.ConvertStringToList(entry.(string)), length-1, 0, -1)
 		output = ""
 		for _, c := range iterator.Pour().([]any) {

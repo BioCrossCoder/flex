@@ -14,11 +14,11 @@ type sliceIterator struct {
 	step    int
 }
 
-func NewSliceIterator(entry []any, strat, end, step int) Iterator {
+func NewSliceIterator(entry []any, start, end, step int) Iterator {
 	return &sliceIterator{
 		entry:   entry,
 		end:     end,
-		pointer: strat,
+		pointer: start,
 		value:   nil,
 		step:    step,
 	}
@@ -68,7 +68,7 @@ func Slice(entry any, start, end, step int) (slice any, err error) {
 	var length int
 	if value.Kind() == reflect.String {
 		length = utf8.RuneCountInString(entry.(string))
-	}else{
+	} else {
 		length = value.Len()
 	}
 	if start >= length {

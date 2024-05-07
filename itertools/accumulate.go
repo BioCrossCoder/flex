@@ -51,7 +51,7 @@ func (iter *accumulator) Pour() any {
 	return result
 }
 
-func Accumulate(handler, entry interface{}) (iterator Iterator, err error) {
+func Accumulate(handler, entry any) (iterator Iterator, err error) {
 	err = common.IsInputFuncValid(handler, 2, 1)
 	if err != nil {
 		return

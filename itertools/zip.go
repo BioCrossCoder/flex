@@ -3,6 +3,7 @@ package itertools
 import (
 	"flex/common"
 	"reflect"
+	"unicode/utf8"
 )
 
 type zipIterator struct {
@@ -71,9 +72,11 @@ func Zip(entries ...any) (iterator Iterator, err error) {
 			return
 		}
 		value := reflect.ValueOf(entry)
-		length := value.Len()
+		var length int
 		if value.Kind() == reflect.String {
-			length = len([]rune(entry.(string)))
+			length = utf8.RuneCountInString(entry.(string))
+		} else {
+			length = value.Len()
 		}
 		if entryLength == -1 {
 			entryLength = length
@@ -104,9 +107,11 @@ func ZipLongest(entries ...any) (iterator Iterator, err error) {
 			return
 		}
 		value := reflect.ValueOf(entry)
-		length := value.Len()
+		var length int
 		if value.Kind() == reflect.String {
-			length = len([]rune(entry.(string)))
+			length = utf8.RuneCountInString(entry.(string))
+		} else {
+			length = value.Len()
 		}
 		if length > entryLength {
 			entryLength = length

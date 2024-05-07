@@ -3,6 +3,7 @@ package common
 import (
 	"math"
 	"reflect"
+	"strings"
 )
 
 func IsInputFuncValid(f any, inputCount, outputCount int) error {
@@ -80,10 +81,10 @@ func CopyList(entry reflect.Value, length int) (output []any) {
 }
 
 func ConvertStringToList(entry string) (output []any) {
-	chars := []rune(entry)
+	chars := strings.Split(entry, "")
 	output = make([]any, len(chars))
 	for i, r := range chars {
-		output[i] = string(r)
+		output[i] = r
 	}
 	return
 }
