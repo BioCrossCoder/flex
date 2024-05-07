@@ -1,9 +1,11 @@
 package collections
 
 import (
+	"encoding/json"
 	"flex/common"
 	"flex/typed/collections/dict"
 	"flex/typed/collections/set"
+	"fmt"
 )
 
 type DefaultDict[K comparable, V any] struct {
@@ -12,6 +14,9 @@ type DefaultDict[K comparable, V any] struct {
 }
 
 func NewDefaultDict[K comparable, V any](items dict.Dict[K, V], defaultVal V) *DefaultDict[K, V] {
+	if items == nil {
+		items = make(dict.Dict[K, V])
+	}
 	return &DefaultDict[K, V]{
 		items.Copy(),
 		func() V {
@@ -75,4 +80,16 @@ func (d DefaultDict[K, V]) Equal(another DefaultDict[K, V]) bool {
 		}
 	}
 	return true
+}
+
+func (d DefaultDict[K, V]) String() string {
+	return fmt.Sprint(d.Dict)
+}
+
+func (d DefaultDict[K, V]) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.Dict)
+}
+
+func (d *DefaultDict[K, V]) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &d.Dict)
 }

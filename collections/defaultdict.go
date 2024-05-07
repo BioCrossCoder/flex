@@ -1,9 +1,11 @@
 package collections
 
 import (
+	"encoding/json"
 	"flex/collections/dict"
 	"flex/collections/set"
 	"flex/common"
+	"fmt"
 )
 
 type DefaultDict struct {
@@ -12,6 +14,9 @@ type DefaultDict struct {
 }
 
 func NewDefaultDict(items dict.Dict, defaultVal any) *DefaultDict {
+	if items == nil {
+		items = make(dict.Dict)
+	}
 	return &DefaultDict{
 		items.Copy(),
 		func() any {
@@ -75,4 +80,16 @@ func (d DefaultDict) Equal(another DefaultDict) bool {
 		}
 	}
 	return true
+}
+
+func (d DefaultDict) String() string {
+	return fmt.Sprint(d.Dict)
+}
+
+func (d DefaultDict) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.Dict)
+}
+
+func (d *DefaultDict) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &d.Dict)
 }

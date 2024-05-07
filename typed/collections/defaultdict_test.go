@@ -1,7 +1,9 @@
 package collections
 
 import (
+	"encoding/json"
 	"flex/typed/collections/dict"
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -41,5 +43,14 @@ func TestDefaultDict(t *testing.T) {
 		assert.NotZero(t, dd.Size())
 		assert.Equal(t, dd.Clear(), dd)
 		assert.Zero(t, dd.Size())
+	})
+	convey.Convey("jsonify and stringify", t, func() {
+		d := dict.Dict[string, int]{"a": 1, "b": 2, "c": 3}
+		d1 := NewDefaultDict(d, -1)
+		data, err := json.Marshal(d1)
+		assert.Nil(t, err)
+		d2 := NewDefaultDict[string](nil, -1)
+		assert.Nil(t, json.Unmarshal(data, d2))
+		assert.Equal(t, fmt.Sprint(d1), fmt.Sprint(d2))
 	})
 }
