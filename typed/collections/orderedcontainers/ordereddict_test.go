@@ -85,7 +85,7 @@ func TestOrderedDict(t *testing.T) {
 		d2 := d.Copy()
 		data, err := json.Marshal(d2)
 		assert.Nil(t, err)
-		d3 := NewOrderedDict[string, float64]()
+		d3 := NewOrderedDict[string, int]()
 		assert.Nil(t, json.Unmarshal(data, d3))
 		assert.Equal(t, fmt.Sprint(d2), fmt.Sprint(d3))
 	})

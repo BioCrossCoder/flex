@@ -144,18 +144,26 @@ func (d *OrderedDict[K, V]) UnmarshalJSON(data []byte) (err error) {
 		return
 	}
 	newDict := NewOrderedDict[K, V]()
+	dictItem := dict.DictItem[K, V]{}
+	var rawKey, rawValue []byte
 	for _, item := range items {
-		key, ok := item[0].(K)
-		if !ok {
-			err = common.ErrInvalidType
+		rawKey, err = json.Marshal(item[0])
+		if err != nil {
 			return
 		}
-		value, ok := item[1].(V)
-		if !ok {
-			err = common.ErrInvalidType
+		err = json.Unmarshal(rawKey, &dictItem.Key)
+		if err != nil {
 			return
 		}
-		_ = newDict.Set(key, value)
+		rawValue, err = json.Marshal(item[1])
+		if err != nil {
+			return
+		}
+		err = json.Unmarshal(rawValue, &dictItem.Value)
+		if err != nil {
+			return
+		}
+		_ = newDict.Set(dictItem.Key, dictItem.Value)
 	}
 	*d = *newDict
 	return
