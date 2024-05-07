@@ -1,9 +1,11 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/common"
 	"flex/typed/collections/linkedlist"
 	"flex/typed/collections/set"
+	"strings"
 )
 
 type OrderedChainSet[T comparable] struct {
@@ -100,4 +102,24 @@ func (s OrderedChainSet[T]) IndexOf(element T) int {
 
 func (s OrderedChainSet[T]) ToList() linkedlist.LinkedList[T] {
 	return s.sequence.Copy()
+}
+
+func (s OrderedChainSet[T]) String() string {
+	r := strings.NewReplacer("[", "{", "]", "}")
+	return r.Replace(s.sequence.String())
+}
+
+func (s OrderedChainSet[T]) MarshalJSON() ([]byte, error) {
+	return s.sequence.MarshalJSON()
+}
+
+func (s *OrderedChainSet[T]) UnmarshalJSON(data []byte) (err error) {
+	var arr []T
+	err = json.Unmarshal(data, &arr)
+	if err != nil {
+		return
+	}
+	s.Set = set.Of(arr...)
+	s.sequence = linkedlist.NewLinkedList(arr...)
+	return
 }
