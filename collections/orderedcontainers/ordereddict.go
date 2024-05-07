@@ -1,9 +1,12 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/collections/arraylist"
 	"flex/collections/dict"
 	"flex/common"
+	"fmt"
+	"strings"
 )
 
 type OrderedDict struct {
@@ -124,4 +127,26 @@ func (d OrderedDict) KeyAt(index int) (any, error) {
 
 func (d OrderedDict) IndexOf(key any) int {
 	return d.sequence.IndexOf(key)
+}
+
+func (d OrderedDict) String() string {
+	items := make([]string, d.Size())
+	for i, key := range d.sequence {
+		items[i] = fmt.Sprintf("%v:%v", key, d.Get(key))
+	}
+	return "map[" + strings.Join(items, " ") + "]"
+}
+
+func (d OrderedDict) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.Items())
+}
+
+func (d *OrderedDict) UnmarshalJSON(data []byte) (err error) {
+	var items [][2]any
+	err = json.Unmarshal(data, &items)
+	if err != nil {
+		return
+	}
+	*d = *NewOrderedDict(items...)
+	return
 }

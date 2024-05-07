@@ -1,6 +1,8 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -67,7 +69,7 @@ func TestOrderedDict(t *testing.T) {
 		items := d2.Items()
 		for i := 0; i < d2.Size(); i++ {
 			assert.Equal(t, keys[i], items[i].Key)
-            assert.Equal(t, values[i], items[i].Value)
+			assert.Equal(t, values[i], items[i].Value)
 		}
 	})
 	convey.Convey("clear and update a dict", t, func() {
@@ -78,5 +80,13 @@ func TestOrderedDict(t *testing.T) {
 		assert.True(t, d2.Empty())
 		_ = d2.Update(*d)
 		assert.True(t, d.Equal(d2))
+	})
+	convey.Convey("jsonify and stringify", t, func() {
+		d2 := d.Copy()
+		data, err := json.Marshal(d2)
+		assert.Nil(t, err)
+		d3 := NewOrderedDict[string, float64]()
+		assert.Nil(t, json.Unmarshal(data, d3))
+		assert.Equal(t, fmt.Sprint(d2), fmt.Sprint(d3))
 	})
 }

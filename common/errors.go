@@ -41,3 +41,5 @@ var ErrEmptySet = errors.New("the input set is empty")
 var ErrEmptyDict = errors.New("the input dict is empty")
 
 var ErrKeyNotFound = errors.New("the key is not found in the dict")
+
+var ErrInvalidType = errors.New("the entry type is not expected")

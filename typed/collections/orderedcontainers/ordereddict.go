@@ -1,9 +1,12 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/common"
 	"flex/typed/collections/arraylist"
 	"flex/typed/collections/dict"
+	"fmt"
+	"strings"
 )
 
 type OrderedDict[K comparable, V any] struct {
@@ -116,4 +119,44 @@ func (d OrderedDict[K, V]) KeyAt(index int) (K, error) {
 
 func (d OrderedDict[K, V]) IndexOf(key K) int {
 	return d.sequence.IndexOf(key)
+}
+
+func (d OrderedDict[K, V]) String() string {
+	items := make([]string, d.Size())
+	for i, key := range d.sequence {
+		items[i] = fmt.Sprintf("%v:%v", key, d.Get(key))
+	}
+	return "map[" + strings.Join(items, " ") + "]"
+}
+
+func (d OrderedDict[K, V]) MarshalJSON() ([]byte, error) {
+	items := make([][2]any, d.Size())
+	for i, key := range d.sequence {
+		items[i] = [2]any{key, d.Get(key)}
+	}
+	return json.Marshal(items)
+}
+
+func (d *OrderedDict[K, V]) UnmarshalJSON(data []byte) (err error) {
+	var items [][2]any
+	err = json.Unmarshal(data, &items)
+	if err != nil {
+		return
+	}
+	newDict := NewOrderedDict[K, V]()
+	for _, item := range items {
+		key, ok := item[0].(K)
+		if !ok {
+			err = common.ErrInvalidType
+			return
+		}
+		value, ok := item[1].(V)
+		if !ok {
+			err = common.ErrInvalidType
+			return
+		}
+		_ = newDict.Set(key, value)
+	}
+	*d = *newDict
+	return
 }
