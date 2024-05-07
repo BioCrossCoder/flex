@@ -35,3 +35,15 @@ func (s Set[T]) IsSuperset(another Set[T]) bool {
 	}
 	return true
 }
+
+func (s Set[T]) Equal(another Set[T]) bool {
+	if s.Size() != another.Size() {
+		return false
+	}
+	for k := range s {
+		if !another.Has(k) {
+			return false
+		}
+	}
+	return true
+}

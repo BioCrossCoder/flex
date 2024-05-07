@@ -13,6 +13,6 @@ func newTestSet() Set[int] {
 func TestSet(t *testing.T) {
 	convey.Convey("get size of a copy of a set", t, func() {
 		s := newTestSet()
-		assert.Equal(t, s.Size(), s.Copy().Size())
+		assert.True(t, s.Equal(s.Copy()))
 	})
 }
