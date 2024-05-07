@@ -10,7 +10,7 @@ func TestCopy(t *testing.T) {
 	convey.Convey("copy list", t, func() {
 		l := ArrayList[int]{1, 3, 5, 7, 9}
 		l2 := l.Copy()
-		assert.Equal(t, l[:], l2)
+		assert.True(t, l.Equal(l2))
 	})
 }
 

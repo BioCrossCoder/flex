@@ -66,3 +66,15 @@ func (l ArrayList[T]) Includes(element T) bool {
 func (l ArrayList[T]) Empty() bool {
 	return l.Len() == 0
 }
+
+func (l ArrayList[T]) Equal(another ArrayList[T]) bool {
+	if l.Len() != another.Len() {
+		return false
+	}
+	for i := 0; i < l.Len(); i++ {
+		if !common.Equal(l[i], another[i]) {
+			return false
+		}
+	}
+	return true
+}
