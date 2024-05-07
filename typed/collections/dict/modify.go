@@ -1,6 +1,9 @@
 package dict
 
-import "flex/common"
+import (
+	"flex/common"
+	"maps"
+)
 
 func (d *Dict[K, V]) Clear() *Dict[K, V] {
 	*d = make(Dict[K, V])
@@ -50,18 +53,6 @@ func (d *Dict[K, V]) PopItem() (key K, value V, err error) {
 }
 
 func (d *Dict[K, V]) Update(another Dict[K, V]) *Dict[K, V] {
-	count1 := d.Size()
-	count2 := another.Size()
-	if common.WillReHash(count1, count2) {
-		capacity := common.GetMapInitialCapacity(count1 + count2)
-		newDict := make(Dict[K, V], capacity)
-		for k, v := range *d {
-			newDict.Set(k, v)
-		}
-		*d = newDict
-	}
-	for k, v := range another {
-		d.Set(k, v)
-	}
+	maps.Copy(*d, another)
 	return d
 }

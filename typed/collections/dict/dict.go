@@ -1,6 +1,8 @@
 package dict
 
-import "flex/common"
+import (
+	"maps"
+)
 
 type Dict[K comparable, V any] map[K]V
 
@@ -53,11 +55,7 @@ func (d Dict[K, V]) Items() []*DictItem[K, V] {
 }
 
 func (d Dict[K, V]) Copy() Dict[K, V] {
-	backup := make(Dict[K, V], common.GetMapInitialCapacity(d.Size()))
-	for k, v := range d {
-		backup.Set(k, v)
-	}
-	return backup
+	return maps.Clone(d)
 }
 
 func (d Dict[K, V]) Has(key K) bool {
