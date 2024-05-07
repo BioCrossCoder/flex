@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func GroupBy(entry any, by func(any) any) (iterator common.Iterator, err error) {
+func GroupBy(entry any, by func(any) any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {
 		return

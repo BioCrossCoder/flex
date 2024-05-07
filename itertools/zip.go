@@ -13,7 +13,7 @@ type zipIterator struct {
 	count   int
 }
 
-func NewZipIterator(entries [][]any, length int) common.Iterator {
+func NewZipIterator(entries [][]any, length int) Iterator {
 	return &zipIterator{
 		entries: entries,
 		length:  length,
@@ -57,7 +57,7 @@ func (iter *zipIterator) Pour() any {
 	return output
 }
 
-func Zip(entries ...any) (iterator common.Iterator, err error) {
+func Zip(entries ...any) (iterator Iterator, err error) {
 	entryCount := len(entries)
 	if entryCount < 2 {
 		err = common.ErrIllegalParamCount
@@ -90,7 +90,7 @@ func Zip(entries ...any) (iterator common.Iterator, err error) {
 	return
 }
 
-func ZipLongest(entries ...any) (iterator common.Iterator, err error) {
+func ZipLongest(entries ...any) (iterator Iterator, err error) {
 	entryCount := len(entries)
 	if entryCount < 2 {
 		err = common.ErrIllegalParamCount

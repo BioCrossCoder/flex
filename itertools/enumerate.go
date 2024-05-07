@@ -14,7 +14,7 @@ type listEnumerator struct {
 	step    int
 }
 
-func NewListEnumerator(entry []any, start, end, step int) common.Iterator {
+func NewListEnumerator(entry []any, start, end, step int) Iterator {
 	return &listEnumerator{
 		entry:   entry,
 		end:     end,
@@ -51,7 +51,7 @@ func (iter *listEnumerator) Pour() any {
 	return output
 }
 
-func Enumerate(entry any, start, end, step int) (iterator common.Iterator, err error) {
+func Enumerate(entry any, start, end, step int) (iterator Iterator, err error) {
 	err = common.IsSequence(entry)
 	if err != nil {
 		return

@@ -12,7 +12,7 @@ func Reversed(entry any) (output any, err error) {
 	}
 	value := reflect.ValueOf(entry)
 	var length int
-	var iterator common.Iterator
+	var iterator Iterator
 	switch value.Kind() {
 	case reflect.Slice, reflect.Array:
 		length = value.Len()

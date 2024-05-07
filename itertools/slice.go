@@ -14,7 +14,7 @@ type sliceIterator struct {
 	step    int
 }
 
-func NewSliceIterator(entry []any, strat, end, step int) common.Iterator {
+func NewSliceIterator(entry []any, strat, end, step int) Iterator {
 	return &sliceIterator{
 		entry:   entry,
 		end:     end,

@@ -12,7 +12,7 @@ type pairIterator struct {
 	value   any
 }
 
-func NewPairIterator(entry []any) common.Iterator {
+func NewPairIterator(entry []any) Iterator {
 	return &pairIterator{
 		entry:   entry,
 		length:  len(entry) - 1,
@@ -51,7 +51,7 @@ func (iter *pairIterator) Pour() any {
 	return output
 }
 
-func PairWise(entry any) (iterator common.Iterator, err error) {
+func PairWise(entry any) (iterator Iterator, err error) {
 	err = common.IsSequence(entry)
 	if err != nil {
 		return

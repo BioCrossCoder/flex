@@ -9,7 +9,7 @@ type listFilter struct {
 	listConvertor
 }
 
-func NewListFilter(entry []any, handler func(any) bool) common.Iterator {
+func NewListFilter(entry []any, handler func(any) bool) Iterator {
 	iter := new(listFilter)
 	iter.entry = entry
 	iter.length = len(entry)
@@ -36,7 +36,7 @@ type mapFilter struct {
 	mapConvertor
 }
 
-func NewMapFilter(entry map[any]any, handler func(any) bool) common.Iterator {
+func NewMapFilter(entry map[any]any, handler func(any) bool) Iterator {
 	keys, values, length := common.ConvertMapToLists(entry)
 	iter := new(mapFilter)
 	iter.entryKeys = keys
@@ -62,7 +62,7 @@ func (iter *mapFilter) Pour() any {
 	return output
 }
 
-func Filter(handler, entry any) (iterator common.Iterator, err error) {
+func Filter(handler, entry any) (iterator Iterator, err error) {
 	err = common.IsJudgeFunc(handler)
 	if err != nil {
 		return

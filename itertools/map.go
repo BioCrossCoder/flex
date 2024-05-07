@@ -13,7 +13,7 @@ type listConvertor struct {
 	value   any
 }
 
-func NewListConvertor(entry []any, handler func(any) any) common.Iterator {
+func NewListConvertor(entry []any, handler func(any) any) Iterator {
 	return &listConvertor{
 		entry:   entry,
 		length:  len(entry),
@@ -63,7 +63,7 @@ type mapConvertor struct {
 	value       any
 }
 
-func NewMapConvertor(entry map[any]any, handler func(any) any) common.Iterator {
+func NewMapConvertor(entry map[any]any, handler func(any) any) Iterator {
 	keys, values, length := common.ConvertMapToLists(entry)
 	return &mapConvertor{
 		entryKeys:   keys,
@@ -106,7 +106,7 @@ func (iter *mapConvertor) Pour() any {
 	return output
 }
 
-func Map(handler, entry any) (iterator common.Iterator, err error) {
+func Map(handler, entry any) (iterator Iterator, err error) {
 	err = common.IsInputFuncValid(handler, 1, 1)
 	if err != nil {
 		return

@@ -13,7 +13,7 @@ type accumulator struct {
 	value   any
 }
 
-func NewAccumulator(entry []any, handler func(any, any) any) common.Iterator {
+func NewAccumulator(entry []any, handler func(any, any) any) Iterator {
 	return &accumulator{
 		entry:   entry,
 		length:  len(entry),
@@ -51,7 +51,7 @@ func (iter *accumulator) Pour() any {
 	return result
 }
 
-func Accumulate(handler, entry interface{}) (iterator common.Iterator, err error) {
+func Accumulate(handler, entry interface{}) (iterator Iterator, err error) {
 	err = common.IsInputFuncValid(handler, 2, 1)
 	if err != nil {
 		return

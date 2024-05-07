@@ -2,6 +2,12 @@ package itertools
 
 import "flex/common"
 
+type Iterator interface {
+	Next() bool
+	Value() any
+	Pour() any
+}
+
 type listIterator struct {
 	entry   []any
 	length  int
@@ -9,7 +15,7 @@ type listIterator struct {
 	value   any
 }
 
-func NewListIterator(entry []any) common.Iterator {
+func NewListIterator(entry []any) Iterator {
 	return &listIterator{
 		entry:   entry,
 		length:  len(entry),
@@ -56,7 +62,7 @@ type mapIterator struct {
 	value       any
 }
 
-func NewMapIterator(entry map[any]any) common.Iterator {
+func NewMapIterator(entry map[any]any) Iterator {
 	keys, value, length := common.ConvertMapToLists(entry)
 	return &mapIterator{
 		entryKeys:   keys,

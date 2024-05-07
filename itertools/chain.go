@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func Chain(entries ...any) (iterator common.Iterator, err error) {
+func Chain(entries ...any) (iterator Iterator, err error) {
 	elements := make([]any, 0)
 	for _, entry := range entries {
 		err = common.IsSequence(entry)

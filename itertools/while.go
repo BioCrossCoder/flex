@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func DropWhile(condition func(any) bool, entry any) (iterator common.Iterator, err error) {
+func DropWhile(condition func(any) bool, entry any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {
 		return
@@ -22,7 +22,7 @@ func DropWhile(condition func(any) bool, entry any) (iterator common.Iterator, e
 	return
 }
 
-func TakeWhile(condition func(any) bool, entry any) (iterator common.Iterator, err error) {
+func TakeWhile(condition func(any) bool, entry any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {
 		return

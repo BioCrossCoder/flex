@@ -7,7 +7,7 @@ import (
 )
 
 func Any(iter any) (result bool, err error) {
-	iterator, ok := iter.(common.Iterator)
+	iterator, ok := iter.(itertools.Iterator)
 	if !ok {
 		err = common.IsIterable(iter)
 		if err != nil {
