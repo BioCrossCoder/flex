@@ -1,9 +1,12 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/collections/dict"
 	"flex/collections/linkedlist"
 	"flex/common"
+	"fmt"
+	"strings"
 )
 
 type OrderedChainDict struct {
@@ -132,4 +135,29 @@ func (d OrderedChainDict) KeyAt(index int) (any, error) {
 
 func (d OrderedChainDict) IndexOf(key any) int {
 	return d.sequence.IndexOf(key)
+}
+
+func (d OrderedChainDict) String() string {
+	items := make([]string, d.Size())
+	i := 0
+	_ = d.sequence.ForEach(func(key any) any {
+		items[i] = fmt.Sprintf("%v:%v", key, d.Get(key))
+		i++
+		return key
+	})
+	return "map[" + strings.Join(items, " ") + "]"
+}
+
+func (d OrderedChainDict) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.Items())
+}
+
+func (d *OrderedChainDict) UnmarshalJSON(data []byte) (err error) {
+	var items [][2]any
+	err = json.Unmarshal(data, &items)
+	if err != nil {
+		return
+	}
+	*d = *NewOrderedChainDict(items...)
+	return
 }

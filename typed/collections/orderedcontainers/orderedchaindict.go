@@ -1,9 +1,12 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/common"
 	"flex/typed/collections/dict"
 	"flex/typed/collections/linkedlist"
+	"fmt"
+	"strings"
 )
 
 type OrderedChainDict[K comparable, V any] struct {
@@ -124,4 +127,58 @@ func (d OrderedChainDict[K, V]) KeyAt(index int) (K, error) {
 
 func (d OrderedChainDict[K, V]) IndexOf(key K) int {
 	return d.sequence.IndexOf(key)
+}
+
+func (d OrderedChainDict[K, V]) String() string {
+	items := make([]string, d.Size())
+	i := 0
+	_ = d.sequence.ForEach(func(key K) K {
+		items[i] = fmt.Sprintf("%v:%v", key, d.Get(key))
+		i++
+		return key
+	})
+	return "map[" + strings.Join(items, " ") + "]"
+}
+
+func (d OrderedChainDict[K, V]) MarshalJSON() ([]byte, error) {
+	items := make([][2]any, d.Size())
+	i := 0
+	_ = d.sequence.ForEach(func(key K) K {
+		items[i] = [2]any{key, d.Get(key)}
+		i++
+		return key
+	})
+	return json.Marshal(items)
+}
+
+func (d *OrderedChainDict[K, V]) UnmarshalJSON(data []byte) (err error) {
+	var items [][2]any
+	err = json.Unmarshal(data, &items)
+	if err != nil {
+		return
+	}
+	newDict := NewOrderedChainDict[K, V]()
+	dictItem := dict.DictItem[K, V]{}
+	var rawKey, rawValue []byte
+	for _, item := range items {
+		rawKey, err = json.Marshal(item[0])
+		if err != nil {
+			return
+		}
+		err = json.Unmarshal(rawKey, &dictItem.Key)
+		if err != nil {
+			return
+		}
+		rawValue, err = json.Marshal(item[1])
+		if err != nil {
+			return
+		}
+		err = json.Unmarshal(rawValue, &dictItem.Value)
+		if err != nil {
+			return
+		}
+		_ = newDict.Set(dictItem.Key, dictItem.Value)
+	}
+	*d = *newDict
+	return
 }
