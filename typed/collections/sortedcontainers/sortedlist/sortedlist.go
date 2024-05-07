@@ -2,7 +2,6 @@ package sortedlist
 
 import (
 	"cmp"
-	"flex/common"
 	"flex/typed/collections/arraylist"
 	"slices"
 )
@@ -83,12 +82,7 @@ func (l SortedList[T]) ToArray() []T {
 }
 
 func (l SortedList[T]) Equal(another SortedList[T]) bool {
-	for i, v := range l.elements {
-		if !common.Equal(v, another.elements[i]) {
-			return false
-		}
-	}
-	return true
+	return l.elements.Equal(another.elements)
 }
 
 func (l SortedList[T]) ToList() arraylist.ArrayList[T] {
