@@ -1,6 +1,9 @@
 package arraylist
 
-import "flex/common"
+import (
+	"flex/common"
+	"slices"
+)
 
 func (l ArrayList[T]) parseCount(counts ...int) int {
 	if len(counts) == 0 {
@@ -43,7 +46,7 @@ func (l *ArrayList[T]) RemoveRight(element T, counts ...int) *ArrayList[T] {
 		array[i] = v
 		i--
 	}
-	*l = array[i+1 : end+1].Copy()
+	*l = slices.Clip(array[i+1 : end+1])
 	return l
 }
 
@@ -80,7 +83,7 @@ func (l *ArrayList[T]) Pop(indexes ...int) (element T, err error) {
 		return
 	}
 	element = (*l)[index]
-	*l = append((*l)[:index], (*l)[index+1:]...)
+	*l = slices.Delete(*l, index, index+1)
 	return
 }
 
@@ -95,13 +98,7 @@ func (l *ArrayList[T]) Shift() (element T, err error) {
 }
 
 func (l *ArrayList[T]) Insert(index int, element T) *ArrayList[T] {
-	length := l.Len()
-	validIndex := l.parseIndex(index)
-	*l = append(*l, element)
-	for i := length; i > validIndex; i-- {
-		(*l)[i] = (*l)[i-1]
-	}
-	(*l)[validIndex] = element
+	*l = slices.Insert(*l, l.parseIndex(index), element)
 	return l
 }
 
@@ -181,9 +178,7 @@ func (l *ArrayList[T]) Fill(element T, area ...int) *ArrayList[T] {
 }
 
 func (l *ArrayList[T]) Reverse() *ArrayList[T] {
-	for i, j := 0, l.Len()-1; i < j; i, j = i+1, j-1 {
-		(*l)[i], (*l)[j] = (*l)[j], (*l)[i]
-	}
+	slices.Reverse(*l)
 	return l
 }
 
@@ -238,7 +233,7 @@ func (l *ArrayList[T]) RemoveRightIf(condition func(T) bool, counts ...int) Arra
 		array[i] = v
 		i--
 	}
-	*l = array[i+1 : end+1].Copy()
+	*l = slices.Clip(array[i+1 : end+1])
 	return removed[:j:j]
 }
 

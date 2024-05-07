@@ -25,7 +25,9 @@ func NewSortedList[T cmp.Ordered](cmp func(a, b T) int, elements ...T) *SortedLi
 	if cmp == nil {
 		cmp = AscendOrder[T]
 	}
-	slices.SortFunc(arr, cmp)
+	if !slices.IsSortedFunc(arr, cmp) {
+		slices.SortFunc(arr, cmp)
+	}
 	return &SortedList[T]{arr, cmp}
 }
 

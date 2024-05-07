@@ -1,6 +1,9 @@
 package arraylist
 
-import "flex/common"
+import (
+	"flex/common"
+	"slices"
+)
 
 func (l ArrayList[T]) IndexOf(element T) (index int) {
 	index = -1
@@ -46,14 +49,7 @@ func (l ArrayList[T]) Find(by func(T) bool) (element T, found bool) {
 }
 
 func (l ArrayList[T]) FindIndex(by func(T) bool) (index int) {
-	index = -1
-	for i, item := range l {
-		if by(item) {
-			index = i
-			break
-		}
-	}
-	return
+	return slices.IndexFunc(l, by)
 }
 
 func (l ArrayList[T]) FindLast(by func(T) bool) (element T, found bool) {
