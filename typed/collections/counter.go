@@ -1,7 +1,6 @@
 package collections
 
 import (
-	"flex/common"
 	"flex/typed/collections/arraylist"
 	"flex/typed/collections/dict"
 	"flex/typed/collections/set"
@@ -147,17 +146,7 @@ func (c *Counter[T]) Clear() *Counter[T] {
 }
 
 func (c Counter[T]) Equal(another Counter[T]) bool {
-	keys1 := set.Of(c.Elements()...)
-	keys2 := set.Of(another.Elements()...)
-	if !keys1.SymmetricDifference(keys2).Empty() {
-		return false
-	}
-	for k, v := range c.records {
-		if !common.Equal(v, another.Get(k)) {
-			return false
-		}
-	}
-	return true
+	return c.records.Equal(another.records)
 }
 
 func (c Counter[T]) Copy() Counter[T] {

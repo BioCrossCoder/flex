@@ -4,7 +4,6 @@ import (
 	"flex/collections/arraylist"
 	"flex/collections/dict"
 	"flex/collections/set"
-	"flex/common"
 	"math"
 )
 
@@ -150,17 +149,7 @@ func (c *Counter) Clear() *Counter {
 }
 
 func (c Counter) Equal(another Counter) bool {
-	keys1 := set.Of(c.Elements()...)
-	keys2 := set.Of(another.Elements()...)
-	if !keys1.SymmetricDifference(keys2).Empty() {
-		return false
-	}
-	for k, v := range c.records {
-		if !common.Equal(v, another.Get(k)) {
-			return false
-		}
-	}
-	return true
+	return c.records.Equal(another.records)
 }
 
 func (c Counter) Copy() Counter {
