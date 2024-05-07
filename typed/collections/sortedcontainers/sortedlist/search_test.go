@@ -32,17 +32,17 @@ func TestSearchElement(t *testing.T) {
 			assert.Equal(t, 1, l.FindIndex(f))
 			assert.Equal(t, 4, l.FindLastIndex(f))
 		})
-		convey.Convey("get first/last element", func() {
+		convey.Convey("get max/min element", func() {
 			head, err := l.Head()
 			assert.Nil(t, err)
-			first, err := l.At(0)
+			minValue, err := l.Min()
 			assert.Nil(t, err)
-			assert.Equal(t, first, head)
+			assert.Equal(t, minValue, head)
 			tail, err := l.Tail()
 			assert.Nil(t, err)
-			last, err := l.At(-1)
+			maxValue, err := l.Max()
 			assert.Nil(t, err)
-			assert.Equal(t, last, tail)
+			assert.Equal(t, maxValue, tail)
 		})
 		convey.Convey("element not found", func() {
 			assert.Equal(t, -1, l.IndexOf(0))

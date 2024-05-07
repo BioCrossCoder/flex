@@ -1,6 +1,9 @@
 package sortedlist
 
-import "slices"
+import (
+	"flex/common"
+	"slices"
+)
 
 func (l SortedList[T]) IndexOf(element T) int {
 	index, exist := slices.BinarySearchFunc(l.elements, element, l.cmp)
@@ -50,4 +53,22 @@ func (l SortedList[T]) Head() (T, error) {
 
 func (l SortedList[T]) Tail() (T, error) {
 	return l.elements.Tail()
+}
+
+func (l SortedList[T]) Max() (element T, err error) {
+	if l.Empty() {
+		err = common.ErrEmptyList
+		return
+	}
+	element = slices.MaxFunc([]T{l.elements[0], l.elements[l.Len()-1]}, l.cmp)
+	return
+}
+
+func (l SortedList[T]) Min() (element T, err error) {
+	if l.Empty() {
+		err = common.ErrEmptyList
+		return
+	}
+	element = slices.MinFunc([]T{l.elements[0], l.elements[l.Len()-1]}, l.cmp)
+	return
 }
