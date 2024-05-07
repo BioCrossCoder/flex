@@ -3,7 +3,6 @@ package collections
 import (
 	"encoding/json"
 	"flex/collections/dict"
-	"flex/collections/set"
 	"flex/common"
 	"fmt"
 )
@@ -69,17 +68,7 @@ func (d *DefaultDict) SetDefault(value any) *DefaultDict {
 }
 
 func (d DefaultDict) Equal(another DefaultDict) bool {
-	keys1 := set.Of(d.Keys()...)
-	keys2 := set.Of(another.Keys()...)
-	if !keys1.SymmetricDifference(keys2).Empty() {
-		return false
-	}
-	for k, v := range d.Dict {
-		if !common.Equal(v, another.Get(k)) {
-			return false
-		}
-	}
-	return true
+	return d.Dict.Equal(another.Dict) && common.Equal(d.builder(), another.builder())
 }
 
 func (d DefaultDict) String() string {
