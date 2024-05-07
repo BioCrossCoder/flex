@@ -39,6 +39,7 @@ func (q *loopQueue[T]) Enqueue(element T) (ok bool) {
 func (q *loopQueue[T]) Dequeue() (element T, ok bool) {
 	if !q.Empty() {
 		element, _ = q.data.At(q.head)
+		_=q.data.Set(q.head, *new(T))
 		q.head++
 		q.head %= (q.capacity + 1)
 		ok = true
