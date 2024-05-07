@@ -1,6 +1,7 @@
 package dict
 
 import (
+	"flex/common"
 	"maps"
 )
 
@@ -65,4 +66,10 @@ func (d Dict[K, V]) Has(key K) bool {
 
 func (d Dict[K, V]) Empty() bool {
 	return d.Size() == 0
+}
+
+func (d Dict[K, V]) Equal(another Dict[K, V]) bool {
+	return maps.EqualFunc(d, another, func(a, b V) bool {
+		return common.Equal(a, b)
+	})
 }

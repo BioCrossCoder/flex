@@ -9,7 +9,7 @@ import (
 func TestCopy(t *testing.T) {
 	convey.Convey("copy a dict", t, func() {
 		d := newTestDict()
-		assert.Equal(t, d, d.Copy())
+		assert.True(t, d.Equal(d.Copy()))
 	})
 }
 
