@@ -78,17 +78,7 @@ func (s OrderedSet[T]) Copy() OrderedSet[T] {
 }
 
 func (s OrderedSet[T]) Equal(another OrderedSet[T]) bool {
-	if s.Size() != another.Size() {
-		return false
-	}
-	elements1 := s.Elements()
-	elements2 := another.Elements()
-	for i := 0; i < s.Size(); i++ {
-		if !common.Equal(elements1[i], elements2[i]) {
-			return false
-		}
-	}
-	return true
+	return s.sequence.Equal(another.sequence)
 }
 
 func (s OrderedSet[T]) At(index int) (T, error) {

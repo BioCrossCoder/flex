@@ -79,17 +79,7 @@ func (s *OrderedChainSet) Copy() OrderedChainSet {
 }
 
 func (s OrderedChainSet) Equal(another OrderedChainSet) bool {
-	if s.Size() != another.Size() {
-		return false
-	}
-	elements1 := s.Elements()
-	elements2 := another.Elements()
-	for i := 0; i < s.Size(); i++ {
-		if !common.Equal(elements1[i], elements2[i]) {
-			return false
-		}
-	}
-	return true
+	return s.sequence.Equal(*another.sequence)
 }
 
 func (s OrderedChainSet) At(index int) (any, error) {
