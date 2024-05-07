@@ -1,9 +1,12 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
 	"flex/collections/arraylist"
 	"flex/collections/set"
 	"flex/common"
+	"fmt"
+	"strings"
 )
 
 type OrderedSet struct {
@@ -98,4 +101,24 @@ func (s OrderedSet) IndexOf(element any) int {
 
 func (s OrderedSet) ToList() arraylist.ArrayList {
 	return s.sequence.Copy()
+}
+
+func (s OrderedSet) String() string {
+	r := strings.NewReplacer("[", "{", "]", "}")
+	return r.Replace(fmt.Sprint(s.sequence))
+}
+
+func (s OrderedSet) MarshalJSON() ([]byte, error) {
+	return json.Marshal(s.sequence)
+}
+
+func (s *OrderedSet) UnmarshalJSON(data []byte) (err error) {
+	var arr []any
+	err = json.Unmarshal(data, &arr)
+	if err != nil {
+		return
+	}
+	s.Set = set.Of(arr...)
+	s.sequence = arraylist.Of(arr...)
+	return
 }

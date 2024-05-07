@@ -1,6 +1,8 @@
 package orderedcontainers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -46,5 +48,13 @@ func TestOrderedSet(t *testing.T) {
 		assert.True(t, s2.Empty())
 		_ = s2.Update(*s)
 		assert.Equal(t, s2.ToList(), s.ToList())
+	})
+	convey.Convey("jsonify and stringify", t, func() {
+		l := NewOrderedSet(1, 2, 3)
+		data, err := json.Marshal(&l)
+		assert.Nil(t, err)
+		l2 := NewOrderedSet[int]()
+		assert.Nil(t, json.Unmarshal(data, &l2))
+		assert.Equal(t, fmt.Sprint(l), fmt.Sprint(l2))
 	})
 }
