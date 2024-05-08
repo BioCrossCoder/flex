@@ -7,18 +7,18 @@ import (
 )
 
 func TestAny(t *testing.T) {
-	f := func(a int) bool {
+	f := func(a any) bool {
 		return a == 0
 	}
 	convey.Convey("true", t, func() {
-		entry, _ := Map(f, []int{1, 0, 1})
-		result, err := Any(entry)
+		entry := []int{1, 0, 1}
+		result, err := Any(entry, f)
 		assert.Nil(t, err)
 		assert.True(t, result)
 	})
 	convey.Convey("false", t, func() {
-		entry, _ := Map(f, []int{1, 3, 2})
-		result, err := Any(entry)
+		entry := []int{1, 3, 2}
+		result, err := Any(entry, f)
 		assert.Nil(t, err)
 		assert.False(t, result)
 	})

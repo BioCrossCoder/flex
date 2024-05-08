@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func Any(iter any) (result bool, err error) {
+func Any(iter any, condition func(any) bool) (result bool, err error) {
 	iterator, ok := iter.(itertools.Iterator)
 	if !ok {
 		err = common.IsIterable(iter)
@@ -26,15 +26,10 @@ func Any(iter any) (result bool, err error) {
 		}
 	}
 	for iterator.Next() {
-		value, ok := iterator.Value().(bool)
-		if !ok {
-			continue
-		}
-		if value {
+		if condition(iterator.Value()) {
 			result = true
-			return
+			break
 		}
 	}
-	result = false
 	return
 }

@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-func All(iter any) (result bool, err error) {
+func All(iter any, condition func(any) bool) (result bool, err error) {
 	iterator, ok := iter.(itertools.Iterator)
 	if !ok {
 		err = common.IsIterable(iter)
@@ -25,17 +25,12 @@ func All(iter any) (result bool, err error) {
 			iterator = itertools.NewMapIterator(common.CopyMap(value, length))
 		}
 	}
+	result = true
 	for iterator.Next() {
-		value, ok := iterator.Value().(bool)
-		if !ok {
-			err = common.ErrNotBool
-			return
-		}
-		if !value {
+		if !condition(iterator.Value()) {
 			result = false
-			return
+			break
 		}
 	}
-	result = true
 	return
 }
