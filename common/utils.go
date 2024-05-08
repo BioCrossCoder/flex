@@ -119,3 +119,30 @@ func Equal(a, b any) (equal bool) {
 	equal = a == b
 	return
 }
+
+func ParseIndex(index, length int) int {
+	if index < 0 {
+		index += length
+		if index < 0 {
+			return 0
+		}
+	} else if index >= length {
+		return length - 1
+	}
+	return index
+}
+
+func CheckRange(start, end, step, length int) (err error) {
+	if step == 0 {
+		err = ErrZeroStep
+		return
+	}
+	if (start < end && step < 0) || (start > end && step > 0) {
+		err = ErrInvalidRange
+		return
+	}
+	if start >= length {
+		err = ErrOutOfRange
+	}
+	return
+}

@@ -175,3 +175,16 @@ func TestEqual(t *testing.T) {
 		assert.True(t, Equal([]int{1, 2, 3}, []int{1, 2, 3}))
 	})
 }
+
+func TestIndex(t *testing.T) {
+	convey.Convey("convert index out of range to be in range", t, func() {
+		assert.Equal(t, ParseIndex(8, 3), 2)
+		assert.Equal(t, ParseIndex(-2, 6), 4)
+		assert.Equal(t, ParseIndex(-10, 3), 0)
+	})
+	convey.Convey("verify invalid range", t, func() {
+		assert.Equal(t, CheckRange(1, 3, 0, 6), ErrZeroStep)
+		assert.Equal(t, CheckRange(1, 3, -1, 6), ErrInvalidRange)
+		assert.Equal(t, CheckRange(10, 12, 1, 6), ErrOutOfRange)
+	})
+}

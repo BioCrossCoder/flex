@@ -56,14 +56,6 @@ func Enumerate(entry any, start, end, step int) (iterator Iterator, err error) {
 	if err != nil {
 		return
 	}
-	if step == 0 {
-		err = common.ErrZeroStep
-		return
-	}
-	if (start < end && step < 0) || (start > end && step > 0) {
-		err = common.ErrInvalidRange
-		return
-	}
 	value := reflect.ValueOf(entry)
 	var length int
 	if value.Kind() == reflect.String {
@@ -71,13 +63,12 @@ func Enumerate(entry any, start, end, step int) (iterator Iterator, err error) {
 	} else {
 		length = value.Len()
 	}
-	if start >= length {
-		err = common.ErrOutOfRange
+	err = common.CheckRange(start, end, step, length)
+	if err != nil {
 		return
 	}
-	if length-1 < end {
-		end = length - 1
-	}
+	start = common.ParseIndex(start, length)
+	end = common.ParseIndex(end, length)
 	switch value.Kind() {
 	case reflect.Array, reflect.Slice:
 		iterator = NewListEnumerator(common.CopyList(value, length), start, end, step)
