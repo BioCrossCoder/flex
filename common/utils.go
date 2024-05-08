@@ -202,3 +202,33 @@ func Contains(entry, value any) bool {
 	}
 	return false
 }
+
+func Count(entry, value any) (count int) {
+	str, ok1 := entry.(string)
+	substr, ok2 := value.(string)
+	if ok1 && ok2 {
+		return strings.Count(str, substr)
+	}
+	if ok1 && (!ok2) {
+		return -1
+	}
+	list := reflect.ValueOf(entry)
+	switch list.Kind() {
+	case reflect.Array, reflect.Slice:
+		for i := 0; i < list.Len(); i++ {
+			if Equal(list.Index(i).Interface(), value) {
+				count++
+			}
+		}
+	case reflect.Map:
+		iter := list.MapRange()
+		for iter.Next() {
+			if Equal(iter.Value().Interface(), value) {
+				count++
+			}
+		}
+	default:
+		count = -1
+	}
+	return
+}

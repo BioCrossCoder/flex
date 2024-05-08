@@ -1,11 +1,10 @@
 package common
 
 import (
-	"reflect"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"reflect"
+	"testing"
 )
 
 func TestIsInputFuncValid(t *testing.T) {
@@ -220,5 +219,15 @@ func TestContains(t *testing.T) {
 		assert.False(t, Contains("hello", 1))
 		assert.True(t, Contains(map[int]string{1: "1", 2: "2"}, "1"))
 		assert.False(t, Contains(123, 1))
+	})
+}
+
+func TestCount(t *testing.T) {
+	convey.Convey("count element", t, func() {
+		assert.Equal(t, Count([]int{1, 2, 3}, "1"), 0)
+		assert.Equal(t, Count("hello", "l"), 2)
+		assert.Equal(t, Count("hello", 1), -1)
+		assert.Equal(t, Count(map[string]int{"one": 1, "two": 2, "1": 1}, 1), 2)
+		assert.Equal(t, Count(123, 1), -1)
 	})
 }
