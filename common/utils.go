@@ -4,6 +4,7 @@ import (
 	"math"
 	"reflect"
 	"strings"
+	"unicode/utf8"
 )
 
 func IsInputFuncValid(f any, inputCount, outputCount int) error {
@@ -144,5 +145,32 @@ func CheckRange(start, end, step, length int) (err error) {
 	if start >= length {
 		err = ErrOutOfRange
 	}
+	return
+}
+
+type hasLength interface {
+	Len() int
+}
+
+type hasSize interface {
+	Size() int
+}
+
+func Len(entry any) (length int) {
+	if l, ok := entry.(hasLength); ok {
+		return l.Len()
+	}
+	if h, ok := entry.(hasSize); ok {
+		return h.Size()
+	}
+	if s, ok := entry.(string); ok {
+		return utf8.RuneCountInString(s)
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			length = -1
+		}
+	}()
+	length = reflect.ValueOf(entry).Len()
 	return
 }
