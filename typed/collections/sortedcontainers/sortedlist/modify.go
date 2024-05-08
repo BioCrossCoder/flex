@@ -1,7 +1,6 @@
 package sortedlist
 
 import (
-	"flex/common"
 	"slices"
 )
 
@@ -21,12 +20,12 @@ func (l *SortedList[T]) Remove(element T, counts ...int) *SortedList[T] {
 	if !exist {
 		return l
 	}
-	for index >= 0 && l.elements[index] == element {
+	for index >= 0 && l.cmp(l.elements[index], element) == 0 {
 		index--
 	}
 	index++
 	i := index
-	for count > 0 && i < l.Len() && common.Equal(l.elements[i], element) {
+	for count > 0 && i < l.Len() && l.cmp(l.elements[i], element) == 0 {
 		count--
 		i++
 	}
@@ -53,7 +52,7 @@ func (l *SortedList[T]) Pop(indexes ...int) (element T, err error) {
 func (l *SortedList[T]) Insert(element T) *SortedList[T] {
 	index, exist := slices.BinarySearchFunc(l.elements, element, l.cmp)
 	if exist {
-		for index < l.Len() && l.elements[index] == element {
+		for index < l.Len() && l.cmp(l.elements[index], element) == 0 {
 			index++
 		}
 	}

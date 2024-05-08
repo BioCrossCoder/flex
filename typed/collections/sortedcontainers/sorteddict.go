@@ -16,6 +16,9 @@ func NewSortedDict[K cmp.Ordered, V any](cmp func(a, b K) int, src dict.Dict[K, 
 	if src == nil {
 		src = make(dict.Dict[K, V])
 	}
+	if cmp == nil {
+		cmp = sortedlist.AscendOrder
+	}
 	return &SortedDict[K, V]{
 		src,
 		*sortedlist.NewSortedList(cmp, src.Keys()...),

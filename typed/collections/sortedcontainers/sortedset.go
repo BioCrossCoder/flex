@@ -14,6 +14,9 @@ type SortedSet[T cmp.Ordered] struct {
 
 func NewSortedSet[T cmp.Ordered](cmp func(a, b T) int, entries ...T) *SortedSet[T] {
 	elements := set.Of(entries...)
+	if cmp == nil {
+		cmp = sortedlist.AscendOrder
+	}
 	sequence := sortedlist.NewSortedList(cmp)
 	for element := range elements {
 		_ = sequence.Insert(element)

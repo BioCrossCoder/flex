@@ -10,7 +10,7 @@ func (l SortedList[T]) IndexOf(element T) int {
 	if !exist {
 		return -1
 	}
-	for index >= 0 && l.elements[index] == element {
+	for index >= 0 && l.cmp(l.elements[index], element) == 0 {
 		index--
 	}
 	return index + 1
@@ -21,7 +21,7 @@ func (l SortedList[T]) LastIndexOf(element T) int {
 	if !exist {
 		return -1
 	}
-	for index < l.Len() && l.elements[index] == element {
+	for index < l.Len() && l.cmp(l.elements[index], element) == 0 {
 		index++
 	}
 	return index - 1

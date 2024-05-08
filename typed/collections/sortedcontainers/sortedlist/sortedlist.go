@@ -6,7 +6,7 @@ import (
 	"slices"
 )
 
-type SortedList[T cmp.Ordered] struct {
+type SortedList[T any] struct {
 	elements arraylist.ArrayList[T]
 	cmp      func(a, b T) int
 }
@@ -19,11 +19,8 @@ func DescendOrder[T cmp.Ordered](a, b T) int {
 	return -cmp.Compare(a, b)
 }
 
-func NewSortedList[T cmp.Ordered](cmp func(a, b T) int, elements ...T) *SortedList[T] {
+func NewSortedList[T any](cmp func(a, b T) int, elements ...T) *SortedList[T] {
 	arr := arraylist.Of(elements...)
-	if cmp == nil {
-		cmp = AscendOrder[T]
-	}
 	if !slices.IsSortedFunc(arr, cmp) {
 		slices.SortFunc(arr, cmp)
 	}
@@ -39,10 +36,10 @@ func (l SortedList[T]) Count(element T) (count int) {
 	if !exist {
 		return
 	}
-	for i := index; i < l.Len() && l.elements[i] == element; i++ {
+	for i := index; i < l.Len() && l.cmp(l.elements[i], element) == 0; i++ {
 		count++
 	}
-	for i := index - 1; i >= 0 && l.elements[i] == element; i-- {
+	for i := index - 1; i >= 0 && l.cmp(l.elements[i], element) == 0; i-- {
 		count++
 	}
 	return
