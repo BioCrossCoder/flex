@@ -174,3 +174,31 @@ func Len(entry any) (length int) {
 	length = reflect.ValueOf(entry).Len()
 	return
 }
+
+func Contains(entry, value any) bool {
+	str, ok1 := entry.(string)
+	substr, ok2 := value.(string)
+	if ok1 && ok2 {
+		return strings.Contains(str, substr)
+	}
+	if ok1 && (!ok2) {
+		return false
+	}
+	list := reflect.ValueOf(entry)
+	switch list.Kind() {
+	case reflect.Array, reflect.Slice:
+		for i := 0; i < list.Len(); i++ {
+			if Equal(list.Index(i).Interface(), value) {
+				return true
+			}
+		}
+	case reflect.Map:
+		iter := list.MapRange()
+		for iter.Next() {
+			if Equal(iter.Value().Interface(), value) {
+				return true
+			}
+		}
+	}
+	return false
+}

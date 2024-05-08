@@ -212,3 +212,13 @@ func TestLen(t *testing.T) {
 		assert.Equal(t, Len(&mockList{1, 2, 3}), 3)
 	})
 }
+
+func TestContains(t *testing.T) {
+	convey.Convey("check if element exist in entry", t, func() {
+		assert.True(t, Contains([]int{1, 2, 3}, 2))
+		assert.True(t, Contains("hello", "l"))
+		assert.False(t, Contains("hello", 1))
+		assert.True(t, Contains(map[int]string{1: "1", 2: "2"}, "1"))
+		assert.False(t, Contains(123, 1))
+	})
+}
