@@ -93,3 +93,70 @@ func (l ArrayList) Tail() (element any, err error) {
 	element = l[l.Len()-1]
 	return
 }
+
+func (l ArrayList) FindIndexes(by func(any) bool, counts ...int) (indexes []int) {
+	count := l.searchCount(counts...)
+	indexes = make([]int, 0)
+	for i, item := range l {
+		if count == 0 {
+			break
+		}
+		if by(item) {
+			indexes = append(indexes, i)
+			count--
+		}
+	}
+	return
+}
+
+func (l ArrayList) FindLastIndexes(by func(any) bool, counts ...int) (indexes []int) {
+	count := l.searchCount(counts...)
+	indexes = make([]int, 0)
+	for i := l.Len() - 1; i >= 0; i-- {
+		if count == 0 {
+			break
+		}
+		if by(l[i]) {
+			indexes = append(indexes, i)
+			count--
+		}
+	}
+	return
+}
+
+func (l ArrayList) Finds(by func(any) bool, counts ...int) (elements []any) {
+	count := l.searchCount(counts...)
+	elements = make([]any, 0)
+	for _, item := range l {
+		if count == 0 {
+			break
+		}
+		if by(item) {
+			elements = append(elements, item)
+			count--
+		}
+	}
+	return
+}
+
+func (l ArrayList) FindLasts(by func(any) bool, counts ...int) (elements []any) {
+	count := l.searchCount(counts...)
+	elements = make([]any, 0)
+	for i := l.Len() - 1; i >= 0; i-- {
+		if count == 0 {
+			break
+		}
+		if by(l[i]) {
+			elements = append(elements, l[i])
+			count--
+		}
+	}
+	return
+}
+
+func (l ArrayList) searchCount(counts ...int) int {
+	if len(counts) == 0 || counts[0] <= 0 {
+		return l.Len()
+	}
+	return counts[0]
+}
