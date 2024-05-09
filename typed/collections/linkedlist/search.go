@@ -116,3 +116,74 @@ func (d LinkedList[T]) getNodeByIndex(index int) *listNode[T] {
 	}
 	return node
 }
+
+func (l LinkedList[T]) FindIndexes(by func(T) bool, counts ...int) (indexes []int) {
+	count := l.searchCount(counts...)
+	indexes = make([]int, 0)
+	index := 0
+	for node := l.head.Next; node != l.tail; node = node.Next {
+		if count == 0 {
+			break
+		}
+		if by(node.Value) {
+			indexes = append(indexes, index)
+			count--
+		}
+		index++
+	}
+	return
+}
+
+func (l LinkedList[T]) FindLastIndexes(by func(T) bool, counts ...int) (indexes []int) {
+	count := l.searchCount(counts...)
+	indexes = make([]int, 0)
+	index := l.size - 1
+	for node := l.tail.Prev; node != l.head; node = node.Prev {
+		if count == 0 {
+			break
+		}
+		if by(node.Value) {
+			indexes = append(indexes, index)
+			count--
+		}
+		index--
+	}
+	return
+}
+
+func (l LinkedList[T]) Finds(by func(T) bool, counts ...int) (elements []T) {
+	count := l.searchCount(counts...)
+	elements = make([]T, 0)
+	for node := l.head.Next; node != l.tail; node = node.Next {
+		if count == 0 {
+			break
+		}
+		if by(node.Value) {
+			elements = append(elements, node.Value)
+			count--
+		}
+	}
+	return
+}
+
+func (l LinkedList[T]) FindLasts(by func(T) bool, counts ...int) (elements []T) {
+	count := l.searchCount(counts...)
+	elements = make([]T, 0)
+	for node := l.tail.Prev; node != l.head; node = node.Prev {
+		if count == 0 {
+			break
+		}
+		if by(node.Value) {
+			elements = append(elements, node.Value)
+			count--
+		}
+	}
+	return
+}
+
+func (l LinkedList[T]) searchCount(counts ...int) int {
+	if len(counts) == 0 || counts[0] <= 0 {
+		return l.Len()
+	}
+	return counts[0]
+}

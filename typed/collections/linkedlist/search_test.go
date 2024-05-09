@@ -31,6 +31,12 @@ func TestSearchElement(t *testing.T) {
 			assert.Equal(t, 4, v)
 			assert.Equal(t, 1, d.FindIndex(f))
 			assert.Equal(t, 4, d.FindLastIndex(f))
+			assert.Equal(t, []int{1, 3, 4}, d.FindIndexes(f))
+			assert.Equal(t, []int{4, 3, 1}, d.FindLastIndexes(f))
+			assert.Equal(t, []int{2, 2, 4}, d.Finds(f))
+			assert.Equal(t, []int{4, 2, 2}, d.FindLasts(f))
+			assert.Equal(t, []int{1, 3}, d.FindIndexes(f, 2))
+
 		})
 		convey.Convey("get first/last element", func() {
 			head, err := d.Head()
