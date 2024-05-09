@@ -14,7 +14,8 @@ func (d LinkedList) parseCount(counts ...int) int {
 	return counts[0]
 }
 
-func (d *LinkedList) removeNode(node *listNode) (prev, next *listNode) {
+func (d *LinkedList) removeNode(node *listNode) (value any, prev, next *listNode) {
+	value = node.Value
 	prev = node.Prev
 	next = node.Next
 	prev.Next = next
@@ -31,7 +32,7 @@ func (d *LinkedList) Remove(element any, counts ...int) *LinkedList {
 			node = node.Next
 			continue
 		}
-		_, node = d.removeNode(node)
+		_, _, node = d.removeNode(node)
 		count--
 	}
 	return d
@@ -45,7 +46,7 @@ func (d *LinkedList) RemoveRight(element any, counts ...int) *LinkedList {
 			node = node.Prev
 			continue
 		}
-		node, _ = d.removeNode(node)
+		_, node, _ = d.removeNode(node)
 		count--
 	}
 	return d
@@ -58,31 +59,26 @@ func (d *LinkedList) Clear() *LinkedList {
 	return d
 }
 
-func (d *LinkedList) Append(element any) *LinkedList {
-	following := d.tail
-	previous := following.Prev
+func (d *LinkedList) insertNode(prev *listNode, element any) *listNode {
+	following := prev.Next
 	node := &listNode{
 		Value: element,
-		Prev:  previous,
+		Prev:  prev,
 		Next:  following,
 	}
-	previous.Next = node
+	prev.Next = node
 	following.Prev = node
 	d.size++
+	return node
+}
+
+func (d *LinkedList) Append(element any) *LinkedList {
+	_ = d.insertNode(d.tail.Prev, element)
 	return d
 }
 
 func (d *LinkedList) AppendLeft(element any) *LinkedList {
-	previous := d.head
-	following := previous.Next
-	node := &listNode{
-		Value: element,
-		Prev:  previous,
-		Next:  following,
-	}
-	previous.Next = node
-	following.Prev = node
-	d.size++
+	_ = d.insertNode(d.head, element)
 	return d
 }
 
@@ -91,12 +87,7 @@ func (d *LinkedList) Pop() (element any, err error) {
 		err = common.ErrEmptyList
 		return
 	}
-	node := d.tail.Prev
-	previous := node.Prev
-	element = node.Value
-	previous.Next = d.tail
-	d.tail.Prev = previous
-	d.size--
+	element, _, _ = d.removeNode(d.tail.Prev)
 	return
 }
 
@@ -105,41 +96,26 @@ func (d *LinkedList) PopLeft() (element any, err error) {
 		err = common.ErrEmptyList
 		return
 	}
-	node := d.head.Next
-	following := node.Next
-	element = node.Value
-	following.Prev = d.head
-	d.head.Next = following
-	d.size--
+	element, _, _ = d.removeNode(d.head.Next)
 	return
 }
 
 func (d *LinkedList) Extend(another *LinkedList) *LinkedList {
-	for _, value := range another.ToArray() {
-		_ = d.Append(value)
+	for node := another.head.Next; node != another.tail; node = node.Next {
+		_ = d.Append(node.Value)
 	}
 	return d
 }
 
 func (d *LinkedList) ExtendLeft(another *LinkedList) *LinkedList {
-	for _, value := range another.ToArray() {
-		_ = d.AppendLeft(value)
+	for node := another.head.Next; node != another.tail; node = node.Next {
+		_ = d.AppendLeft(node.Value)
 	}
 	return d
 }
 
 func (d *LinkedList) Insert(index int, element any) *LinkedList {
-	validIndex := d.parseIndex(index)
-	following := d.getNodeByIndex(validIndex)
-	previous := following.Prev
-	node := &listNode{
-		Value: element,
-		Prev:  previous,
-		Next:  following,
-	}
-	previous.Next = node
-	following.Prev = node
-	d.size++
+	_ = d.insertNode(d.getNodeByIndex(d.parseIndex(index)-1), element)
 	return d
 }
 
@@ -151,13 +127,7 @@ func (d *LinkedList) RemoveByIndex(index int) (element any, err error) {
 	if err != nil {
 		return
 	}
-	node := d.getNodeByIndex(index)
-	element = node.Value
-	previous := node.Prev
-	following := node.Next
-	previous.Next = following
-	following.Prev = previous
-	d.size--
+	element, _, _ = d.removeNode(d.getNodeByIndex(index))
 	return
 }
 
@@ -245,38 +215,25 @@ func (d *LinkedList) ReplaceRight(oldElement, newElement any, counts ...int) *Li
 }
 
 func (d *LinkedList) Splice(start, deleteCount int, items ...any) LinkedList {
+	result := NewLinkedList()
 	if deleteCount <= 0 {
-		return *NewLinkedList()
+		return *result
 	}
-	start = d.parseIndex(start)
-	end := d.parseIndex(start + deleteCount)
-	count := end - start
-	removedValues := make([]any, count)
-	tail := d.getNodeByIndex(start)
-	head := tail.Prev
-	tail.Prev = nil
-	head.Next = nil
-	i := 0
-	d.size -= count
-	for i < count && tail.Next != nil {
-		removedValues[i] = tail.Value
-		i++
-		tail = tail.Next
-	}
-	tail.Prev.Next = nil
-	tail.Prev = nil
-	for _, item := range items {
-		head.Next = &listNode{
-			Value: item,
-			Prev:  head,
-			Next:  nil,
+	node := d.getNodeByIndex(d.parseIndex(start))
+	var value any
+	for node != d.tail {
+		if deleteCount == 0 {
+			break
 		}
-		head = head.Next
-		d.size++
+		value, _, node = d.removeNode(node)
+		_ = result.Append(value)
+		deleteCount--
 	}
-	head.Next = tail
-	tail.Prev = head
-	return *NewLinkedList(removedValues...)
+	node = node.Prev
+	for _, item := range items {
+		node = d.insertNode(node, item)
+	}
+	return *result
 }
 
 func (d *LinkedList) Fill(element any, area ...int) *LinkedList {
@@ -316,77 +273,70 @@ func (d *LinkedList) Set(index int, element any) (err error) {
 	if err != nil {
 		return
 	}
-	node := d.getNodeByIndex(index)
-	node.Value = element
+	d.getNodeByIndex(index).Value = element
 	return
 }
 
 func (d *LinkedList) RemoveIf(condition func(any) bool, counts ...int) LinkedList {
 	count := d.parseCount(counts...)
 	node := d.head.Next
-	removedValues := make([]any, count)
-	i := 0
+	result := NewLinkedList()
+	var value any
 	for count > 0 && node.Next != nil {
 		if !condition(node.Value) {
 			node = node.Next
 			continue
 		}
-		removedValues[i] = node.Value
-		i++
-		_, node = d.removeNode(node)
+		value, _, node = d.removeNode(node)
+		_ = result.Append(value)
 		count--
 	}
-	return *NewLinkedList(removedValues[:i:i]...)
+	return *result
 }
 
 func (d *LinkedList) RemoveRightIf(condition func(any) bool, counts ...int) LinkedList {
 	count := d.parseCount(counts...)
 	node := d.tail.Prev
-	removedValues := make([]any, count)
-	i := 0
+	result := NewLinkedList()
+	var value any
 	for count > 0 && node.Prev != nil {
 		if !condition(node.Value) {
 			node = node.Prev
 			continue
 		}
-		removedValues[i] = node.Value
-		i++
-		node, _ = d.removeNode(node)
+		value, node, _ = d.removeNode(node)
+		_ = result.Append(value)
 		count--
 	}
-	return *NewLinkedList(removedValues[:i:i]...)
+	return *result
 }
 
 func (d *LinkedList) ReplaceIf(condition func(any) bool, newElement any, counts ...int) LinkedList {
 	count := d.parseCount(counts...)
 	node := d.head.Next
-	replacedValues := make([]any, count)
-	i := 0
+	result := NewLinkedList()
 	for count > 0 && node.Next != nil {
 		if condition(node.Value) {
-			replacedValues[i] = node.Value
-			i++
+			_ = result.Append(node.Value)
 			node.Value = newElement
 			count--
 		}
 		node = node.Next
 	}
-	return *NewLinkedList(replacedValues[:i:i]...)
+	return *result
 }
 
 func (d *LinkedList) ReplaceRightIf(condition func(any) bool, newElement any, counts ...int) LinkedList {
 	count := d.parseCount(counts...)
 	node := d.tail.Prev
-	replacedValues := make([]any, count)
-	i := 0
+	result := NewLinkedList()
 	for count > 0 && node.Prev != nil {
 		if condition(node.Value) {
-			replacedValues[i] = node.Value
-			i++
+			result.Append(node.Value)
 			node.Value = newElement
 			count--
 		}
 		node = node.Prev
 	}
-	return *NewLinkedList(replacedValues[:i:i]...)
+	return *result
 }

@@ -1,35 +1,31 @@
 package linkedlist
 
 func NewLinkedList(elements ...any) *LinkedList {
-	head := &listNode{}
-	prev := head
-	count := 0
+	head, tail := &listNode{}, &listNode{}
+	head.Next, tail.Prev = tail, head
+	l := &LinkedList{head, tail, 0}
 	for _, element := range elements {
-		node := &listNode{
-			Value: element,
-			Prev:  prev,
-		}
-		prev.Next = node
-		prev = node
-		count++
+		_ = l.Append(element)
 	}
-	tail := &listNode{
-		Prev: prev,
-	}
-	prev.Next = tail
-	return &LinkedList{
-		head: head,
-		tail: tail,
-		size: count,
-	}
+	return l
 }
 
 func (d LinkedList) Copy() LinkedList {
-	return *NewLinkedList(d.ToArray()...)
+	backup := NewLinkedList()
+	for node := d.head.Next; node != d.tail; node = node.Next {
+		_ = backup.Append(node.Value)
+	}
+	return *backup
 }
 
 func (d LinkedList) Concat(another LinkedList) LinkedList {
-	return *NewLinkedList(append(d.ToArray(), another.ToArray()...)...)
+	result := NewLinkedList()
+	for _, l := range []LinkedList{d, another} {
+		for node := l.head.Next; node != l.tail; node = node.Next {
+			_ = result.Append(node.Value)
+		}
+	}
+	return *result
 }
 
 func (d LinkedList) Slice(args ...int) LinkedList {
@@ -52,42 +48,24 @@ func (d LinkedList) Slice(args ...int) LinkedList {
 	if (start < end && step < 0) || (start > end && step > 0) || (start == end) || (step == 0) {
 		return *NewLinkedList()
 	}
-	i := 0
-	var values []any
-	var node *listNode
-	if d.size-1-start < start {
-		node = d.tail
-		reverseIndex := start - d.size
-		for reverseIndex < 0 {
-			reverseIndex++
-			node = node.Prev
-		}
-	} else {
-		node = d.head.Next
-		for i := 0; i < start; i++ {
-			node = node.Next
-		}
-	}
+	result := NewLinkedList()
+	node := d.getNodeByIndex(start)
 	if step < 0 {
-		values = make([]any, (start-end-step-1)/(-step))
-		for j := start; j > end; j += step {
-			values[i] = node.Value
-			i++
-			for k := 0; k > step; k-- {
+		for i := start; i > end && node != nil; i += step {
+			_ = result.Append(node.Value)
+			for j := 0; j > step && node != nil; j-- {
 				node = node.Prev
 			}
 		}
 	} else {
-		values = make([]any, (end-start+step-1)/step)
-		for j := start; j < end; j += step {
-			values[i] = node.Value
-			i++
-			for k := 0; k < step; k++ {
+		for i := start; i < end && node != nil; i += step {
+			_ = result.Append(node.Value)
+			for j := 0; j < step && node != nil; j++ {
 				node = node.Next
 			}
 		}
 	}
-	return *NewLinkedList(values...)
+	return *result
 }
 
 func (d LinkedList) ToSpliced(start, deleteCount int, items ...any) LinkedList {

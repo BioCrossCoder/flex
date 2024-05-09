@@ -3,11 +3,11 @@ package linkedlist
 import "flex/common"
 
 func (d LinkedList) Map(handler func(any) any) LinkedList {
-	list := d.ToArray()
-	for i, item := range list {
-		list[i] = handler(item)
+	result := NewLinkedList()
+	for node := d.head.Next; node != d.tail; node = node.Next {
+		_ = result.Append(handler(node.Value))
 	}
-	return *NewLinkedList(list...)
+	return *result
 }
 
 func (d LinkedList) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
@@ -20,16 +20,15 @@ func (d LinkedList) Reduce(handler func(any, any) any, initial ...any) (result a
 		err = common.ErrTooManyArguments
 		return
 	}
-	list := d.ToArray()
-	startIndex := 0
+	startNode := d.head.Next
 	if initialCount == 0 {
-		result = list[startIndex]
-		startIndex++
+		result = startNode.Value
+		startNode = startNode.Next
 	} else {
 		result = initial[0]
 	}
-	for i := startIndex; i < d.Len(); i++ {
-		result = handler(result, list[i])
+	for node := startNode; node != d.tail; node = node.Next {
+		result = handler(result, node.Value)
 	}
 	return
 }
@@ -44,28 +43,27 @@ func (d LinkedList) ReduceRight(handler func(any, any) any, initial ...any) (res
 		err = common.ErrTooManyArguments
 		return
 	}
-	list := d.ToArray()
-	startIndex := d.Len() - 1
+	startNode := d.tail.Prev
 	if initialCount == 0 {
-		result = list[startIndex]
-		startIndex--
+		result = startNode.Value
+		startNode = startNode.Prev
 	} else {
 		result = initial[0]
 	}
-	for i := startIndex; i >= 0; i-- {
-		result = handler(result, list[i])
+	for node := startNode; node != d.head; node = node.Prev {
+		result = handler(result, node.Value)
 	}
 	return
 }
 
 func (d LinkedList) Filter(condition func(any) bool) LinkedList {
-	values := make([]any, 0)
+	result := NewLinkedList()
 	for node := d.head.Next; node != d.tail; node = node.Next {
 		if condition(node.Value) {
-			values = append(values, node.Value)
+			_ = result.Append(node.Value)
 		}
 	}
-	return *NewLinkedList(values...)
+	return *result
 }
 
 func (d LinkedList) Some(condition func(any) bool) bool {
