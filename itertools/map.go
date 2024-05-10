@@ -54,64 +54,12 @@ func (iter *listConvertor) Pour() any {
 	return output
 }
 
-type mapConvertor struct {
-	entryKeys   []any
-	entryValues []any
-	length      int
-	handler     func(any) any
-	pointer     int
-	value       any
-}
-
-func NewMapConvertor(entry map[any]any, handler func(any) any) Iterator {
-	keys, values, length := common.ConvertMapToLists(entry)
-	return &mapConvertor{
-		entryKeys:   keys,
-		entryValues: values,
-		length:      length,
-		handler:     handler,
-		pointer:     0,
-		value:       nil,
-	}
-}
-
-func (iter *mapConvertor) clear() {
-	iter.value = nil
-	iter.entryKeys = nil
-	iter.entryValues = nil
-	iter.handler = nil
-}
-
-func (iter *mapConvertor) Next() bool {
-	if iter.pointer == iter.length {
-		iter.clear()
-		return false
-	}
-	iter.value = iter.handler(iter.entryValues[iter.pointer])
-	iter.pointer++
-	return true
-}
-
-func (iter *mapConvertor) Value() any {
-	return iter.value
-}
-
-func (iter *mapConvertor) Pour() any {
-	length := iter.length - iter.pointer
-	output := make(map[any]any, length)
-	for iter.Next() {
-		key := iter.entryKeys[iter.pointer-1]
-		output[key] = iter.Value()
-	}
-	return output
-}
-
 func Map(handler, entry any) (iterator Iterator, err error) {
 	err = common.IsInputFuncValid(handler, 1, 1)
 	if err != nil {
 		return
 	}
-	err = common.IsIterable(entry)
+	err = common.IsSequence(entry)
 	if err != nil {
 		return
 	}
@@ -126,8 +74,6 @@ func Map(handler, entry any) (iterator Iterator, err error) {
 		iterator = NewListConvertor(common.CopyList(value, length), iterHandler)
 	case reflect.String:
 		iterator = NewListConvertor(common.ConvertStringToList(entry.(string)), iterHandler)
-	case reflect.Map:
-		iterator = NewMapConvertor(common.CopyMap(value, length), iterHandler)
 	}
 	return
 }

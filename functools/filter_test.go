@@ -31,18 +31,4 @@ func TestFilter(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, expected, actual)
 	})
-	convey.Convey("Call Filter on [map]", t, func() {
-		m := map[string]string{
-			"zero": "0",
-			"one":  "1",
-			"two":  "2",
-		}
-		expected := map[any]any{
-			"one": "1",
-			"two": "2",
-		}
-		actual, err := Filter(f, m)
-		assert.Nil(t, err)
-		assert.Equal(t, expected, actual)
-	})
 }

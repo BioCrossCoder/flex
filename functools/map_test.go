@@ -11,20 +11,6 @@ func TestMap(t *testing.T) {
 	f := func(a string) string {
 		return a + a
 	}
-	convey.Convey("Call Map on [map]", t, func() {
-		m := map[int]string{
-			1: "one",
-			2: "two",
-		}
-		result, err := Map(f, m)
-		assert.Nil(t, err)
-		output, isMap := result.(map[any]any)
-		assert.True(t, isMap)
-		assert.Equal(t, len(output), len(m))
-		for k, v := range output {
-			assert.Equal(t, f(m[k.(int)]), v)
-		}
-	})
 	convey.Convey("Call Map on [slice]", t, func() {
 		s := []string{"1", "2", "3"}
 		result, err := Map(f, s)

@@ -32,42 +32,12 @@ func (iter *listFilter) Pour() any {
 	return output
 }
 
-type mapFilter struct {
-	mapConvertor
-}
-
-func NewMapFilter(entry map[any]any, handler func(any) bool) Iterator {
-	keys, values, length := common.ConvertMapToLists(entry)
-	iter := new(mapFilter)
-	iter.entryKeys = keys
-	iter.entryValues = values
-	iter.length = length
-	iter.handler = func(p any) any {
-		return handler(p)
-	}
-	iter.pointer = 0
-	iter.value = false
-	return iter
-}
-
-func (iter *mapFilter) Pour() any {
-	output := make(map[any]any)
-	for iter.Next() {
-		if iter.Value().(bool) {
-			key := iter.entryKeys[iter.pointer-1]
-			value := iter.entryValues[iter.pointer-1]
-			output[key] = value
-		}
-	}
-	return output
-}
-
 func Filter(handler, entry any) (iterator Iterator, err error) {
 	err = common.IsJudgeFunc(handler)
 	if err != nil {
 		return
 	}
-	err = common.IsIterable(entry)
+	err = common.IsSequence(entry)
 	if err != nil {
 		return
 	}
@@ -82,8 +52,6 @@ func Filter(handler, entry any) (iterator Iterator, err error) {
 		iterator = NewListFilter(common.CopyList(value, length), iterHandler)
 	case reflect.String:
 		iterator = NewListFilter(common.ConvertStringToList(entry.(string)), iterHandler)
-	case reflect.Map:
-		iterator = NewMapFilter(common.CopyMap(value, length), iterHandler)
 	}
 	return
 }

@@ -20,17 +20,3 @@ func TestListFilter(t *testing.T) {
 		assert.Nil(t, iterator.Value())
 	})
 }
-
-func TestMapFilter(t *testing.T) {
-	convey.Convey("filter all", t, func() {
-		entry := map[any]any{
-			1: "one",
-			2: "two",
-		}
-		iterator := NewMapFilter(entry, pass)
-		result := iterator.Pour()
-		assert.Equal(t, entry, result)
-		assert.False(t, iterator.Next())
-		assert.Nil(t, iterator.Value())
-	})
-}
