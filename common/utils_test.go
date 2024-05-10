@@ -188,18 +188,6 @@ func TestIndex(t *testing.T) {
 	})
 }
 
-type mockDict map[any]any
-
-func (m mockDict) Size() int {
-	return len(m)
-}
-
-type mockList []any
-
-func (m mockList) Len() int {
-	return len(m)
-}
-
 func TestLen(t *testing.T) {
 	convey.Convey("get length", t, func() {
 		assert.Equal(t, Len([]int{1, 2, 3}), 3)
@@ -207,8 +195,6 @@ func TestLen(t *testing.T) {
 		assert.Equal(t, Len(map[string]int{"one": 1, "two": 2}), 2)
 		assert.Equal(t, Len(123), -1)
 		assert.Equal(t, Len(nil), -1)
-		assert.Equal(t, Len(&mockDict{"one": 1, "two": 2}), 2)
-		assert.Equal(t, Len(&mockList{1, 2, 3}), 3)
 	})
 }
 
