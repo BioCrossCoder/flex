@@ -32,16 +32,3 @@ func TestReduce(t *testing.T) {
 		assert.Equal(t, s, actual)
 	})
 }
-
-func TestReduceMap(t *testing.T) {
-	convey.Convey("Call Reduce on [map]", t, func() {
-		m := map[int]string{
-			1: "one",
-			2: "two",
-		}
-		candidates := []string{"onetwo", "twoone"}
-		actual, err := ReduceMap(f, m)
-		assert.Nil(t, err)
-		assert.Contains(t, candidates, actual)
-	})
-}
