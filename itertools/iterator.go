@@ -1,6 +1,6 @@
 package itertools
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 type Iterator interface {
 	Next() bool

@@ -1,8 +1,8 @@
 package collections
 
 import (
-	"flex/typed/collections/arraylist"
-	"flex/typed/collections/set"
+	"github.com/biocrosscoder/flex/typed/collections/arraylist"
+	"github.com/biocrosscoder/flex/typed/collections/set"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"math"

@@ -1,6 +1,6 @@
 package queue
 
-import "flex/collections/linkedlist"
+import "github.com/biocrosscoder/flex/collections/linkedlist"
 
 type Queue interface {
 	Enqueue(element any) (ok bool)

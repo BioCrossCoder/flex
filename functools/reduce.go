@@ -1,7 +1,7 @@
 package functools
 
 import (
-	"flex/itertools"
+	"github.com/biocrosscoder/flex/itertools"
 )
 
 func Reduce(handler, entry any) (output any, err error) {

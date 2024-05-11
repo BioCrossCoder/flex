@@ -1,7 +1,7 @@
 package sortedlist
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 	"slices"
 )
 

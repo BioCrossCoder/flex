@@ -1,6 +1,6 @@
 package linkedlist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 type listNode[T any] struct {
 	Value T

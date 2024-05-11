@@ -1,7 +1,7 @@
 package arraylist
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 	"slices"
 )
 

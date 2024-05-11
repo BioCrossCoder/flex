@@ -1,8 +1,8 @@
 package dict
 
 import (
-	"flex/collections/set"
-	"flex/common"
+	"github.com/biocrosscoder/flex/collections/set"
+	"github.com/biocrosscoder/flex/common"
 )
 
 func (d Dict) Has(key any) bool {

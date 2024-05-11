@@ -2,7 +2,7 @@ package collections
 
 import (
 	"encoding/json"
-	"flex/collections/dict"
+	"github.com/biocrosscoder/flex/collections/dict"
 	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"

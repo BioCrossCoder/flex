@@ -1,7 +1,7 @@
 package queue
 
 import (
-	"flex/typed/collections/linkedlist"
+	"github.com/biocrosscoder/flex/typed/collections/linkedlist"
 )
 
 type Queue[T any] interface {

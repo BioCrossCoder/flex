@@ -1,6 +1,6 @@
 package functools
 
-import "flex/itertools"
+import "github.com/biocrosscoder/flex/itertools"
 
 func Filter(handler, entry any) (output any, err error) {
 	iterator, err := itertools.Filter(handler, entry)

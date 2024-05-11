@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 )
 
 func (d LinkedList[T]) parseCount(counts ...int) int {

@@ -1,6 +1,6 @@
 package arraylist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (l ArrayList[T]) Map(handler func(T) T) ArrayList[T] {
 	list := make(ArrayList[T], l.Len())

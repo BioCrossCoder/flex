@@ -1,6 +1,6 @@
 package collections
 
-import "flex/collections/dict"
+import "github.com/biocrosscoder/flex/collections/dict"
 
 type ChainMap struct {
 	items  *dict.Dict

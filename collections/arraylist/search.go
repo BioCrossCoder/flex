@@ -1,6 +1,6 @@
 package arraylist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (l ArrayList) IndexOf(element any) (index int) {
 	index = -1

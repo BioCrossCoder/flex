@@ -1,7 +1,7 @@
 package set
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 )
 
 func (s *Set) Add(element any) *Set {

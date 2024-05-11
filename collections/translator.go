@@ -1,8 +1,8 @@
 package collections
 
 import (
-	"flex/collections/dict"
-	"flex/common"
+	"github.com/biocrosscoder/flex/collections/dict"
+	"github.com/biocrosscoder/flex/common"
 	"strings"
 )
 

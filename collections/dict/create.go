@@ -1,6 +1,6 @@
 package dict
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (d Dict) Copy() Dict {
 	backup := make(Dict, common.GetMapInitialCapacity(d.Size()))

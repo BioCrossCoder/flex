@@ -2,7 +2,7 @@ package queue
 
 import (
 	"container/heap"
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 )
 
 type PriorityQueue interface {

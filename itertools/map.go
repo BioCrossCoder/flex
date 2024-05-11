@@ -1,7 +1,7 @@
 package itertools
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 	"reflect"
 )
 

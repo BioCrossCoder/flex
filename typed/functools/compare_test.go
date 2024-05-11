@@ -1,7 +1,7 @@
 package functools
 
 import (
-	"flex/typed/collections/sortedcontainers/sortedlist"
+	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"

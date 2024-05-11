@@ -1,6 +1,6 @@
 package linkedlist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (d LinkedList) IndexOf(element any) (index int) {
 	index = -1

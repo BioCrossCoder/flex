@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 )
 
 type listNode struct {

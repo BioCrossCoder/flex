@@ -2,9 +2,9 @@ package orderedcontainers
 
 import (
 	"encoding/json"
-	"flex/common"
-	"flex/typed/collections/arraylist"
-	"flex/typed/collections/set"
+	"github.com/biocrosscoder/flex/common"
+	"github.com/biocrosscoder/flex/typed/collections/arraylist"
+	"github.com/biocrosscoder/flex/typed/collections/set"
 	"fmt"
 	"strings"
 )

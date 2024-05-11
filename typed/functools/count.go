@@ -1,7 +1,7 @@
 package functools
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 )
 
 func Count[T any](entry []T, value T) (count int) {

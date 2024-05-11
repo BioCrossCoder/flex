@@ -1,6 +1,6 @@
 package itertools
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 type ZipIterator[T, U any] interface {
 	Next() bool

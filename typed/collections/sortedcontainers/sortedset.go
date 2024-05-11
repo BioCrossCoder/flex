@@ -2,9 +2,9 @@ package sortedcontainers
 
 import (
 	"cmp"
-	"flex/common"
-	"flex/typed/collections/set"
-	"flex/typed/collections/sortedcontainers/sortedlist"
+	"github.com/biocrosscoder/flex/common"
+	"github.com/biocrosscoder/flex/typed/collections/set"
+	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist"
 )
 
 type SortedSet[T cmp.Ordered] struct {

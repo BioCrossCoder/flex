@@ -1,10 +1,10 @@
 package queue
 
 import (
-	"flex/common"
-	"flex/typed/collections/dict"
-	"flex/typed/collections/sortedcontainers"
-	"flex/typed/collections/sortedcontainers/sortedlist"
+	"github.com/biocrosscoder/flex/common"
+	"github.com/biocrosscoder/flex/typed/collections/dict"
+	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers"
+	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist"
 )
 
 type PriorityQueue[T any] interface {

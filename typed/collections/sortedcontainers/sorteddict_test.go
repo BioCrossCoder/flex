@@ -1,7 +1,7 @@
 package sortedcontainers
 
 import (
-	"flex/typed/collections/dict"
+	"github.com/biocrosscoder/flex/typed/collections/dict"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"

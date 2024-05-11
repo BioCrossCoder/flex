@@ -1,6 +1,6 @@
 package dict
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (d *Dict) Clear() *Dict {
 	*d = make(Dict)

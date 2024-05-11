@@ -1,6 +1,6 @@
 package linkedlist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (d LinkedList[T]) Map(handler func(T) T) LinkedList[T] {
 	result := NewLinkedList[T]()

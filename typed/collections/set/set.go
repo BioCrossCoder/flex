@@ -1,6 +1,6 @@
 package set
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 type Set[T comparable] map[T]bool
 

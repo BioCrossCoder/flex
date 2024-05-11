@@ -1,8 +1,8 @@
 package functools
 
 import (
-	"flex/common"
-	"flex/itertools"
+	"github.com/biocrosscoder/flex/common"
+	"github.com/biocrosscoder/flex/itertools"
 	"reflect"
 )
 

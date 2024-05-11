@@ -1,7 +1,7 @@
 package dict
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 	"maps"
 )
 

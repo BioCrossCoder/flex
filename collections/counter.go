@@ -1,9 +1,9 @@
 package collections
 
 import (
-	"flex/collections/arraylist"
-	"flex/collections/dict"
-	"flex/collections/set"
+	"github.com/biocrosscoder/flex/collections/arraylist"
+	"github.com/biocrosscoder/flex/collections/dict"
+	"github.com/biocrosscoder/flex/collections/set"
 	"math"
 )
 

@@ -2,7 +2,7 @@ package sortedlist
 
 import (
 	"cmp"
-	"flex/typed/collections/arraylist"
+	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"slices"
 )
 

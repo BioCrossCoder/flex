@@ -1,7 +1,7 @@
 package collections
 
 import (
-	"flex/collections/dict"
+	"github.com/biocrosscoder/flex/collections/dict"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"

@@ -1,7 +1,7 @@
 package dict
 
 import (
-	"flex/common"
+	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"

@@ -1,6 +1,6 @@
 package arraylist
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func (l ArrayList) parseCount(counts ...int) int {
 	if len(counts) == 0 {

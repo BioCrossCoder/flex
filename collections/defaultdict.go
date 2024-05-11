@@ -2,8 +2,8 @@ package collections
 
 import (
 	"encoding/json"
-	"flex/collections/dict"
-	"flex/common"
+	"github.com/biocrosscoder/flex/collections/dict"
+	"github.com/biocrosscoder/flex/common"
 	"fmt"
 )
 

@@ -1,8 +1,8 @@
 package queue
 
 import (
-	"flex/common"
-	"flex/typed/collections/arraylist"
+	"github.com/biocrosscoder/flex/common"
+	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 )
 
 type loopQueue[T any] struct {

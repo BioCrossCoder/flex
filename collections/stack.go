@@ -1,6 +1,6 @@
 package collections
 
-import "flex/collections/linkedlist"
+import "github.com/biocrosscoder/flex/collections/linkedlist"
 
 type Stack interface {
 	Push(element any) (ok bool)

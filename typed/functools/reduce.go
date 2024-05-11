@@ -1,6 +1,6 @@
 package functools
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func Reduce[T any](handler func(T, T) T, entry []T, initial ...T) (result T, err error) {
 	entryLength := len(entry)

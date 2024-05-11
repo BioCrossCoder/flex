@@ -1,6 +1,6 @@
 package functools
 
-import "flex/common"
+import "github.com/biocrosscoder/flex/common"
 
 func Map[E, R any](handler func(E) R, entry []E) []R {
 	output := make([]R, len(entry))

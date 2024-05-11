@@ -1,6 +1,6 @@
 package collections
 
-import "flex/typed/collections/dict"
+import "github.com/biocrosscoder/flex/typed/collections/dict"
 
 type ChainMap[K comparable, V any] struct {
 	items  *dict.Dict[K, V]

@@ -1,8 +1,8 @@
 package queue
 
 import (
-	"flex/collections/arraylist"
-	"flex/common"
+	"github.com/biocrosscoder/flex/collections/arraylist"
+	"github.com/biocrosscoder/flex/common"
 )
 
 type loopQueue struct {

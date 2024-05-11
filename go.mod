@@ -1,6 +1,6 @@
-module flex
+module github.com/biocrosscoder/flex
 
-go 1.22.2
+go 1.21.0
 
 require (
 	github.com/smartystreets/goconvey v1.8.1

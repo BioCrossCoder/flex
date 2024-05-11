@@ -1,7 +1,7 @@
 package linkedlist
 
 import (
-	"flex/collections/arraylist"
+	"github.com/biocrosscoder/flex/collections/arraylist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
