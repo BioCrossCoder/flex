@@ -57,17 +57,6 @@ func IsSequence(entry any) error {
 	return ErrNotSeq
 }
 
-// IsIterable checks if the input parameter is array, slice, map or string.
-func IsIterable(entry any) error {
-	entryType := reflect.TypeOf(entry).Kind()
-	for _, v := range IterableContainers {
-		if entryType == v {
-			return nil
-		}
-	}
-	return ErrNotIterable
-}
-
 // CopyMap copies the map to a new map with the given capcacity.
 func CopyMap(entry reflect.Value, capacity int) (output map[any]any) {
 	output = make(map[any]any, capacity)

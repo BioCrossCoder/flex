@@ -86,29 +86,6 @@ func TestIsSequence(t *testing.T) {
 	})
 }
 
-func TestIsIterable(t *testing.T) {
-	convey.Convey("slice", t, func() {
-		err := IsIterable([]int{})
-		assert.Nil(t, err)
-	})
-	convey.Convey("array", t, func() {
-		err := IsIterable([3]int{1, 2, 3})
-		assert.Nil(t, err)
-	})
-	convey.Convey("map", t, func() {
-		err := IsIterable(map[string]int{})
-		assert.Nil(t, err)
-	})
-	convey.Convey("string", t, func() {
-		err := IsIterable("hello")
-		assert.Nil(t, err)
-	})
-	convey.Convey("not iterable", t, func() {
-		err := IsIterable(123)
-		assert.Equal(t, ErrNotIterable, err)
-	})
-}
-
 func TestCopyMap(t *testing.T) {
 	convey.Convey("copy map", t, func() {
 		entry := map[string]int{
