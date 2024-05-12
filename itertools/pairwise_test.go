@@ -14,8 +14,8 @@ func TestPairWise(t *testing.T) {
 		iter, err := PairWise(entry)
 		assert.Nil(t, err)
 		assert.Equal(t, []any{
-			[]any{1, 2},
-			[]any{2, 3},
+			[2]any{1, 2},
+			[2]any{2, 3},
 		}, iter.Pour())
 	})
 	convey.Convey("pair string", t, func() {
@@ -23,10 +23,10 @@ func TestPairWise(t *testing.T) {
 		iter, err := PairWise(entry)
 		assert.Nil(t, err)
 		assert.Equal(t, []any{
-			[]any{"h", "e"},
-			[]any{"e", "l"},
-			[]any{"l", "l"},
-			[]any{"l", "o"},
+			[2]any{"h", "e"},
+			[2]any{"e", "l"},
+			[2]any{"l", "l"},
+			[2]any{"l", "o"},
 		}, iter.Pour())
 	})
 	convey.Convey("not a sequence", t, func() {
