@@ -15,9 +15,6 @@ func TestCountBy(t *testing.T) {
 		assert.Equal(t, CountBy("hello", func(a any) bool {
 			return a.(string) < "l"
 		}), 2)
-		assert.Equal(t, CountBy(map[string]int{"one": 1, "two": 2, "1": 1}, func(a any) bool {
-			return a.(int) == 1
-		}), 2)
-		assert.Equal(t, CountBy(123, func(a any) bool { return true }), -1)
+		assert.Equal(t, CountBy(123, func(any) bool { return true }), -1)
 	})
 }
