@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (

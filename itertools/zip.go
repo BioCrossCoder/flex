@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -6,6 +7,7 @@ import (
 	"unicode/utf8"
 )
 
+// zipIterator is an iterator that iterates over a list of lists.
 type zipIterator struct {
 	entries [][]any
 	length  int
@@ -14,6 +16,7 @@ type zipIterator struct {
 	count   int
 }
 
+// NewZipIterator creates a new zipIterator.
 func NewZipIterator(entries [][]any, length int) Iterator {
 	return &zipIterator{
 		entries: entries,
@@ -24,11 +27,13 @@ func NewZipIterator(entries [][]any, length int) Iterator {
 	}
 }
 
+// clear releases the resources used by the iterator.
 func (iter *zipIterator) clear() {
 	iter.entries = nil
 	iter.value = nil
 }
 
+// Next moves the iterator to the next position.
 func (iter *zipIterator) Next() bool {
 	if iter.pointer == iter.length {
 		iter.clear()
@@ -43,10 +48,12 @@ func (iter *zipIterator) Next() bool {
 	return true
 }
 
+// Value returns the current value of the iterator.
 func (iter *zipIterator) Value() any {
 	return iter.value
 }
 
+// Pour returns all remaining values of the iterator.
 func (iter *zipIterator) Pour() any {
 	length := iter.length - iter.pointer
 	output := make([]any, length)
@@ -58,10 +65,11 @@ func (iter *zipIterator) Pour() any {
 	return output
 }
 
+// Zip creates an iterator that iterates over the elements of the given sequences in parallel, and the iteration will end when the shortest input sequence is exhausted.
 func Zip(entries ...any) (iterator Iterator, err error) {
 	entryCount := len(entries)
-	if entryCount < 2 {
-		err = common.ErrIllegalParamCount
+	if entryCount < 2 { //nolint
+		err = common.ErrUnexpectedParamCount
 		return
 	}
 	entryLength := -1
@@ -74,7 +82,7 @@ func Zip(entries ...any) (iterator Iterator, err error) {
 		value := reflect.ValueOf(entry)
 		var length int
 		if value.Kind() == reflect.String {
-			length = utf8.RuneCountInString(entry.(string))
+			length = utf8.RuneCountInString(value.String())
 		} else {
 			length = value.Len()
 		}
@@ -84,7 +92,7 @@ func Zip(entries ...any) (iterator Iterator, err error) {
 			entryLength = length
 		}
 		if value.Kind() == reflect.String {
-			iterEntries[i] = common.ConvertStringToList(entry.(string))
+			iterEntries[i] = common.ConvertStringToList(value.String())
 		} else {
 			iterEntries[i] = common.CopyList(value, length)
 		}
@@ -93,10 +101,11 @@ func Zip(entries ...any) (iterator Iterator, err error) {
 	return
 }
 
+// ZipLongest creates an iterator that iterates over the elements of the given sequences in parallel, and the iteration will end when the longest input sequence is exhausted, filling missing values with nil.
 func ZipLongest(entries ...any) (iterator Iterator, err error) {
 	entryCount := len(entries)
-	if entryCount < 2 {
-		err = common.ErrIllegalParamCount
+	if entryCount < 2 { //nolint
+		err = common.ErrUnexpectedParamCount
 		return
 	}
 	entryLength := 0
@@ -109,7 +118,7 @@ func ZipLongest(entries ...any) (iterator Iterator, err error) {
 		value := reflect.ValueOf(entry)
 		var length int
 		if value.Kind() == reflect.String {
-			length = utf8.RuneCountInString(entry.(string))
+			length = utf8.RuneCountInString(value.String())
 		} else {
 			length = value.Len()
 		}
@@ -123,7 +132,7 @@ func ZipLongest(entries ...any) (iterator Iterator, err error) {
 		var list []any
 		var tailLength int
 		if value.Kind() == reflect.String {
-			list = common.ConvertStringToList(entry.(string))
+			list = common.ConvertStringToList(value.String())
 			tailLength = entryLength - len(list)
 		} else {
 			list = common.CopyList(value, value.Len())

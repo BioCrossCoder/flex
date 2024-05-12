@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -5,6 +6,7 @@ import (
 	"reflect"
 )
 
+// DropWhile returns an iterator that drops elements from the iterable as long as the condition is true.
 func DropWhile(condition func(any) bool, entry any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {
@@ -22,6 +24,7 @@ func DropWhile(condition func(any) bool, entry any) (iterator Iterator, err erro
 	return
 }
 
+// TakeWhile returns an iterator that takes elements from the iterable as long as the condition is true.
 func TakeWhile(condition func(any) bool, entry any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {

@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -6,7 +7,7 @@ import (
 	"testing"
 )
 
-func pass(data any) bool {
+func pass(any) bool {
 	return true
 }
 

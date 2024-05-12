@@ -133,7 +133,7 @@ func (z *zipListIterator[T]) Pour() [][]T {
 func Zip[T any](entries ...[]T) (iterator ListIterator[[]T], err error) {
 	entryCount := len(entries)
 	if entryCount < 2 {
-		err = common.ErrIllegalParamCount
+		err = common.ErrUnexpectedParamCount
 		return
 	}
 	length := len(entries[0])
@@ -147,7 +147,7 @@ func Zip[T any](entries ...[]T) (iterator ListIterator[[]T], err error) {
 func ZipLongest[T any](entries ...[]T) (iterator ListIterator[[]T], err error) {
 	entryCount := len(entries)
 	if entryCount < 2 {
-		err = common.ErrIllegalParamCount
+		err = common.ErrUnexpectedParamCount
 		return
 	}
 	length := len(entries[0])

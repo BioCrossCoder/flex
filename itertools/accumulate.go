@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -5,6 +6,7 @@ import (
 	"reflect"
 )
 
+// accumulator is an iterator that accumulates the results of applying a function to the elements of an iterable.
 type accumulator struct {
 	entry   []any
 	length  int
@@ -13,6 +15,7 @@ type accumulator struct {
 	value   any
 }
 
+// NewAccumulator creates a new accumulator iterator from a slice of elements and a function to apply to each pair of elements.
 func NewAccumulator(entry []any, handler func(any, any) any) Iterator {
 	return &accumulator{
 		entry:   entry,
@@ -23,12 +26,14 @@ func NewAccumulator(entry []any, handler func(any, any) any) Iterator {
 	}
 }
 
+// clear release the resources used by the iterator.
 func (iter *accumulator) clear() {
 	iter.value = nil
 	iter.entry = nil
 	iter.handler = nil
 }
 
+// Next moves the pointer to the next element and returns true if there is a next element, or just return false if there is no next element.
 func (iter *accumulator) Next() bool {
 	if iter.pointer == iter.length {
 		iter.clear()
@@ -39,10 +44,12 @@ func (iter *accumulator) Next() bool {
 	return true
 }
 
+// Value returns the current value of the iterator element pointed by the pointer.
 func (iter *accumulator) Value() any {
 	return iter.value
 }
 
+// Pour returns the accumulated result of applying the function to all the unvisited elements of the iterator.
 func (iter *accumulator) Pour() any {
 	result := iter.Value()
 	for iter.Next() {
@@ -51,8 +58,9 @@ func (iter *accumulator) Pour() any {
 	return result
 }
 
+// Accumulate applies a function to the elements of an iterable and returns an iterator that accumulates the results.
 func Accumulate(handler, entry any) (iterator Iterator, err error) {
-	err = common.IsInputFuncValid(handler, 2, 1)
+	err = common.IsInputFuncValid(handler, 2, 1) //nolint
 	if err != nil {
 		return
 	}
@@ -65,11 +73,11 @@ func Accumulate(handler, entry any) (iterator Iterator, err error) {
 		params := []reflect.Value{reflect.ValueOf(p1), reflect.ValueOf(p2)}
 		return reflect.ValueOf(handler).Call(params)[0].Interface()
 	}
-	switch value.Kind() {
+	switch value.Kind() { //nolint
 	case reflect.Array, reflect.Slice:
 		iterator = NewAccumulator(common.CopyList(value, value.Len()), iterHandler)
 	case reflect.String:
-		iterator = NewAccumulator(common.ConvertStringToList(entry.(string)), iterHandler)
+		iterator = NewAccumulator(common.ConvertStringToList(value.String()), iterHandler)
 	}
 	return
 }

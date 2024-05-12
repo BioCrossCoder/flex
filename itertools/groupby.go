@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -5,6 +6,7 @@ import (
 	"reflect"
 )
 
+// GroupBy groups the elements of the given list by the given key function and returns an iterator of groups.
 func GroupBy(entry any, by func(any) any) (iterator Iterator, err error) {
 	err = common.IsList(entry)
 	if err != nil {

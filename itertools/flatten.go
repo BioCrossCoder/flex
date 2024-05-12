@@ -1,3 +1,4 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 import (
@@ -5,6 +6,7 @@ import (
 	"reflect"
 )
 
+// Flatten takes a list of lists and flattens it into a single list.
 func Flatten(entry any) (output []any, err error) {
 	err = common.IsList(entry)
 	if err != nil {

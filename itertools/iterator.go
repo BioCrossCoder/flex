@@ -32,7 +32,7 @@ func (iter *listIterator) clear() {
 	iter.entry = nil
 }
 
-// Next moves the iterator to the next element and returns true if there is a next element.
+// Next moves the pointer to the next element and returns true if there is a next element or false otherwise.
 func (iter *listIterator) Next() bool {
 	if iter.pointer == iter.length {
 		iter.clear()

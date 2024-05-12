@@ -1,10 +1,11 @@
 package itertools
 
 import (
+	"testing"
+
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestZip(t *testing.T) {
@@ -20,7 +21,7 @@ func TestZip(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, expected, result.Pour())
 		result, err = Zip(arr1)
-		assert.Equal(t, common.ErrIllegalParamCount, err)
+		assert.Equal(t, common.ErrUnexpectedParamCount, err)
 		assert.Nil(t, result)
 	})
 }
@@ -39,7 +40,7 @@ func TestZipLongest(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, expected, result.Pour())
 		result, err = ZipLongest(arr1)
-		assert.Equal(t, common.ErrIllegalParamCount, err)
+		assert.Equal(t, common.ErrUnexpectedParamCount, err)
 		assert.Nil(t, result)
 	})
 }
