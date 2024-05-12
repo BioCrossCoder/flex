@@ -1,3 +1,4 @@
+// Package common contains common constants, functions and errors used throughout the flex codebase.
 package common
 
 import (
@@ -21,9 +22,9 @@ func TestIsInputFuncValid(t *testing.T) {
 	})
 	convey.Convey("invalid func", t, func() {
 		err := IsInputFuncValid(entry, 0, 1)
-		assert.Equal(t, ErrIllegalParamCount, err)
+		assert.Equal(t, ErrUnexpectedParamCount, err)
 		err = IsInputFuncValid(entry, 1, 0)
-		assert.Equal(t, ErrIllegalReturnCount, err)
+		assert.Equal(t, ErrUnexpectedReturnCount, err)
 	})
 }
 

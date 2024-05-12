@@ -1,3 +1,4 @@
+// Package common contains common constants, functions and errors used throughout the flex codebase.
 package common
 
 import (
@@ -7,20 +8,22 @@ import (
 	"unicode/utf8"
 )
 
+// IsInputFuncValid checks if the input parameter is a valid function and if it has the expected number of input and output parameters.
 func IsInputFuncValid(f any, inputCount, outputCount int) error {
 	fType := reflect.TypeOf(f)
 	if fType.Kind() != reflect.Func {
 		return ErrNotFunc
 	}
 	if fType.NumIn() != inputCount {
-		return ErrIllegalParamCount
+		return ErrUnexpectedParamCount
 	}
 	if fType.NumOut() != outputCount {
-		return ErrIllegalReturnCount
+		return ErrUnexpectedReturnCount
 	}
 	return nil
 }
 
+// IsJudgeFunc checks if the input parameter is a function expected to return a boolean value.
 func IsJudgeFunc(f any) (err error) {
 	err = IsInputFuncValid(f, 1, 1)
 	if err != nil {
@@ -32,6 +35,7 @@ func IsJudgeFunc(f any) (err error) {
 	return
 }
 
+// IsList checks if the input parameter is array or slice.
 func IsList(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
 	for _, v := range ArrayType {
@@ -42,6 +46,7 @@ func IsList(entry any) error {
 	return ErrNotList
 }
 
+// IsSequence checks if the input parameter is array, slice or string.
 func IsSequence(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
 	for _, v := range SequenceType {
@@ -52,6 +57,7 @@ func IsSequence(entry any) error {
 	return ErrNotSeq
 }
 
+// IsIterable checks if the input parameter is array, slice, map or string.
 func IsIterable(entry any) error {
 	entryType := reflect.TypeOf(entry).Kind()
 	for _, v := range IterableContainers {
@@ -62,8 +68,9 @@ func IsIterable(entry any) error {
 	return ErrNotIterable
 }
 
-func CopyMap(entry reflect.Value, length int) (output map[any]any) {
-	output = make(map[any]any, length)
+// CopyMap copies the map to a new map with the given capcacity.
+func CopyMap(entry reflect.Value, capacity int) (output map[any]any) {
+	output = make(map[any]any, capacity)
 	iter := entry.MapRange()
 	for iter.Next() {
 		key := iter.Key().Interface()
@@ -73,6 +80,7 @@ func CopyMap(entry reflect.Value, length int) (output map[any]any) {
 	return
 }
 
+// CopyList copies the list to a new list with the given length.
 func CopyList(entry reflect.Value, length int) (output []any) {
 	output = make([]any, length)
 	for i := 0; i < length; i++ {
@@ -81,6 +89,7 @@ func CopyList(entry reflect.Value, length int) (output []any) {
 	return
 }
 
+// ConvertStringToList converts a string to a list of characters.
 func ConvertStringToList(entry string) (output []any) {
 	chars := strings.Split(entry, "")
 	output = make([]any, len(chars))
@@ -90,6 +99,7 @@ func ConvertStringToList(entry string) (output []any) {
 	return
 }
 
+// ConvertMapToLists converts a map to a key list and a value list, and returns the length of the map.
 func ConvertMapToLists(entry map[any]any) (keys, values []any, length int) {
 	length = len(entry)
 	keys = make([]any, length)
@@ -103,14 +113,17 @@ func ConvertMapToLists(entry map[any]any) (keys, values []any, length int) {
 	return
 }
 
+// GetMapInitialCapacity calculates the initial capacity of a map based on the expected number of elements.
 func GetMapInitialCapacity(elementCount int) int {
-	return int(math.Ceil(float64(elementCount) / hashTableFillFactor))
+	return int(math.Ceil(float64(elementCount) / hashTableLoadFactor))
 }
 
+// WillReHash checks if the map will be rehashed based on the expected number of elements.
 func WillReHash(oldElementCount, newElementCount int) bool {
 	return float64(newElementCount)/float64(oldElementCount) >= reHashThreshold-1
 }
 
+// Equal checks if two values are equal, it can safely handle any type of values.
 func Equal(a, b any) (equal bool) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -121,6 +134,7 @@ func Equal(a, b any) (equal bool) {
 	return
 }
 
+// ParseIndex parses the index to be within the range of the length.
 func ParseIndex(index, length int) int {
 	if index < 0 {
 		index += length
@@ -133,6 +147,7 @@ func ParseIndex(index, length int) int {
 	return index
 }
 
+// CheckRange checks if the range is valid and within the range of the length.
 func CheckRange(start, end, step, length int) (err error) {
 	if step == 0 {
 		err = ErrZeroStep
@@ -148,6 +163,7 @@ func CheckRange(start, end, step, length int) (err error) {
 	return
 }
 
+// Len returns the length of the input parameter, it will return -1 if the input parameter is not a valid type.
 func Len(entry any) (length int) {
 	if s, ok := entry.(string); ok {
 		return utf8.RuneCountInString(s)
@@ -161,6 +177,7 @@ func Len(entry any) (length int) {
 	return
 }
 
+// Contains checks if the input parameter contains the value, it can handle any type of values.
 func Contains(entry, value any) bool {
 	str, ok1 := entry.(string)
 	substr, ok2 := value.(string)
@@ -171,7 +188,7 @@ func Contains(entry, value any) bool {
 		return false
 	}
 	list := reflect.ValueOf(entry)
-	switch list.Kind() {
+	switch list.Kind() { //nolint
 	case reflect.Array, reflect.Slice:
 		for i := 0; i < list.Len(); i++ {
 			if Equal(list.Index(i).Interface(), value) {
@@ -189,6 +206,7 @@ func Contains(entry, value any) bool {
 	return false
 }
 
+// Count counts the number of occurrences of the value in the input parameter, it can handle any type of values.
 func Count(entry, value any) (count int) {
 	str, ok1 := entry.(string)
 	substr, ok2 := value.(string)
@@ -199,7 +217,7 @@ func Count(entry, value any) (count int) {
 		return -1
 	}
 	list := reflect.ValueOf(entry)
-	switch list.Kind() {
+	switch list.Kind() { //nolint
 	case reflect.Array, reflect.Slice:
 		for i := 0; i < list.Len(); i++ {
 			if Equal(list.Index(i).Interface(), value) {
