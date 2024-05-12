@@ -1,3 +1,4 @@
+// Package functools provides functional programming tools.
 package functools
 
 import "reflect"

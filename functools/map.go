@@ -1,3 +1,4 @@
+// Package functools provides functional programming tools.
 package functools
 
 import (
@@ -6,6 +7,7 @@ import (
 	"reflect"
 )
 
+// Map applies a conversion function to each element of an input sequence and returns the output list containing the converted elements.
 func Map(handler, entry any) (output any, err error) {
 	iterator, err := itertools.Map(handler, entry)
 	if err != nil {
@@ -15,10 +17,11 @@ func Map(handler, entry any) (output any, err error) {
 	return
 }
 
+// Maps applies a conversion function to each element of multiple input lists, each element in the returned output list is converted from elements with the same index in all input lists by the handler function.
 func Maps(handler any, entries ...any) (output []any, err error) {
 	entryCount := len(entries)
 	if entryCount < 1 {
-		err = common.ErrIllegalParamCount
+		err = common.ErrUnexpectedParamCount
 		return
 	}
 	entryLength := 0

@@ -1,3 +1,4 @@
+// Package functools provides functional programming tools.
 package functools
 
 import (
@@ -59,7 +60,7 @@ func TestMaps(t *testing.T) {
 	})
 	convey.Convey("not enough entries", t, func() {
 		result, err := Maps(f, []int{1, 2, 3})
-		assert.Equal(t, common.ErrIllegalParamCount, err)
+		assert.Equal(t, common.ErrUnexpectedParamCount, err)
 		assert.Nil(t, result)
 	})
 	convey.Convey("invalid entry type", t, func() {
