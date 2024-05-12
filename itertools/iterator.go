@@ -1,13 +1,14 @@
+// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
-import "github.com/biocrosscoder/flex/common"
-
+// Iterator is an interface that defines the behavior of an iterator.
 type Iterator interface {
 	Next() bool
 	Value() any
 	Pour() any
 }
 
+// listIterator is an implementation of the Iterator interface for a slice of any type.
 type listIterator struct {
 	entry   []any
 	length  int
@@ -15,6 +16,7 @@ type listIterator struct {
 	value   any
 }
 
+// NewListIterator creates a new Iterator for a slice of any type.
 func NewListIterator(entry []any) Iterator {
 	return &listIterator{
 		entry:   entry,
@@ -24,11 +26,13 @@ func NewListIterator(entry []any) Iterator {
 	}
 }
 
+// clear releases the resources used by the iterator.
 func (iter *listIterator) clear() {
 	iter.value = nil
 	iter.entry = nil
 }
 
+// Next moves the iterator to the next element and returns true if there is a next element.
 func (iter *listIterator) Next() bool {
 	if iter.pointer == iter.length {
 		iter.clear()
@@ -39,10 +43,12 @@ func (iter *listIterator) Next() bool {
 	return true
 }
 
+// Value returns the element pointed by the pointer.
 func (iter *listIterator) Value() any {
 	return iter.value
 }
 
+// Pour returns a slice of all remaining elements in the iterator.
 func (iter *listIterator) Pour() any {
 	length := iter.length - iter.pointer
 	output := make([]any, length)
@@ -50,55 +56,6 @@ func (iter *listIterator) Pour() any {
 	for iter.Next() {
 		output[i] = iter.Value()
 		i++
-	}
-	return output
-}
-
-type mapIterator struct {
-	entryKeys   []any
-	entryValues []any
-	length      int
-	pointer     int
-	value       any
-}
-
-func NewMapIterator(entry map[any]any) Iterator {
-	keys, value, length := common.ConvertMapToLists(entry)
-	return &mapIterator{
-		entryKeys:   keys,
-		entryValues: value,
-		length:      length,
-		pointer:     0,
-		value:       nil,
-	}
-}
-
-func (iter *mapIterator) clear() {
-	iter.value = nil
-	iter.entryKeys = nil
-	iter.entryValues = nil
-}
-
-func (iter *mapIterator) Next() bool {
-	if iter.pointer == iter.length {
-		iter.clear()
-		return false
-	}
-	iter.value = iter.entryValues[iter.pointer]
-	iter.pointer++
-	return true
-}
-
-func (iter *mapIterator) Value() any {
-	return iter.value
-}
-
-func (iter *mapIterator) Pour() any {
-	length := iter.length - iter.pointer
-	output := make(map[any]any, length)
-	for iter.Next() {
-		key := iter.entryKeys[iter.pointer-1]
-		output[key] = iter.Value()
 	}
 	return output
 }
