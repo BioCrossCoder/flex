@@ -5,10 +5,12 @@ import (
 	"github.com/biocrosscoder/flex/common"
 )
 
+// parseCount parses the counts and returns the appropriate count value
 func (l ArrayList) parseCount(counts ...int) int {
 	return list.ParseCount(l.Len(), counts...)
 }
 
+// Remove removes the specified number of occurrences of the element from the list
 func (l *ArrayList) Remove(element any, counts ...int) *ArrayList {
 	count := l.parseCount(counts...)
 	array := make(ArrayList, l.Len())
@@ -25,6 +27,7 @@ func (l *ArrayList) Remove(element any, counts ...int) *ArrayList {
 	return l
 }
 
+// RemoveRight removes the specified number of occurrences of the element from the end of the list
 func (l *ArrayList) RemoveRight(element any, counts ...int) *ArrayList {
 	count := l.parseCount(counts...)
 	length := l.Len()
@@ -44,17 +47,20 @@ func (l *ArrayList) RemoveRight(element any, counts ...int) *ArrayList {
 	return l
 }
 
+// Clear removes all elements from the list
 func (l *ArrayList) Clear() *ArrayList {
 	*l = make(ArrayList, 0)
 	return l
 }
 
+// Push appends elements to the end of the list and returns the new length
 func (l *ArrayList) Push(elements ...any) (length int) {
 	length = l.Len() + len(elements)
 	*l = l.Concat(ArrayList(elements))
 	return
 }
 
+// Pop removes the element at the specified index (or the last element if no index is provided) and returns it
 func (l *ArrayList) Pop(indexes ...int) (element any, err error) {
 	argCount := len(indexes)
 	if argCount >= 2 {
@@ -81,16 +87,19 @@ func (l *ArrayList) Pop(indexes ...int) (element any, err error) {
 	return
 }
 
+// Unshift prepends elements to the beginning of the list and returns the new length
 func (l *ArrayList) Unshift(elements ...any) (length int) {
 	length = l.Len() + len(elements)
 	*l = ArrayList(elements).Concat(*l)
 	return
 }
 
+// Shift removes the first element from the list and returns it
 func (l *ArrayList) Shift() (element any, err error) {
 	return l.Pop(0)
 }
 
+// Insert inserts the specified element at the specified index
 func (l *ArrayList) Insert(index int, element any) *ArrayList {
 	length := l.Len()
 	validIndex := l.parseIndex(index)
@@ -102,6 +111,7 @@ func (l *ArrayList) Insert(index int, element any) *ArrayList {
 	return l
 }
 
+// ForEach applies the specified action to each element of the list
 func (l *ArrayList) ForEach(action func(any) any) *ArrayList {
 	for i, item := range *l {
 		(*l)[i] = action(item)
@@ -109,6 +119,7 @@ func (l *ArrayList) ForEach(action func(any) any) *ArrayList {
 	return l
 }
 
+// Replace replaces the specified number of occurrences of the old element with the new element
 func (l *ArrayList) Replace(oldElement, newElement any, counts ...int) *ArrayList {
 	if common.Equal(oldElement, newElement) {
 		return l
@@ -126,6 +137,7 @@ func (l *ArrayList) Replace(oldElement, newElement any, counts ...int) *ArrayLis
 	return l
 }
 
+// ReplaceRight replaces the specified number of occurrences of the old element with the new element, starting from the end of the list
 func (l *ArrayList) ReplaceRight(oldElement, newElement any, counts ...int) *ArrayList {
 	if common.Equal(oldElement, newElement) {
 		return l
@@ -143,6 +155,7 @@ func (l *ArrayList) ReplaceRight(oldElement, newElement any, counts ...int) *Arr
 	return l
 }
 
+// Splice removes a section of the list and replaces it with the specified items
 func (l *ArrayList) Splice(start, deleteCount int, items ...any) ArrayList {
 	if deleteCount <= 0 {
 		return make(ArrayList, 0)
@@ -161,6 +174,7 @@ func (l *ArrayList) Splice(start, deleteCount int, items ...any) ArrayList {
 	return removed.Copy()
 }
 
+// Fill fills a section of the list with the specified element
 func (l *ArrayList) Fill(element any, area ...int) *ArrayList {
 	argCount := len(area)
 	start := 0
@@ -177,6 +191,7 @@ func (l *ArrayList) Fill(element any, area ...int) *ArrayList {
 	return l
 }
 
+// Reverse reverses the order of elements in the list
 func (l *ArrayList) Reverse() *ArrayList {
 	for i, j := 0, l.Len()-1; i < j; i, j = i+1, j-1 {
 		(*l)[i], (*l)[j] = (*l)[j], (*l)[i]
@@ -184,6 +199,7 @@ func (l *ArrayList) Reverse() *ArrayList {
 	return l
 }
 
+// Set sets the element at the specified index to the provided value
 func (l *ArrayList) Set(index int, element any) (err error) {
 	if index < 0 {
 		index += l.Len()
@@ -196,6 +212,7 @@ func (l *ArrayList) Set(index int, element any) (err error) {
 	return
 }
 
+// RemoveIf removes elements from the list that satisfy the specified condition
 func (l *ArrayList) RemoveIf(condition func(any) bool, counts ...int) ArrayList {
 	count := l.parseCount(counts...)
 	array := make(ArrayList, l.Len())
@@ -216,6 +233,7 @@ func (l *ArrayList) RemoveIf(condition func(any) bool, counts ...int) ArrayList 
 	return removed[:j:j]
 }
 
+// RemoveRightIf removes elements from the end of the list that satisfy the specified condition
 func (l *ArrayList) RemoveRightIf(condition func(any) bool, counts ...int) ArrayList {
 	count := l.parseCount(counts...)
 	length := l.Len()
@@ -239,6 +257,7 @@ func (l *ArrayList) RemoveRightIf(condition func(any) bool, counts ...int) Array
 	return removed[:j:j]
 }
 
+// ReplaceIf replaces elements in the list that satisfy the specified condition with the new element
 func (l *ArrayList) ReplaceIf(condition func(any) bool, newElement any, counts ...int) ArrayList {
 	count := l.parseCount(counts...)
 	replaced := make(ArrayList, count)
@@ -257,6 +276,7 @@ func (l *ArrayList) ReplaceIf(condition func(any) bool, newElement any, counts .
 	return replaced[:j:j]
 }
 
+// ReplaceRightIf replaces elements in the list, starting from the end, that satisfy the specified condition with the new element
 func (l *ArrayList) ReplaceRightIf(condition func(any) bool, newElement any, counts ...int) ArrayList {
 	count := l.parseCount(counts...)
 	replaced := make(ArrayList, count)

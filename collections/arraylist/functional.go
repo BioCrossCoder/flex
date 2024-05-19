@@ -2,6 +2,7 @@ package arraylist
 
 import "github.com/biocrosscoder/flex/common"
 
+// Map applies the given handler function to each item in the list and returns a new list containing the results.
 func (l ArrayList) Map(handler func(any) any) ArrayList {
 	list := make(ArrayList, l.Len())
 	for i, item := range l {
@@ -10,6 +11,7 @@ func (l ArrayList) Map(handler func(any) any) ArrayList {
 	return list
 }
 
+// Reduce reduces the list to a single value by applying the handler function cumulatively to the items. It returns the accumulated result value and an error.
 func (l ArrayList) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
 	if l.Len() == 0 {
 		err = common.ErrEmptyList
@@ -33,6 +35,7 @@ func (l ArrayList) Reduce(handler func(any, any) any, initial ...any) (result an
 	return
 }
 
+// ReduceRight reduces the list to a single value by applying the handler function cumulatively from right to left. It returns the accumulated result value and an error.
 func (l ArrayList) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
 	if l.Len() == 0 {
 		err = common.ErrEmptyList
@@ -56,6 +59,7 @@ func (l ArrayList) ReduceRight(handler func(any, any) any, initial ...any) (resu
 	return
 }
 
+// Filter creates a new list with all items that pass the condition function.
 func (l ArrayList) Filter(condition func(any) bool) ArrayList {
 	list := make(ArrayList, 0)
 	for _, item := range l {
@@ -66,6 +70,7 @@ func (l ArrayList) Filter(condition func(any) bool) ArrayList {
 	return list
 }
 
+// Some checks if at least one item in the list satisfies the given condition function.
 func (l ArrayList) Some(condition func(any) bool) bool {
 	for _, item := range l {
 		if condition(item) {
@@ -75,6 +80,7 @@ func (l ArrayList) Some(condition func(any) bool) bool {
 	return false
 }
 
+// Every checks if all items in the list satisfy the given condition function.
 func (l ArrayList) Every(condition func(any) bool) bool {
 	for _, item := range l {
 		if !condition(item) {
