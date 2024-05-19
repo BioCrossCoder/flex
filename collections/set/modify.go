@@ -4,11 +4,13 @@ import (
 	"github.com/biocrosscoder/flex/common"
 )
 
+// Add adds the specified element to the set.
 func (s *Set) Add(element any) *Set {
 	(*s)[element] = true
 	return s
 }
 
+// Discard removes the specified element from the set and returns true if the element was present.
 func (s *Set) Discard(element any) bool {
 	ok := s.Has(element)
 	if ok {
@@ -17,11 +19,13 @@ func (s *Set) Discard(element any) bool {
 	return ok
 }
 
+// Clear removes all elements from the set.
 func (s *Set) Clear() *Set {
 	*s = make(Set)
 	return s
 }
 
+// Update adds the elements from another set to the current set.
 func (s *Set) Update(another Set) *Set {
 	count1 := s.Size()
 	count2 := another.Size()
@@ -39,6 +43,7 @@ func (s *Set) Update(another Set) *Set {
 	return s
 }
 
+// Pop removes and returns an arbitrary element from the set.
 func (s *Set) Pop() (element any, err error) {
 	if s.Empty() {
 		err = common.ErrEmptySet
