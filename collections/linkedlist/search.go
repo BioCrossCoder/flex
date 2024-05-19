@@ -5,6 +5,7 @@ import (
 	"github.com/biocrosscoder/flex/common"
 )
 
+// IndexOf returns the index of the first occurrence of the specified element in the linked list.
 func (l LinkedList) IndexOf(element any) (index int) {
 	index = -1
 	for node := l.head.Next; node != l.tail; node = node.Next {
@@ -16,6 +17,7 @@ func (l LinkedList) IndexOf(element any) (index int) {
 	return -1
 }
 
+// LastIndexOf returns the index of the last occurrence of the specified element in the linked list.
 func (l LinkedList) LastIndexOf(element any) (index int) {
 	index = l.size
 	for node := l.tail.Prev; node != l.head; node = node.Prev {
@@ -27,6 +29,7 @@ func (l LinkedList) LastIndexOf(element any) (index int) {
 	return -1
 }
 
+// At returns the element at the specified index in the linked list.
 func (l LinkedList) At(index int) (value any, err error) {
 	if index < 0 {
 		index += l.size
@@ -39,6 +42,7 @@ func (l LinkedList) At(index int) (value any, err error) {
 	return
 }
 
+// Find returns the first element in the linked list for which the given function returns true.
 func (l LinkedList) Find(by func(any) bool) (element any, found bool) {
 	for node := l.head.Next; node != l.tail; node = node.Next {
 		if by(node.Value) {
@@ -50,6 +54,7 @@ func (l LinkedList) Find(by func(any) bool) (element any, found bool) {
 	return
 }
 
+// FindIndex returns the index of the first element in the linked list for which the given function returns true.
 func (l LinkedList) FindIndex(by func(any) bool) (index int) {
 	index = -1
 	for node := l.head.Next; node != l.tail; node = node.Next {
@@ -61,6 +66,7 @@ func (l LinkedList) FindIndex(by func(any) bool) (index int) {
 	return -1
 }
 
+// FindLast returns the last element in the linked list for which the given function returns true.
 func (l LinkedList) FindLast(by func(any) bool) (element any, found bool) {
 	for node := l.tail.Prev; node != l.head; node = node.Prev {
 		if by(node.Value) {
@@ -72,6 +78,7 @@ func (l LinkedList) FindLast(by func(any) bool) (element any, found bool) {
 	return
 }
 
+// FindLastIndex returns the index of the last element in the linked list for which the given function returns true.
 func (l LinkedList) FindLastIndex(by func(any) bool) (index int) {
 	index = l.size
 	for node := l.tail.Prev; node != l.head; node = node.Prev {
@@ -83,6 +90,7 @@ func (l LinkedList) FindLastIndex(by func(any) bool) (index int) {
 	return -1
 }
 
+// Head returns the first element of the linked list.
 func (l LinkedList) Head() (element any, err error) {
 	if l.Empty() {
 		err = common.ErrEmptyList
@@ -92,6 +100,7 @@ func (l LinkedList) Head() (element any, err error) {
 	return
 }
 
+// Tail returns the last element of the linked list.
 func (l LinkedList) Tail() (element any, err error) {
 	if l.Empty() {
 		err = common.ErrEmptyList
@@ -101,6 +110,7 @@ func (l LinkedList) Tail() (element any, err error) {
 	return
 }
 
+// getNodeByIndex returns the node at the specified index in the linked list.
 func (l LinkedList) getNodeByIndex(index int) *listNode {
 	var node *listNode
 	if l.nearTail(index) {
@@ -120,6 +130,7 @@ func (l LinkedList) getNodeByIndex(index int) *listNode {
 	return node
 }
 
+// FindIndexes returns the indexes of the elements in the linked list for which the given function returns true.
 func (l LinkedList) FindIndexes(by func(any) bool, counts ...int) (indexes []int) {
 	count := l.searchCount(counts...)
 	indexes = make([]int, 0)
@@ -137,6 +148,7 @@ func (l LinkedList) FindIndexes(by func(any) bool, counts ...int) (indexes []int
 	return
 }
 
+// FindLastIndexes returns the indexes of the last elements in the linked list for which the given function returns true.
 func (l LinkedList) FindLastIndexes(by func(any) bool, counts ...int) (indexes []int) {
 	count := l.searchCount(counts...)
 	indexes = make([]int, 0)
@@ -154,6 +166,7 @@ func (l LinkedList) FindLastIndexes(by func(any) bool, counts ...int) (indexes [
 	return
 }
 
+// Finds returns the elements in the linked list for which the given function returns true.
 func (l LinkedList) Finds(by func(any) bool, counts ...int) (elements []any) {
 	count := l.searchCount(counts...)
 	elements = make([]any, 0)
@@ -169,6 +182,7 @@ func (l LinkedList) Finds(by func(any) bool, counts ...int) (elements []any) {
 	return
 }
 
+// FindLasts returns the last elements in the linked list for which the given function returns true.
 func (l LinkedList) FindLasts(by func(any) bool, counts ...int) (elements []any) {
 	count := l.searchCount(counts...)
 	elements = make([]any, 0)
@@ -184,6 +198,7 @@ func (l LinkedList) FindLasts(by func(any) bool, counts ...int) (elements []any)
 	return
 }
 
+// searchCount returns the count of elements to search for based on the specified search counts.
 func (l LinkedList) searchCount(counts ...int) int {
 	return list.SearchCount(l.Len(), counts...)
 }
