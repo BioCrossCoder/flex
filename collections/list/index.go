@@ -2,6 +2,7 @@ package list
 
 import "github.com/biocrosscoder/flex/common"
 
+// SliceIndex returns the valid index within the slice based on the given index, length, and accessibility flag.
 func SliceIndex(index, length int, accessible bool) int {
 	if index < 0 {
 		index += length
@@ -21,6 +22,7 @@ func SliceIndex(index, length int, accessible bool) int {
 	return index
 }
 
+// ParseIndex returns the valid index within the slice based on the given index and length.
 func ParseIndex(index, length int) int {
 	if index < 0 {
 		index += length
@@ -33,6 +35,7 @@ func ParseIndex(index, length int) int {
 	return index
 }
 
+// IsIndexValid checks if the index is valid within the slice based on the given index and length.
 func IsIndexValid(index, length int) (err error) {
 	if index < 0 || index >= length {
 		err = common.ErrOutOfRange
