@@ -3,8 +3,11 @@ package itertools
 
 // Iterator is an interface that defines the behavior of an iterator.
 type Iterator interface {
+	// Next moves the pointer to the next element and returns true if there is a next element or false otherwise.
 	Next() bool
+	// Value returns the element pointed by the pointer.
 	Value() any
+	// Pour returns a slice of all remaining elements in the iterator.
 	Pour() any
 }
 

@@ -7,11 +7,17 @@ import (
 
 // PriorityQueue is an interface for a priority queue.
 type PriorityQueue interface {
+	// Enqueue adds an element to the priority queue with the given priority.
 	Enqueue(element any, priority int) (ok bool)
+	// Dequeue removes and returns the element with the highest priority from the priority queue.
 	Dequeue() (element any, ok bool)
+	// Peek returns the element with the highest priority from the priority queue without removing it.
 	Peek() (element any, ok bool)
+	// Empty checks if the priority queue is empty.
 	Empty() bool
+	// Full checks if the priority queue is full.
 	Full() bool
+	// Size returns the number of elements in the priority queue.
 	Size() int
 }
 

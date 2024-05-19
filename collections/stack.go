@@ -4,10 +4,15 @@ import "github.com/biocrosscoder/flex/collections/linkedlist"
 
 // Stack interface represents a stack data structure
 type Stack interface {
+	// Push adds an element to the top of the stack if it's not full
 	Push(element any) (ok bool)
+	// Pop removes and returns the top element from the stack if it's not empty
 	Pop() (element any, ok bool)
+	// Peek returns the top element of the stack without removing it if the stack is not empty
 	Peek() (element any, ok bool)
+	// Empty checks if the stack is empty
 	Empty() bool
+	// Full checks if the stack is full based on its capacity
 	Full() bool
 }
 

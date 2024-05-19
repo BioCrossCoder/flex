@@ -5,10 +5,15 @@ import "github.com/biocrosscoder/flex/collections/linkedlist"
 
 // Queue is an interface for a queue data structure.
 type Queue interface {
+	// Enqueue adds an element to the end of the queue.
 	Enqueue(element any) (ok bool)
+	// Dequeue removes and returns the element at the front of the queue.
 	Dequeue() (element any, ok bool)
+	// Peek returns the element at the front of the queue without removing it.
 	Peek() (element any, ok bool)
+	// Empty checks if the queue is empty.
 	Empty() bool
+	// Full checks if the queue is full.
 	Full() bool
 }
 
