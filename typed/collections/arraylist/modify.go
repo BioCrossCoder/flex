@@ -1,18 +1,14 @@
 package arraylist
 
 import (
-	"github.com/biocrosscoder/flex/common"
 	"slices"
+
+	"github.com/biocrosscoder/flex/collections/list"
+	"github.com/biocrosscoder/flex/common"
 )
 
 func (l ArrayList[T]) parseCount(counts ...int) int {
-	if len(counts) == 0 {
-		return 1
-	}
-	if counts[0] <= 0 {
-		return l.Len()
-	}
-	return counts[0]
+	return list.ParseCount(l.Len(), counts...)
 }
 
 func (l *ArrayList[T]) Remove(element T, counts ...int) *ArrayList[T] {

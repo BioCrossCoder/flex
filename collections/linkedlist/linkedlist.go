@@ -1,6 +1,7 @@
 package linkedlist
 
 import (
+	"github.com/biocrosscoder/flex/collections/list"
 	"github.com/biocrosscoder/flex/common"
 )
 
@@ -17,59 +18,31 @@ type LinkedList struct {
 }
 
 func (l LinkedList) sliceIndex(index int, accessible bool) int {
-	length := l.Len()
-	if index < 0 {
-		index += length
-	}
-	if index < 0 {
-		index = -1
-		if accessible {
-			index++
-		}
-	}
-	if index >= length {
-		index = length
-		if accessible {
-			index--
-		}
-	}
-	return index
+	return list.SliceIndex(index, l.Len(), accessible)
 }
 
-func (d LinkedList) parseIndex(index int) int {
-	length := d.Len()
-	if index < 0 {
-		index += length
-		if index < 0 {
-			return 0
-		}
-	} else if index > length {
-		return length
-	}
-	return index
+func (l LinkedList) parseIndex(index int) int {
+	return list.ParseIndex(index, l.Len())
 }
 
-func (d LinkedList) isIndexValid(index int) (err error) {
-	if index < 0 || index >= d.Len() {
-		err = common.ErrOutOfRange
-	}
-	return
+func (l LinkedList) isIndexValid(index int) error {
+	return list.IsIndexValid(index, l.Len())
 }
 
-func (d LinkedList) nearTail(index int) bool {
-	return d.size-index <= index
+func (l LinkedList) nearTail(index int) bool {
+	return l.size-index <= index
 }
 
-func (d LinkedList) reverseIndex(index int) int {
-	return index - d.size
+func (l LinkedList) reverseIndex(index int) int {
+	return index - l.size
 }
 
-func (d LinkedList) Len() int {
-	return d.size
+func (l LinkedList) Len() int {
+	return l.size
 }
 
-func (d LinkedList) Count(element any) (count int) {
-	for node := d.head; node != nil; node = node.Next {
+func (l LinkedList) Count(element any) (count int) {
+	for node := l.head; node != nil; node = node.Next {
 		if common.Equal(node.Value, element) {
 			count++
 		}
@@ -77,33 +50,33 @@ func (d LinkedList) Count(element any) (count int) {
 	return
 }
 
-func (d LinkedList) Includes(element any) bool {
-	return d.IndexOf(element) != -1
+func (l LinkedList) Includes(element any) bool {
+	return l.IndexOf(element) != -1
 }
 
-func (d LinkedList) Empty() bool {
-	return d.size == 0
+func (l LinkedList) Empty() bool {
+	return l.size == 0
 }
 
-func (d LinkedList) ToArray() []any {
-	l := make([]any, d.size)
+func (l LinkedList) ToArray() []any {
+	arr := make([]any, l.size)
 	i := 0
-	for node := d.head.Next; node != d.tail; node = node.Next {
-		l[i] = node.Value
+	for node := l.head.Next; node != l.tail; node = node.Next {
+		arr[i] = node.Value
 		i++
 	}
-	return l
+	return arr
 }
 
-func (d LinkedList) Equal(another LinkedList) bool {
-	length1 := d.Len()
+func (l LinkedList) Equal(another LinkedList) bool {
+	length1 := l.Len()
 	length2 := another.Len()
 	if length1 != length2 {
 		return false
 	}
-	node1 := d.head.Next
+	node1 := l.head.Next
 	node2 := another.head.Next
-	for node1 != d.tail {
+	for node1 != l.tail {
 		if !common.Equal(node1.Value, node2.Value) {
 			return false
 		}

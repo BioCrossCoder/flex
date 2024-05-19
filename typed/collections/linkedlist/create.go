@@ -10,17 +10,17 @@ func NewLinkedList[T any](elements ...T) *LinkedList[T] {
 	return l
 }
 
-func (d LinkedList[T]) Copy() LinkedList[T] {
+func (l LinkedList[T]) Copy() LinkedList[T] {
 	backup := NewLinkedList[T]()
-	for node := d.head.Next; node != d.tail; node = node.Next {
+	for node := l.head.Next; node != l.tail; node = node.Next {
 		_ = backup.Append(node.Value)
 	}
 	return *backup
 }
 
-func (d LinkedList[T]) Concat(another LinkedList[T]) LinkedList[T] {
+func (l LinkedList[T]) Concat(another LinkedList[T]) LinkedList[T] {
 	result := NewLinkedList[T]()
-	for _, l := range []LinkedList[T]{d, another} {
+	for _, l := range []LinkedList[T]{l, another} {
 		for node := l.head.Next; node != l.tail; node = node.Next {
 			_ = result.Append(node.Value)
 		}
@@ -28,19 +28,19 @@ func (d LinkedList[T]) Concat(another LinkedList[T]) LinkedList[T] {
 	return *result
 }
 
-func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
+func (l LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	argsCount := len(args)
 	if argsCount == 0 {
-		return d.Copy()
+		return l.Copy()
 	}
 	start := 0
-	end := d.size
+	end := l.size
 	step := 1
 	if argsCount >= 1 {
-		start = d.sliceIndex(args[0], true)
+		start = l.sliceIndex(args[0], true)
 	}
 	if argsCount >= 2 {
-		end = d.sliceIndex(args[1], false)
+		end = l.sliceIndex(args[1], false)
 	}
 	if argsCount >= 3 {
 		step = args[2]
@@ -49,7 +49,7 @@ func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
 		return *NewLinkedList[T]()
 	}
 	result := NewLinkedList[T]()
-	node := d.getNodeByIndex(start)
+	node := l.getNodeByIndex(start)
 	if step < 0 {
 		for i := start; i > end && node != nil; i += step {
 			_ = result.Append(node.Value)
@@ -68,20 +68,20 @@ func (d LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	return *result
 }
 
-func (d LinkedList[T]) ToSpliced(start, deleteCount int, items ...T) LinkedList[T] {
-	newDeque := d.Copy()
+func (l LinkedList[T]) ToSpliced(start, deleteCount int, items ...T) LinkedList[T] {
+	newDeque := l.Copy()
 	_ = newDeque.Splice(start, deleteCount, items...)
 	return newDeque
 }
 
-func (d LinkedList[T]) ToReversed() LinkedList[T] {
-	newDeque := d.Copy()
+func (l LinkedList[T]) ToReversed() LinkedList[T] {
+	newDeque := l.Copy()
 	_ = newDeque.Reverse()
 	return newDeque
 }
 
-func (d LinkedList[T]) With(index int, value T) LinkedList[T] {
-	newDeque := d.Copy()
+func (l LinkedList[T]) With(index int, value T) LinkedList[T] {
+	newDeque := l.Copy()
 	_ = newDeque.Set(index, value)
 	return newDeque
 }

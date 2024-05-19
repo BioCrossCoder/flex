@@ -1,6 +1,9 @@
 package arraylist
 
-import "github.com/biocrosscoder/flex/common"
+import (
+	"github.com/biocrosscoder/flex/collections/list"
+	"github.com/biocrosscoder/flex/common"
+)
 
 func (l ArrayList) IndexOf(element any) (index int) {
 	index = -1
@@ -155,8 +158,5 @@ func (l ArrayList) FindLasts(by func(any) bool, counts ...int) (elements []any) 
 }
 
 func (l ArrayList) searchCount(counts ...int) int {
-	if len(counts) == 0 || counts[0] <= 0 {
-		return l.Len()
-	}
-	return counts[0]
+	return list.SearchCount(l.Len(), counts...)
 }

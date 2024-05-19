@@ -1,49 +1,22 @@
 package arraylist
 
 import (
+	"github.com/biocrosscoder/flex/collections/list"
 	"github.com/biocrosscoder/flex/common"
 )
 
 type ArrayList []any
 
 func (l ArrayList) sliceIndex(index int, accessible bool) int {
-	length := l.Len()
-	if index < 0 {
-		index += length
-	}
-	if index < 0 {
-		index = -1
-		if accessible {
-			index++
-		}
-	}
-	if index >= length {
-		index = length
-		if accessible {
-			index--
-		}
-	}
-	return index
+	return list.SliceIndex(index, l.Len(), accessible)
 }
 
 func (l ArrayList) parseIndex(index int) int {
-	length := l.Len()
-	if index < 0 {
-		index += length
-		if index < 0 {
-			return 0
-		}
-	} else if index > length {
-		return length
-	}
-	return index
+	return list.ParseIndex(index, l.Len())
 }
 
-func (l ArrayList) isIndexValid(index int) (err error) {
-	if index < 0 || index >= l.Len() {
-		err = common.ErrOutOfRange
-	}
-	return
+func (l ArrayList) isIndexValid(index int) error {
+	return list.IsIndexValid(index, l.Len())
 }
 
 func (l ArrayList) Len() int {

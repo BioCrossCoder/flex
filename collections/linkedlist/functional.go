@@ -2,16 +2,16 @@ package linkedlist
 
 import "github.com/biocrosscoder/flex/common"
 
-func (d LinkedList) Map(handler func(any) any) LinkedList {
+func (l LinkedList) Map(handler func(any) any) LinkedList {
 	result := NewLinkedList()
-	for node := d.head.Next; node != d.tail; node = node.Next {
+	for node := l.head.Next; node != l.tail; node = node.Next {
 		_ = result.Append(handler(node.Value))
 	}
 	return *result
 }
 
-func (d LinkedList) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
-	if d.Len() == 0 {
+func (l LinkedList) Reduce(handler func(any, any) any, initial ...any) (result any, err error) {
+	if l.Len() == 0 {
 		err = common.ErrEmptyList
 		return
 	}
@@ -20,21 +20,21 @@ func (d LinkedList) Reduce(handler func(any, any) any, initial ...any) (result a
 		err = common.ErrTooManyArguments
 		return
 	}
-	startNode := d.head.Next
+	startNode := l.head.Next
 	if initialCount == 0 {
 		result = startNode.Value
 		startNode = startNode.Next
 	} else {
 		result = initial[0]
 	}
-	for node := startNode; node != d.tail; node = node.Next {
+	for node := startNode; node != l.tail; node = node.Next {
 		result = handler(result, node.Value)
 	}
 	return
 }
 
-func (d LinkedList) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
-	if d.Len() == 0 {
+func (l LinkedList) ReduceRight(handler func(any, any) any, initial ...any) (result any, err error) {
+	if l.Len() == 0 {
 		err = common.ErrEmptyList
 		return
 	}
@@ -43,22 +43,22 @@ func (d LinkedList) ReduceRight(handler func(any, any) any, initial ...any) (res
 		err = common.ErrTooManyArguments
 		return
 	}
-	startNode := d.tail.Prev
+	startNode := l.tail.Prev
 	if initialCount == 0 {
 		result = startNode.Value
 		startNode = startNode.Prev
 	} else {
 		result = initial[0]
 	}
-	for node := startNode; node != d.head; node = node.Prev {
+	for node := startNode; node != l.head; node = node.Prev {
 		result = handler(result, node.Value)
 	}
 	return
 }
 
-func (d LinkedList) Filter(condition func(any) bool) LinkedList {
+func (l LinkedList) Filter(condition func(any) bool) LinkedList {
 	result := NewLinkedList()
-	for node := d.head.Next; node != d.tail; node = node.Next {
+	for node := l.head.Next; node != l.tail; node = node.Next {
 		if condition(node.Value) {
 			_ = result.Append(node.Value)
 		}
@@ -66,9 +66,9 @@ func (d LinkedList) Filter(condition func(any) bool) LinkedList {
 	return *result
 }
 
-func (d LinkedList) Some(condition func(any) bool) bool {
-	node := d.head.Next
-	for node != d.tail {
+func (l LinkedList) Some(condition func(any) bool) bool {
+	node := l.head.Next
+	for node != l.tail {
 		if condition(node.Value) {
 			return true
 		}
@@ -77,9 +77,9 @@ func (d LinkedList) Some(condition func(any) bool) bool {
 	return false
 }
 
-func (d LinkedList) Every(condition func(any) bool) bool {
-	node := d.head.Next
-	for node != d.tail {
+func (l LinkedList) Every(condition func(any) bool) bool {
+	node := l.head.Next
+	for node != l.tail {
 		if !condition(node.Value) {
 			return false
 		}
