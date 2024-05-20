@@ -1,17 +1,12 @@
 package sortedlist
 
 import (
+	"github.com/biocrosscoder/flex/collections/list"
 	"slices"
 )
 
 func (l SortedList[T]) parseCount(counts ...int) int {
-	if len(counts) == 0 {
-		return 1
-	}
-	if counts[0] <= 0 {
-		return l.Len()
-	}
-	return counts[0]
+	return list.ParseCount(l.Len(), counts...)
 }
 
 func (l *SortedList[T]) Remove(element T, counts ...int) *SortedList[T] {
