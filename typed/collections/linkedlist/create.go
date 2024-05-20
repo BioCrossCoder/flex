@@ -1,5 +1,6 @@
 package linkedlist
 
+// NewLinkedList creates a new LinkedList with the given elements.
 func NewLinkedList[T any](elements ...T) *LinkedList[T] {
 	head, tail := &listNode[T]{}, &listNode[T]{}
 	head.Next, tail.Prev = tail, head
@@ -10,6 +11,7 @@ func NewLinkedList[T any](elements ...T) *LinkedList[T] {
 	return l
 }
 
+// Copy creates a copy of the LinkedList.
 func (l LinkedList[T]) Copy() LinkedList[T] {
 	backup := NewLinkedList[T]()
 	for node := l.head.Next; node != l.tail; node = node.Next {
@@ -18,6 +20,7 @@ func (l LinkedList[T]) Copy() LinkedList[T] {
 	return *backup
 }
 
+// Concat concatenates the current LinkedList with another LinkedList.
 func (l LinkedList[T]) Concat(another LinkedList[T]) LinkedList[T] {
 	result := NewLinkedList[T]()
 	for _, l := range []LinkedList[T]{l, another} {
@@ -28,6 +31,7 @@ func (l LinkedList[T]) Concat(another LinkedList[T]) LinkedList[T] {
 	return *result
 }
 
+// Slice returns a new LinkedList that is a subset of the original LinkedList based on the provided slice arguments.
 func (l LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	argsCount := len(args)
 	if argsCount == 0 {
@@ -68,18 +72,21 @@ func (l LinkedList[T]) Slice(args ...int) LinkedList[T] {
 	return *result
 }
 
+// ToSpliced returns a new LinkedList with items spliced into the original LinkedList at the specified index.
 func (l LinkedList[T]) ToSpliced(start, deleteCount int, items ...T) LinkedList[T] {
 	newDeque := l.Copy()
 	_ = newDeque.Splice(start, deleteCount, items...)
 	return newDeque
 }
 
+// ToReversed returns a new LinkedList with the elements in reverse order compared to the original LinkedList.
 func (l LinkedList[T]) ToReversed() LinkedList[T] {
 	newDeque := l.Copy()
 	_ = newDeque.Reverse()
 	return newDeque
 }
 
+// With returns a new LinkedList with the value at the specified index replaced with the given value.
 func (l LinkedList[T]) With(index int, value T) LinkedList[T] {
 	newDeque := l.Copy()
 	_ = newDeque.Set(index, value)
