@@ -2,18 +2,20 @@ package orderedcontainers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"github.com/biocrosscoder/flex/typed/collections/dict"
-	"fmt"
 	"strings"
 )
 
+// OrderedDict represents a dictionary with preserved insertion order.
 type OrderedDict[K comparable, V any] struct {
 	dict.Dict[K, V]
 	sequence arraylist.ArrayList[K]
 }
 
+// NewOrderedDict creates and returns a new instance of OrderedDict.
 func NewOrderedDict[K comparable, V any]() *OrderedDict[K, V] {
 	return &OrderedDict[K, V]{
 		make(dict.Dict[K, V]),
@@ -21,12 +23,14 @@ func NewOrderedDict[K comparable, V any]() *OrderedDict[K, V] {
 	}
 }
 
+// Clear removes all key-value pairs from the OrderedDict.
 func (d *OrderedDict[K, V]) Clear() *OrderedDict[K, V] {
 	_ = d.Dict.Clear()
 	_ = d.sequence.Clear()
 	return d
 }
 
+// Set adds or updates a key-value pair in the OrderedDict.
 func (d *OrderedDict[K, V]) Set(key K, value V) *OrderedDict[K, V] {
 	if !d.Has(key) {
 		_ = d.sequence.Push(key)
@@ -35,6 +39,7 @@ func (d *OrderedDict[K, V]) Set(key K, value V) *OrderedDict[K, V] {
 	return d
 }
 
+// Delete removes the specified key and its associated value from the OrderedDict.
 func (d *OrderedDict[K, V]) Delete(key K) bool {
 	if d.Dict.Delete(key) {
 		_ = d.sequence.Remove(key)
@@ -43,6 +48,7 @@ func (d *OrderedDict[K, V]) Delete(key K) bool {
 	return false
 }
 
+// Pop removes the specified key and returns its associated value from the OrderedDict.
 func (d *OrderedDict[K, V]) Pop(key K, args ...V) (value V, err error) {
 	if d.Has(key) {
 		_ = d.sequence.Remove(key)
@@ -50,6 +56,7 @@ func (d *OrderedDict[K, V]) Pop(key K, args ...V) (value V, err error) {
 	return d.Dict.Pop(key, args...)
 }
 
+// PopItem removes and returns the key-value pair at the insertion end of the OrderedDict.
 func (d *OrderedDict[K, V]) PopItem() (key K, value V, err error) {
 	key, err = d.sequence.Tail()
 	if err != nil {
@@ -60,6 +67,7 @@ func (d *OrderedDict[K, V]) PopItem() (key K, value V, err error) {
 	return
 }
 
+// Update adds or updates the key-value pairs from another OrderedDict into the current OrderedDict.
 func (d *OrderedDict[K, V]) Update(another OrderedDict[K, V]) *OrderedDict[K, V] {
 	for _, key := range another.Keys() {
 		_ = d.Set(key, another.Get(key))
@@ -67,10 +75,12 @@ func (d *OrderedDict[K, V]) Update(another OrderedDict[K, V]) *OrderedDict[K, V]
 	return d
 }
 
+// Keys returns a slice containing all the keys in the OrderedDict.
 func (d OrderedDict[K, V]) Keys() []K {
 	return d.sequence.Copy()
 }
 
+// Values returns a slice containing all the values in the OrderedDict, in the same order as the keys.
 func (d OrderedDict[K, V]) Values() []V {
 	values := make([]V, d.Size())
 	for i, key := range d.sequence {
@@ -79,6 +89,7 @@ func (d OrderedDict[K, V]) Values() []V {
 	return values
 }
 
+// Items returns a slice of dict.DictItem pointers, containing all key-value pairs in the OrderedDict.
 func (d OrderedDict[K, V]) Items() []*dict.DictItem[K, V] {
 	items := make([]*dict.DictItem[K, V], d.Size())
 	for i, key := range d.sequence {
@@ -87,6 +98,7 @@ func (d OrderedDict[K, V]) Items() []*dict.DictItem[K, V] {
 	return items
 }
 
+// Copy creates and returns a deep copy of the OrderedDict.
 func (d OrderedDict[K, V]) Copy() OrderedDict[K, V] {
 	return OrderedDict[K, V]{
 		d.Dict.Copy(),
@@ -94,6 +106,7 @@ func (d OrderedDict[K, V]) Copy() OrderedDict[K, V] {
 	}
 }
 
+// Equal checks if two OrderedDict instances are equal in terms of key-value pairs and insertion order.
 func (d OrderedDict[K, V]) Equal(another OrderedDict[K, V]) bool {
 	if d.Size() != another.Size() {
 		return false
@@ -113,14 +126,17 @@ func (d OrderedDict[K, V]) Equal(another OrderedDict[K, V]) bool {
 	return true
 }
 
+// KeyAt returns the key at the specified index in the insertion order.
 func (d OrderedDict[K, V]) KeyAt(index int) (K, error) {
 	return d.sequence.At(index)
 }
 
+// IndexOf returns the index of the specified key in the insertion order.
 func (d OrderedDict[K, V]) IndexOf(key K) int {
 	return d.sequence.IndexOf(key)
 }
 
+// String returns the string representation of the OrderedDict in the format of a map.
 func (d OrderedDict[K, V]) String() string {
 	items := make([]string, d.Size())
 	for i, key := range d.sequence {
@@ -129,6 +145,7 @@ func (d OrderedDict[K, V]) String() string {
 	return "map[" + strings.Join(items, " ") + "]"
 }
 
+// MarshalJSON returns the JSON encoding of the OrderedDict.
 func (d OrderedDict[K, V]) MarshalJSON() ([]byte, error) {
 	items := make([][2]any, d.Size())
 	for i, key := range d.sequence {
@@ -137,6 +154,7 @@ func (d OrderedDict[K, V]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(items)
 }
 
+// UnmarshalJSON parses the JSON-encoded data and stores the result in the OrderedDict.
 func (d *OrderedDict[K, V]) UnmarshalJSON(data []byte) (err error) {
 	var items [][2]any
 	err = json.Unmarshal(data, &items)
