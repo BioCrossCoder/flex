@@ -15,7 +15,6 @@ A Golang library to make development easier and more efficient
 ## ToDo List
 
 1. Robustness: Improve the coverage of unit tests.
-2. Maintainability: Add annotations to the code to make it more readable; standardize the naming of the functions and variables to make it more consistent.
-3. Functionality: Provide more practical functions in `functools` for manipulating `sequences` (`slice`/`array`/`string`).
-4. Usability: Generate documentation for the library and provide examples for each function.
-5. Compatibility: Support lower versions of `Golang` to ensure compatibility with older projects; split `typed` package.
+2. Functionality: Provide more practical functions in `functools` for manipulating `sequences` (`slice`/`array`/`string`).
+3. Usability: Generate documentation for the library and provide examples for each function.
+4. Compatibility: Support lower versions of `Golang` to ensure compatibility with older projects; split `typed` package.
