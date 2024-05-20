@@ -1,5 +1,6 @@
 package itertools
 
+// DropWhile takes a condition function and a slice of type T, and returns a ListIterator[T] that iterates over the input slice after dropping elements while the condition is true.
 func DropWhile[T any](condition func(T) bool, entry []T) ListIterator[T] {
 	start := 0
 	length := len(entry)
@@ -9,6 +10,7 @@ func DropWhile[T any](condition func(T) bool, entry []T) ListIterator[T] {
 	return &listIterator[T]{entry, length, start, *new(T)}
 }
 
+// TakeWhile takes a condition function and a slice of type T, and returns a ListIterator[T] that iterates over the input slice only while the condition is true.
 func TakeWhile[T any](condition func(T) bool, entry []T) ListIterator[T] {
 	end := 0
 	length := len(entry)

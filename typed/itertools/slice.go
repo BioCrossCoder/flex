@@ -2,6 +2,7 @@ package itertools
 
 import "github.com/biocrosscoder/flex/common"
 
+// sliceIterator represents an iterator for iterating over a slice.
 type sliceIterator[T any] struct {
 	entry   []T
 	end     int
@@ -10,6 +11,7 @@ type sliceIterator[T any] struct {
 	step    int
 }
 
+// NewSliceIterator creates and returns a new slice iterator.
 func NewSliceIterator[T any](entry []T, start, end, step int) ListIterator[T] {
 	return &sliceIterator[T]{
 		entry:   entry,
@@ -20,11 +22,13 @@ func NewSliceIterator[T any](entry []T, start, end, step int) ListIterator[T] {
 	}
 }
 
+// clear resets the iterator to its initial state.
 func (iter *sliceIterator[T]) clear() {
 	iter.value = *new(T)
 	iter.entry = nil
 }
 
+// Next moves the iterator to the next position and returns true if the iterator has not reached the end.
 func (iter *sliceIterator[T]) Next() bool {
 	if (iter.step > 0 && iter.pointer > iter.end) || (iter.step < 0 && iter.pointer < iter.end) {
 		iter.clear()
@@ -35,10 +39,12 @@ func (iter *sliceIterator[T]) Next() bool {
 	return true
 }
 
+// Value returns the current value at the iterator's position.
 func (iter *sliceIterator[T]) Value() T {
 	return iter.value
 }
 
+// Pour iterates through the slice and returns a new slice.
 func (iter *sliceIterator[T]) Pour() []T {
 	output := make([]T, 0)
 	for iter.Next() {
@@ -47,6 +53,7 @@ func (iter *sliceIterator[T]) Pour() []T {
 	return output
 }
 
+// Slice returns a new slice by iterating over the input slice based on the start, end, and step parameters.
 func Slice[T any](entry []T, start, end, step int) (slice []T, err error) {
 	length := len(entry)
 	err = common.CheckRange(start, end, step, length)
@@ -57,6 +64,7 @@ func Slice[T any](entry []T, start, end, step int) (slice []T, err error) {
 	return
 }
 
+// Reversed returns a new iterator for iterating over a slice in reverse order.
 func Reversed[T any](entry []T) ListIterator[T] {
 	return NewSliceIterator(entry, len(entry)-1, 0, -1)
 }
