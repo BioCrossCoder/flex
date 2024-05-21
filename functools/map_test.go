@@ -1,9 +1,11 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -72,4 +74,38 @@ func TestMaps(t *testing.T) {
 		assert.Equal(t, common.ErrListLengthMismatch, err)
 		assert.Nil(t, result)
 	})
+}
+
+func ExampleMap() {
+	// string
+	m, _ := Map(func(a string) any {
+		return []byte(strings.ToUpper(a))[0]
+	}, "hello")
+	fmt.Println(m)
+	// slice
+	m, _ = Map(func(a int) string {
+		return fmt.Sprintf("user%d", a*2)
+	}, []int{1, 2, 3, 4, 5})
+	fmt.Println(m)
+	// Output:
+	// [72 69 76 76 79]
+	// [user2 user4 user6 user8 user10]
+}
+
+func ExampleMaps() {
+	type User struct {
+		ID    int
+		Name  string
+		Roles []int
+	}
+	m, _ := Maps(func(id int, name string, roles []int) User {
+		return User{
+			ID:    id,
+			Name:  name,
+			Roles: roles,
+		}
+	}, []int{1, 2, 3}, []string{"a", "b", "c"}, [][]int{{1}, {0}, {0, 1}})
+	fmt.Println(m)
+	// Output:
+	// [{1 a [1]} {2 b [0]} {3 c [0 1]}]
 }

@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -22,4 +23,30 @@ func TestAny(t *testing.T) {
 		assert.Nil(t, err)
 		assert.False(t, result)
 	})
+}
+
+func ExampleAny() {
+	// string
+	r, _ := Any("hello", func(a any) bool {
+		return a.(string) > "n"
+	})
+	fmt.Println(r)
+	r, _ = Any("hello", func(a any) bool {
+		return a.(string) > "z"
+	})
+	fmt.Println(r)
+	// slice
+	r, _ = All([]int{1, 2, 3}, func(a any) bool {
+		return a.(int) > 0
+	})
+	fmt.Println(r)
+	r, _ = All([]int{1, 2, 3}, func(a any) bool {
+		return a.(int) > 3
+	})
+	fmt.Println(r)
+	// Output:
+	// true
+	// false
+	// true
+	// false
 }

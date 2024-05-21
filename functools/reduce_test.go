@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -31,4 +32,21 @@ func TestReduce(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, s, actual)
 	})
+}
+
+func ExampleReduce() {
+	arr := []int{1, 2, 3, 4, 5}
+	// sum
+	r, _ := Reduce(func(a, b int) int {
+		return a + b
+	}, arr)
+	fmt.Println(r)
+	// product
+	r, _ = Reduce(func(a, b int) int {
+		return a * b
+	}, arr)
+	fmt.Println(r)
+	// Output:
+	// 15
+	// 120
 }
