@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -50,4 +51,10 @@ func TestTranslator(t *testing.T) {
 			assert.Equal(t, trans2.Translate("abcdefg"), "abcdefg")
 		})
 	})
+}
+
+func ExampleTranslator() {
+	trans := NewTranslator([2]string{"a", "A"}, [2]string{"b", "B"}, [2]string{"c", "C"})
+	fmt.Println(trans.Translate("abcdefg"))
+	// Output: ABCdefg
 }

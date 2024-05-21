@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/collections/dict"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -59,4 +60,22 @@ func TestChainMap(t *testing.T) {
 		assert.Equal(t, maps[2], &d1)
 		assert.Equal(t, maps[3], &d2)
 	})
+}
+
+func ExampleChainMap() {
+	d1 := dict.Dict{"a": 1, "b": 2}
+	d2 := dict.Dict{"a": 4, "c": 5}
+	cm := NewChainMap(&d1, &d2)
+	fmt.Println(cm.Get("a"))
+	fmt.Println(cm.Get("b"))
+	fmt.Println(cm.Get("c"))
+	fmt.Println(cm.Get("d"))
+	cm.Set("d", 3)
+	fmt.Println(cm.Get("d"))
+	// Output:
+	// 1 true
+	// 2 true
+	// 5 true
+	// <nil> false
+	// 3 true
 }
