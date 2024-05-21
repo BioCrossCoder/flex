@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"reflect"
@@ -26,4 +27,20 @@ func TestAccumulator(t *testing.T) {
 		assert.False(t, iterator.Next())
 		assert.Nil(t, iterator.Value())
 	})
+}
+
+func ExampleAccumulate() {
+	arr := []int{1, 2, 3}
+	f := func(x, y int) int {
+		return x + y
+	}
+	iter, _ := Accumulate(f, arr)
+	fmt.Println(iter.Value())
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// 1
+	// 3
+	// 6
 }

@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -32,4 +33,18 @@ func TestReversed(t *testing.T) {
 		assert.Equal(t, err, common.ErrNotSeq)
 		assert.Nil(t, r)
 	})
+}
+
+func ExampleReversed() {
+	// string
+	s := "hello world"
+	r, _ := Reversed(s)
+	fmt.Println(r)
+	// array
+	arr := [...]int{1, 2, 3, 4, 5}
+	r, _ = Reversed(arr)
+	fmt.Println(r)
+	// Output:
+	// dlrow olleh
+	// [5 4 3 2 1]
 }

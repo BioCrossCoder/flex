@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -15,4 +16,26 @@ func TestChain(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, []any{1, 2, 3, 1, "a", true, "h", "e", "l", "l", "o"}, result.Pour())
 	})
+}
+
+func ExampleChain() {
+	arr := []int{1, 2, 3}
+	seq := [3]any{1, "a", true}
+	str := "hello"
+	iter, _ := Chain(arr, seq, str)
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 1
+	// a
+	// true
+	// h
+	// e
+	// l
+	// l
+	// o
 }

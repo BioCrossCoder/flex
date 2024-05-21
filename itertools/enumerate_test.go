@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -42,4 +43,16 @@ func TestEnumerate(t *testing.T) {
 		assert.Equal(t, common.ErrOutOfRange, err)
 		assert.Nil(t, iter)
 	})
+}
+
+func ExampleEnumerate() {
+	arr := []int{1, 2, 3, 4, 5}
+	iter, _ := Enumerate(arr, 0, 4, 2)
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// [0 1]
+	// [2 3]
+	// [4 5]
 }

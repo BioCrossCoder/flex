@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -37,4 +38,23 @@ func TestCycle(t *testing.T) {
 			}
 		}
 	})
+}
+
+func ExampleCycle() {
+	entry := [3]int{1, 2, 3}
+	c, _ := Cycle(entry)
+	for i := 0; i < 10; i++ {
+		fmt.Println(c.Next())
+	}
+	// Output:
+	// 1
+	// 2
+	// 3
+	// 1
+	// 2
+	// 3
+	// 1
+	// 2
+	// 3
+	// 1
 }

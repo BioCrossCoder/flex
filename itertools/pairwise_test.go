@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -34,4 +35,17 @@ func TestPairWise(t *testing.T) {
 		assert.Equal(t, common.ErrNotSeq, err)
 		assert.Nil(t, iter)
 	})
+}
+
+func ExamplePairWise() {
+	entry := []int{1, 2, 3, 4, 5}
+	iter, _ := PairWise(entry)
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// [1 2]
+	// [2 3]
+	// [3 4]
+	// [4 5]
 }
