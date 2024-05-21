@@ -1,4 +1,3 @@
-// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 // repeater is an iterator that repeats a single value

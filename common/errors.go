@@ -1,4 +1,3 @@
-// Package common contains common constants, functions and errors used throughout the flex codebase.
 package common
 
 import "errors"

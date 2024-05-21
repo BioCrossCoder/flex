@@ -1,4 +1,3 @@
-// Package itertools provides iterator functions to create iterators and perform common operations on iterables.
 package itertools
 
 // Counter is an iterator that counts in a specific step, it can be used to generate a sequence of numbers, or to iterate over a range of numbers.
