@@ -1,11 +1,11 @@
 package arraylist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestSearchElement(t *testing.T) {
@@ -71,4 +71,156 @@ func TestSearchElement(t *testing.T) {
 			assert.Nil(t, tail)
 		})
 	})
+}
+
+func ExampleArrayList_IndexOf() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	fmt.Println(list.IndexOf(3))
+	fmt.Println(list.IndexOf(6))
+	// Output:
+	// 2
+	// -1
+}
+
+func ExampleArrayList_LastIndexOf() {
+	list := ArrayList{1, 2, 3, 4, 3}
+	fmt.Println(list.IndexOf(3))
+	fmt.Println(list.LastIndexOf(3))
+	// Output:
+	// 2
+	// 4
+}
+
+func ExampleArrayList_At() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	element, _ := list.At(2)
+	fmt.Println(element)
+	element, _ = list.At(-1)
+	fmt.Println(element)
+	_, err := list.At(10)
+	fmt.Println(err)
+	// Output:
+	// 3
+	// 5
+	// the index is out of range
+}
+
+func ExampleArrayList_Find() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	even := func(num any) bool {
+		return num.(int)%2 == 0
+	}
+	fmt.Println(list.Find(even))
+	negative := func(num any) bool {
+		return num.(int) < 0
+	}
+	fmt.Println(list.Find(negative))
+	// Output:
+	// 2 true
+	// <nil> false
+}
+
+func ExampleArrayList_FindIndex() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	even := func(num any) bool {
+		return num.(int)%2 == 0
+	}
+	fmt.Println(list.FindIndex(even))
+	negative := func(num any) bool {
+		return num.(int) < 0
+	}
+	fmt.Println(list.FindIndex(negative))
+	// Output:
+	// 1
+	// -1
+}
+
+func ExampleArrayList_FindLast() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	even := func(num any) bool {
+		return num.(int)%2 == 0
+	}
+	fmt.Println(list.Find(even))
+	fmt.Println(list.FindLast(even))
+	// Output:
+	// 2 true
+	// 4 true
+}
+
+func ExampleArrayList_FindLastIndex() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	even := func(num any) bool {
+		return num.(int)%2 == 0
+	}
+	fmt.Println(list.FindIndex(even))
+	fmt.Println(list.FindLastIndex(even))
+	// Output:
+	// 1
+	// 3
+}
+
+func ExampleArrayList_Head() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	fmt.Println(list.Head())
+	fmt.Println(ArrayList{}.Head())
+	// Output:
+	// 1 <nil>
+	// <nil> the input list is empty
+}
+
+func ExampleArrayList_Tail() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	fmt.Println(list.Tail())
+	fmt.Println(ArrayList{}.Tail())
+	// Output:
+	// 5 <nil>
+	// <nil> the input list is empty
+}
+
+func ExampleArrayList_FindIndexes() {
+	l := ArrayList{1, 2, 3, 4, 5, 2}
+	condition := func(val any) bool {
+		return val.(int) > 2
+	}
+	fmt.Println(l.FindIndexes(condition))
+	fmt.Println(l.FindIndexes(condition, 2))
+	// Output:
+	// [2 3 4]
+	// [2 3]
+}
+
+func ExampleArrayList_FindLastIndexes() {
+	l := ArrayList{1, 2, 3, 4, 5, 2}
+	condition := func(val any) bool {
+		return val.(int) > 2
+	}
+	fmt.Println(l.FindIndexes(condition))
+	fmt.Println(l.FindLastIndexes(condition))
+	// Output:
+	// [2 3 4]
+	// [4 3 2]
+}
+
+func ExampleArrayList_Finds() {
+	l := ArrayList{1, 2, 3, 4, 5, 2}
+	condition := func(val any) bool {
+		return val.(int) > 2
+	}
+	fmt.Println(l.Finds(condition))
+	fmt.Println(l.Finds(condition, 2))
+	// Output:
+	// [3 4 5]
+	// [3 4]
+}
+
+func ExampleArrayList_FindLasts() {
+	l := ArrayList{1, 2, 3, 4, 5, 2}
+	condition := func(val any) bool {
+		return val.(int) > 2
+	}
+	fmt.Println(l.Finds(condition))
+	fmt.Println(l.FindLasts(condition))
+	// Output:
+	// [3 4 5]
+	// [5 4 3]
 }

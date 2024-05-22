@@ -1,6 +1,7 @@
 package arraylist
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -81,4 +82,78 @@ func TestRepeat(t *testing.T) {
 	convey.Convey("create a list with repeated elements", t, func() {
 		assert.Equal(t, ArrayList{1, 1, 1, 1, 1}, Repeat(1, 5))
 	})
+}
+
+func ExampleArrayList_Copy() {
+	l := ArrayList{1, 2, 3, 4, 5}
+	backup := l.Copy()
+	fmt.Println(backup)
+	fmt.Println(l.Equal(backup))
+	// Output:
+	// [1 2 3 4 5]
+	// true
+}
+
+func ExampleArrayList_Concat() {
+	list1 := ArrayList{1, 2, 3}
+	list2 := ArrayList{4, 5, 6}
+	concatenated := list1.Concat(list2)
+	fmt.Println(concatenated)
+	// Output: [1 2 3 4 5 6]
+}
+
+func ExampleArrayList_Slice() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	slice1 := list.Slice(1, 4)
+	fmt.Println(slice1)
+	slice2 := list.Slice(0, 3, 2)
+	fmt.Println(slice2)
+	slice3 := list.Slice(3, 0, -1)
+	fmt.Println(slice3)
+	// Output:
+	// [2 3 4]
+	// [1 3]
+	// [4 3 2]
+}
+
+func ExampleArrayList_ToSpliced() {
+	arr := ArrayList{1, 2, 3, 4, 5}
+	newArr := arr.ToSpliced(2, 2, 6, 7, 8)
+	fmt.Println(newArr)
+	fmt.Println(arr)
+	// Output:
+	// [1 2 6 7 8 5]
+	// [1 2 3 4 5]
+}
+
+func ExampleArrayList_ToReversed() {
+	l := ArrayList{1, 2, 3, 4, 5}
+	reversed := l.ToReversed()
+	fmt.Println(reversed)
+	fmt.Println(l)
+	// Output:
+	// [5 4 3 2 1]
+	// [1 2 3 4 5]
+}
+
+func ExampleArrayList_With() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	newList := list.With(2, 10)
+	fmt.Println(newList)
+	fmt.Println(list)
+	// Output:
+	// [1 2 10 4 5]
+	// [1 2 3 4 5]
+}
+
+func ExampleOf() {
+	list := Of(1, true, "hello", 2.5, []int{1, 2, 3})
+	fmt.Println(list)
+	// Output: [1 true hello 2.5 [1 2 3]]
+}
+
+func ExampleRepeat() {
+	repeated := Repeat("hello", 3)
+	fmt.Println(repeated)
+	// Output: [hello hello hello]
 }

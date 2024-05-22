@@ -1,6 +1,7 @@
 package arraylist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -95,4 +96,99 @@ func TestSomeAndEvery(t *testing.T) {
 			}))
 		})
 	})
+}
+
+func ExampleArrayList_Map() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	handler := func(val any) any {
+		return val.(int) * 2
+	}
+	newList := list.Map(handler)
+	fmt.Println(newList)
+	fmt.Println(list)
+	// Output:
+	// [2 4 6 8 10]
+	// [1 2 3 4 5]
+}
+
+func ExampleArrayList_Reduce() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	// Example 1: Summing up the elements of the list
+	sum, _ := list.Reduce(func(a, b any) any {
+		return a.(int) + b.(int)
+	})
+	fmt.Println(sum)
+	// Example 2: Finding the maximum element in the list
+	max, _ := list.Reduce(func(a, b any) any {
+		if a.(int) > b.(int) {
+			return a
+		}
+		return b
+	}, 0)
+	fmt.Println(max)
+	// Example 3: Summing up the elements of the list with initial value
+	sum, _ = list.Reduce(func(a, b any) any {
+		return a.(int) + b.(int)
+	}, 10)
+	fmt.Println(sum)
+	// Output:
+	// 15
+	// 5
+	// 25
+}
+
+func ExampleArrayList_ReduceRight() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	sumHandler := func(a, b any) any {
+		return a.(int) + b.(int)
+	}
+	// Example 1: Using ReduceRight without initial value
+	result1, _ := list.ReduceRight(sumHandler)
+	fmt.Println(result1)
+	// Example 2: Using ReduceRight with initial value
+	result2, _ := list.ReduceRight(sumHandler, 10)
+	fmt.Println(result2)
+	// Output:
+	// 15
+	// 25
+}
+
+func ExampleArrayList_Filter() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	condition := func(item any) bool {
+		return item.(int)%2 == 0
+	}
+	filteredList := list.Filter(condition)
+	fmt.Println(filteredList)
+	// Output: [2 4]
+}
+
+func ExampleArrayList_Some() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	result := list.Some(func(i any) bool {
+		return i.(int) > 3
+	})
+	fmt.Println(result)
+	result = list.Some(func(i any) bool {
+		return i.(int) > 5
+	})
+	fmt.Println(result)
+	// Output:
+	// true
+	// false
+}
+
+func ExampleArrayList_Every() {
+	list := ArrayList{1, 2, 3, 4, 5}
+	allEven := list.Every(func(item any) bool {
+		return item.(int)%2 == 0
+	})
+	fmt.Println(allEven)
+	allPositive := list.Every(func(item any) bool {
+		return item.(int) > 0
+	})
+	fmt.Println(allPositive)
+	// Output:
+	// false
+	// true
 }
