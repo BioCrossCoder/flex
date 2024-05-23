@@ -168,7 +168,7 @@ func ExampleOrderedChainSet_ToList() {
 	// [1 2 3]
 }
 
-func ExampleOrderedChainSet_MarShalJSON() {
+func ExampleOrderedChainSet_MarshalJSON() {
 	s := NewOrderedChainSet(1, 2, 3)
 	data, _ := json.Marshal(&s)
 	fmt.Println(string(data))

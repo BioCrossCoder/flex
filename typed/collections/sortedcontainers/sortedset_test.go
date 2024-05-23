@@ -1,9 +1,12 @@
 package sortedcontainers
 
 import (
+	"fmt"
+	"testing"
+
+	"github.com/biocrosscoder/flex/typed/collections/set"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestOrderedSet(t *testing.T) {
@@ -45,4 +48,31 @@ func TestOrderedSet(t *testing.T) {
 		_ = s2.Update(s.Set)
 		assert.True(t, s.ToList().Equal(s2.ToList()))
 	})
+}
+
+func ExampleSortedSet() {
+	s := NewSortedSet(nil, 1, 3, 2, 4, 5, 2, 3, 6, 9)
+	fmt.Println(s.Elements())
+	// Output: [1 2 3 4 5 6 9]
+}
+
+func ExampleSortedSet_Add() {
+	s := NewSortedSet(nil, 1, 5, 8)
+	fmt.Println(s.Elements())
+	s.Add(3)
+	fmt.Println(s.Elements())
+	// Output:
+	// [1 5 8]
+	// [1 3 5 8]
+}
+
+func ExampleSortedSet_Update() {
+	s := NewSortedSet(nil, 1, 5, 8)
+	fmt.Println(s.Elements())
+	s2 := set.Of(3, 6, 9)
+	s.Update(s2)
+	fmt.Println(s.Elements())
+	// Output:
+	// [1 5 8]
+	// [1 3 5 6 8 9]
 }

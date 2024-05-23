@@ -1,6 +1,7 @@
 package sortedcontainers
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/dict"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -81,4 +82,51 @@ func TestOrderedDict(t *testing.T) {
 		_ = d2.Update(d.Dict)
 		assert.True(t, d.Equal(d2))
 	})
+}
+
+func ExampleSortedDict() {
+	d := NewSortedDict(nil, dict.Dict[string, int]{"c": 1, "a": 2, "b": 3, "d": 4})
+	fmt.Println(d.Keys())
+	fmt.Println(d.Values())
+	for _, item := range d.Items() {
+		fmt.Println(*item)
+	}
+	// Output:
+	// [a b c d]
+	// [2 3 1 4]
+	// {a 2}
+	// {b 3}
+	// {c 1}
+	// {d 4}
+}
+
+func ExampleSortedDict_Set() {
+	d := NewSortedDict[string, int](nil, nil)
+	d.Set("c", 1)
+	d.Set("a", 2)
+	fmt.Println(d.Keys())
+	fmt.Println(d.Values())
+	d.Set("c", 3)
+	fmt.Println(d.Keys())
+	fmt.Println(d.Values())
+	// Output:
+	// [a c]
+	// [2 1]
+	// [a c]
+	// [2 3]
+}
+
+func ExampleSortedDict_Update() {
+	d1 := NewSortedDict[string, int](nil, dict.Dict[string, int]{"c": 1, "a": 2, "b": 3})
+	fmt.Println(d1.Keys())
+	fmt.Println(d1.Values())
+	d2 := dict.Dict[string, int]{"d": 5, "b": 4, "e": 6}
+	d1.Update(d2)
+	fmt.Println(d1.Keys())
+	fmt.Println(d1.Values())
+	// Output:
+	// [a b c]
+	// [2 3 1]
+	// [a b c d e]
+	// [2 4 1 5 6]
 }
