@@ -1,6 +1,7 @@
 package queue
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -41,3 +42,19 @@ func TestPriorityQueue(t *testing.T) {
 	})
 }
 
+func ExamplePriorityQueue() {
+	pq, _ := NewPriorityQueue[int](3)
+	pq.Enqueue(100, 3)
+	pq.Enqueue(80, 22)
+	pq.Enqueue(75, 1)
+	v, _ := pq.Dequeue()
+	fmt.Println(v)
+	v, _ = pq.Dequeue()
+	fmt.Println(v)
+	v, _ = pq.Dequeue()
+	fmt.Println(v)
+	// Output:
+	// 80
+	// 100
+	// 75
+}

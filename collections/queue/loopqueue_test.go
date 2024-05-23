@@ -40,7 +40,7 @@ func TestLoopQueue(t *testing.T) {
 	})
 }
 
-func ExampleLoopQueue() {
+func ExampleNewLoopQueue() {
 	s, _ := NewLoopQueue(3)
 	for i := 0; i < 3; i++ {
 		s.Enqueue(i)

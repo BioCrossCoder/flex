@@ -1,6 +1,7 @@
 package queue
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -37,4 +38,18 @@ func TestLoopQueue(t *testing.T) {
 		assert.Equal(t, err, common.ErrInvalidCapacity)
 		assert.Nil(t, q)
 	})
+}
+
+func ExampleNewLoopQueue() {
+	s, _ := NewLoopQueue[int](3)
+	for i := 0; i < 3; i++ {
+		s.Enqueue(i)
+	}
+	for i := 0; i < 3; i++ {
+		fmt.Println(s.Dequeue())
+	}
+	// Output:
+	// 0 true
+	// 1 true
+	// 2 true
 }
