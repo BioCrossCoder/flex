@@ -58,3 +58,126 @@ func TestOrderedChainSet(t *testing.T) {
 		assert.Equal(t, fmt.Sprint(l), fmt.Sprint(l2))
 	})
 }
+
+func ExampleOrderedChainSet() {
+	s := NewOrderedChainSet(1, 3, 2, 4, 5, 2, 3, 6, 9)
+	fmt.Println(s)
+	// Output: {1 3 2 4 5 6 9}
+}
+
+func ExampleOrderedChainSet_Add() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	s.Add(4)
+	fmt.Println(s)
+	// Output:
+	// {1 2 3}
+	// {1 2 3 4}
+}
+
+func ExampleOrderedChainSet_Discard() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	s.Discard(2)
+	fmt.Println(s)
+	// Output:
+	// {1 2 3}
+	// {1 3}
+}
+
+// ExampleOrderedChainSet_Pop demonstrates how to pop the last element from the OrderedSet.
+func ExampleOrderedChainSet_Pop() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	element, _ := s.Pop()
+	fmt.Println(element)
+	fmt.Println(s)
+	// Output:
+	// {1 2 3}
+	// 3
+	// {1 2}
+}
+
+func ExampleOrderedChainSet_Update() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	as := NewOrderedChainSet(4, 3, 5)
+	s.Update(*as)
+	fmt.Println(s)
+	// Output:
+	// {1 2 3}
+	// {1 2 3 4 5}
+}
+
+func ExampleOrderedChainSet_Elements() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	fmt.Println(s.Elements())
+	// Output:
+	// {1 2 3}
+	// [1 2 3]
+}
+
+func ExampleOrderedChainSet_Copy() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	s2 := s.Copy()
+	fmt.Println(s2)
+	// Output:
+	// {1 2 3}
+	// {1 2 3}
+}
+
+func ExampleOrderedChainSet_Equal() {
+	s := NewOrderedChainSet(1, 2, 3)
+	s2 := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s.Equal(*s2))
+	s3 := NewOrderedChainSet(1, 3, 2)
+	fmt.Println(s.Equal(*s3))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleOrderedChainSet_At() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s.At(0))
+	fmt.Println(s.At(-2))
+	fmt.Println(s.At(6))
+	// Output:
+	// 1 <nil>
+	// 2 <nil>
+	// <nil> the index is out of range
+}
+
+func ExampleOrderedChainSet_IndexOf() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s.IndexOf(2))
+	fmt.Println(s.IndexOf(4))
+	// Output:
+	// 1
+	// -1
+}
+
+func ExampleOrderedChainSet_ToList() {
+	s := NewOrderedChainSet(1, 2, 3)
+	fmt.Println(s)
+	fmt.Println(s.ToList())
+	// Output:
+	// {1 2 3}
+	// [1 2 3]
+}
+
+func ExampleOrderedChainSet_MarShalJSON() {
+	s := NewOrderedChainSet(1, 2, 3)
+	data, _ := json.Marshal(&s)
+	fmt.Println(string(data))
+	// Output: [1,2,3]
+}
+
+func ExampleOrderedChainSet_UnmarshalJSON() {
+	s := NewOrderedChainSet()
+	_ = json.Unmarshal([]byte("[1,2,3]"), &s)
+	fmt.Println(s)
+	// Output: {1 2 3}
+}
