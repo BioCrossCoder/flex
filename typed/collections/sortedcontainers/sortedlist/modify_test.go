@@ -1,6 +1,7 @@
 package sortedlist
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -113,4 +114,26 @@ func TestReverse(t *testing.T) {
 		_ = l.Reverse()
 		assert.True(t, l.Equal(*NewSortedList(DescendOrder, 1, 2, 3, 4, 5)))
 	})
+}
+
+func ExampleSortedList_RemoveRange() {
+	l := NewSortedList(AscendOrder, 2, 3, 1, 4, 5)
+	fmt.Println(l.ToArray())
+	removed := l.RemoveRange(1, 3)
+	fmt.Println(removed.ToArray())
+	fmt.Println(l.ToArray())
+	// Output:
+	// [1 2 3 4 5]
+	// [2 3]
+	// [1 4 5]
+}
+
+func ExampleSortedList_Insert() {
+	l := NewSortedList(AscendOrder, 1, 5, 8)
+	fmt.Println(l.ToArray())
+	l.Insert(3)
+	fmt.Println(l.ToArray())
+	// Output:
+	// [1 5 8]
+	// [1 3 5 8]
 }

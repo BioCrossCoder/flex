@@ -1,6 +1,7 @@
 package sortedlist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -24,4 +25,10 @@ func TestSortedList(t *testing.T) {
 		assert.Equal(t, []int{9, 6, 5, 3, 2, 1}, l.Copy().ToArray())
 		assert.True(t, l.Slice(-1, -10, -1).Equal(l.ToReversed()))
 	})
+}
+
+func ExampleSortedList() {
+	l := NewSortedList(AscendOrder, 1, 3, 2, 5, 6, 9)
+	fmt.Println(l.ToArray())
+	// Output: [1 2 3 5 6 9]
 }

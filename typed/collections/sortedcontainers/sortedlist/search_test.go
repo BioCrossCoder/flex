@@ -1,6 +1,7 @@
 package sortedlist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -69,4 +70,28 @@ func TestSearchElement(t *testing.T) {
 			assert.Zero(t, tail)
 		})
 	})
+}
+
+func ExampleSortedList_Max() {
+	l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4)
+	m, _ := l.Max()
+	fmt.Println(m)
+	l.Reverse()
+	m, _ = l.Max()
+	fmt.Println(m)
+	// Output:
+	// 4
+	// 1
+}
+
+func ExampleSortedList_Min() {
+	l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4)
+	m, _ := l.Min()
+	fmt.Println(m)
+	l.Reverse()
+	m, _ = l.Min()
+	fmt.Println(m)
+	// Output:
+	// 1
+	// 4
 }
