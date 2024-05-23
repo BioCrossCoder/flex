@@ -64,8 +64,9 @@ func (l *SortedList[T]) Insert(element T) *SortedList[T] {
 // Reverse reverses the order of elements in the sorted list and returns the modified list.
 func (l *SortedList[T]) Reverse() *SortedList[T] {
 	_ = l.elements.Reverse()
+	cmp := l.cmp
 	l.cmp = func(a, b T) int {
-		return -l.cmp(a, b)
+		return -cmp(a, b)
 	}
 	return l
 }
