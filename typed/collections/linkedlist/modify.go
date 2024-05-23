@@ -151,6 +151,15 @@ func (l *LinkedList[T]) RemoveByIndex(index int) (element T, err error) {
 	return
 }
 
+// reduceSteps reduces the steps to rotate the linked list by the specified number of steps and keep the result of rotation correct.
+func (l LinkedList[T]) reduceSteps(step int) int {
+	step %= l.size
+	if l.nearTail(step) {
+		step = l.reverseIndex(step)
+	}
+	return step
+}
+
 // Rotate rotates the list by the specified number of steps.
 // If the count argument is not specified, only one step will be performed.
 // If the count is negative, the list rotates in a reverse direction.
@@ -163,6 +172,7 @@ func (l *LinkedList[T]) Rotate(steps ...int) *LinkedList[T] {
 	if len(steps) >= 1 {
 		step = steps[0]
 	}
+	step = l.reduceSteps(step)
 	for step < 0 {
 		value, _ := l.PopLeft()
 		_ = l.Append(value)
