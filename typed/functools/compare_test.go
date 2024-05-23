@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -40,4 +41,75 @@ func TestCompare(t *testing.T) {
 		assert.False(t, IsMonotonic(arr4, sortedlist.AscendOrder, true))
 		assert.True(t, IsMonotonic(arr4, sortedlist.AscendOrder, false))
 	})
+}
+
+func ExampleMax() {
+	max := Max(sortedlist.DescendOrder, 5, 3, 9, 2, 7)
+	fmt.Println(max)
+	// Output: 2
+}
+
+func ExampleMin() {
+	min := Min(sortedlist.DescendOrder, 5, 3, 9, 2, 7)
+	fmt.Println(min)
+	// Output: 9
+}
+
+func ExampleEquals() {
+	eq := func(a, b int) int {
+		return sortedlist.AscendOrder(a%3, b%3)
+	}
+	equal := Equals(eq, 3, 6, 9)
+	fmt.Println(equal)
+	// Output: true
+}
+
+func ExampleEqual() {
+	fmt.Println(Equal(3, 9, func(a, b int) int {
+		return sortedlist.AscendOrder(a%3, b%3)
+	}))
+	// Output: true
+}
+
+func ExampleLess() {
+	fmt.Println(Less(2, 3, func(a, b int) int {
+		return sortedlist.AscendOrder(a%3, b%3)
+	}))
+	// Output: false
+}
+
+func ExampleGreater() {
+	fmt.Println(Greater(5, 3, func(a, b int) int {
+		return sortedlist.AscendOrder(a%2, b%2)
+	}))
+	// Output: false
+}
+
+func ExampleIsIncreasing() {
+	arr := []int{1, 2, 3, 3, 4}
+	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder, false))
+	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder, true))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleIsDecreasing() {
+	arr := []int{5, 4, 3, 3, 2}
+	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder, false))
+	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder, true))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleIsMonotonic() {
+	arr := []int{1, 2, 2, 4, 5}
+	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder, false))
+	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder, true))
+	fmt.Println(IsMonotonic(arr, sortedlist.DescendOrder, false))
+	// Output:
+	// true
+	// false
+	// true
 }

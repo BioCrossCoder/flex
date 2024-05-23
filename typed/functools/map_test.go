@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -46,4 +47,25 @@ func TestMap(t *testing.T) {
 		assert.Equal(t, err, common.ErrListLengthMismatch)
 		assert.Nil(t, actual)
 	})
+}
+
+func ExampleMap() {
+	str := "hello"
+	arr := []int{1, 2, 3, 4, 5}
+	f := func(x int) string {
+		return string(str[x-1])
+	}
+	fmt.Println(Map(f, arr))
+	// Output: [h e l l o]
+}
+
+func ExampleMaps() {
+	arr1 := []int{1, 2, 3}
+	arr2 := [][]any{{"a", -1}, {"b", -2}, {"c", -3}}
+	f := func(x int, y []any) []any {
+		return []any{x, y[0], y[1]}
+	}
+	m, _ := Maps(f, arr1, arr2)
+	fmt.Println(m)
+	// Output: [[1 a -1] [2 b -2] [3 c -3]]
 }

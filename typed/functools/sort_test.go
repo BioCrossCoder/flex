@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist"
 	"github.com/smartystreets/goconvey/convey"
@@ -36,4 +37,40 @@ func TestSort(t *testing.T) {
 		Sort(arr, cmps...)
 		assert.True(t, IsSorted(arr, cmps...))
 	})
+}
+
+func ExampleSort() {
+	arr := [][]int{{3, 1, 4}, {1, 5, 9}, {2, 6, 5}, {3, 5, 5}}
+	f1 := func(a, b []int) int {
+		return sortedlist.AscendOrder(a[0], b[0])
+	}
+	f2 := func(a, b []int) int {
+		return sortedlist.AscendOrder(a[1], b[1])
+	}
+	fmt.Println(arr)
+	Sort(arr, f1, f2)
+	fmt.Println(arr)
+	// Output:
+	// [[3 1 4] [1 5 9] [2 6 5] [3 5 5]]
+	// [[1 5 9] [2 6 5] [3 1 4] [3 5 5]]
+}
+
+func ExampleSorted() {
+	arr := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
+	arr2 := Sorted(arr, sortedlist.AscendOrder)
+	fmt.Println(arr)
+	fmt.Println(arr2)
+	// Output:
+	// [3 1 4 1 5 9 2 6 5 3 5]
+	// [1 1 2 3 3 4 5 5 5 6 9]
+}
+
+func ExampleIsSorted() {
+	arr := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
+	fmt.Println(IsSorted(arr, sortedlist.AscendOrder))
+	Sort(arr, sortedlist.AscendOrder)
+	fmt.Println(IsSorted(arr, sortedlist.AscendOrder))
+	// Output:
+	// false
+	// true
 }

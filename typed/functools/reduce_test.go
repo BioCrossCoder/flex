@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -30,4 +31,21 @@ func TestReduce(t *testing.T) {
 		_, err = Reduce(f, arr, 1, 2)
 		assert.Equal(t, err, common.ErrTooManyArguments)
 	})
+}
+
+func ExampleReduce() {
+	arr := []int{1, 2, 3, 4, 5}
+	// sum
+	r, _ := Reduce(func(a, b int) int {
+		return a + b
+	}, arr)
+	fmt.Println(r)
+	// product
+	r, _ = Reduce(func(a, b int) int {
+		return a * b
+	}, arr)
+	fmt.Println(r)
+	// Output:
+	// 15
+	// 120
 }

@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"strings"
@@ -26,4 +27,13 @@ func TestFilter(t *testing.T) {
 		actual := Filter(f, arr)
 		assert.Equal(t, expected, actual)
 	})
+}
+
+func ExampleFilter() {
+	arr := []int{1, 2, 3, 4, 5}
+	f := func(x int) bool {
+		return x%2 != 0
+	}
+	fmt.Println(Filter(f, arr))
+	// Output: [1 3 5]
 }

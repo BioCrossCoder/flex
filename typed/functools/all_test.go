@@ -1,6 +1,7 @@
 package functools
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -33,4 +34,19 @@ func TestAll(t *testing.T) {
 		assert.True(t, All(g, arr))
 		assert.True(t, All(g, []string{}))
 	})
+}
+
+func ExampleAll() {
+	condition1 := func(x int) bool {
+		return x > 0
+	}
+	condition2 := func(x int) bool {
+		return x > 5
+	}
+	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Println(All(condition1, arr))
+	fmt.Println(All(condition2, arr))
+	// Output:
+	// true
+	// false
 }
