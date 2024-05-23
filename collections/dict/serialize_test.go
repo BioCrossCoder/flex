@@ -18,3 +18,18 @@ func TestSerialize(t *testing.T) {
 		assert.Equal(t, fmt.Sprint(d), fmt.Sprint(d2))
 	})
 }
+
+func ExampleDict_MarshalJSON() {
+	dict := Dict{"name": "John", "age": 30}
+	jsonBytes, _ := json.Marshal(dict)
+	fmt.Println(string(jsonBytes))
+	// Output: {"age":30,"name":"John"}
+}
+
+func ExampleDict_UnmarshalJSON() {
+	jsonStr := []byte(`{"age":30,"name":"John"}`)
+	var dict Dict
+	_ = json.Unmarshal(jsonStr, &dict)
+	fmt.Println(dict)
+	// Output: map[age:30 name:John]
+}

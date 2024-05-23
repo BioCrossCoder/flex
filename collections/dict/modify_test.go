@@ -1,6 +1,7 @@
 package dict
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -81,4 +82,76 @@ func TestUpdate(t *testing.T) {
 		assert.Equal(t, d.Get("key1"), "value1")
 		assert.Equal(t, d.Get("key2"), "value2")
 	})
+}
+
+func ExampleDict_Clear() {
+	d := Dict{"a": 1}
+	fmt.Println(d)
+	d.Clear()
+	fmt.Println(d)
+	fmt.Println(d.Size())
+	fmt.Println(d.Empty())
+	// Output:
+	// map[a:1]
+	// map[]
+	// 0
+	// true
+}
+
+func ExampleDict_Set() {
+	d := make(Dict)
+	fmt.Println(d.Get("a", nil))
+	fmt.Println(d.Has("a"))
+	d.Set("a", 5)
+	fmt.Println(d.Has("a"))
+	fmt.Println(d.Get("a", nil))
+	d.Set("a", 10)
+	fmt.Println(d.Get("a", nil))
+	// Output:
+	// <nil>
+	// false
+	// true
+	// 5
+	// 10
+}
+
+func ExampleDict_Delete() {
+	d := Dict{"a": 1}
+	fmt.Println(d.Has("a"))
+	fmt.Println(d.Delete("a"))
+	fmt.Println(d.Has("a"))
+	// Output:
+	// true
+	// true
+	// false
+}
+
+func ExampleDict_Pop() {
+	d := Dict{"a": 1, "b": 2, "c": 3}
+	fmt.Println(d.Has("a"))
+	fmt.Println(d.Pop("a"))
+	fmt.Println(d.Has("a"))
+	fmt.Println(d.Pop("a"))
+	fmt.Println(d.Pop("a", "default"))
+	// Output:
+	// true
+	// 1 <nil>
+	// false
+	// <nil> the key is not found in the dict
+	// default <nil>
+}
+
+func ExampleDict_Update() {
+	d1 := Dict{"a": 1, "b": 2}
+	d2 := Dict{"b": 3, "c": 4}
+	fmt.Println(d1)
+	fmt.Println(d2)
+	d1.Update(d2)
+	fmt.Println(d1)
+	fmt.Println(d2)
+	// Output:
+	// map[a:1 b:2]
+	// map[b:3 c:4]
+	// map[a:1 b:3 c:4]
+	// map[b:3 c:4]
 }
