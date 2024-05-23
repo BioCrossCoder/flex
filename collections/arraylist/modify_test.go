@@ -423,14 +423,14 @@ func ExampleArrayList_Set() {
 }
 
 func ExampleArrayList_RemoveIf() {
-	lst := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	list := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	evenCondition := func(val any) bool {
 		num := val.(int)
 		return num%2 == 0
 	}
-	fmt.Println(lst)
-	removed := lst.RemoveIf(evenCondition, -1)
-	fmt.Println(lst)
+	fmt.Println(list)
+	removed := list.RemoveIf(evenCondition, -1)
+	fmt.Println(list)
 	fmt.Println(removed)
 	// Output:
 	// [1 2 3 4 5 6 7 8 9 10]
@@ -460,14 +460,14 @@ func ExampleArrayList_RemoveRightIf() {
 }
 
 func ExampleArrayList_ReplaceIf() {
-	lst := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	list := ArrayList{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	evenCondition := func(val any) bool {
 		num := val.(int)
 		return num%2 == 0
 	}
-	fmt.Println(lst)
-	replaced := lst.ReplaceIf(evenCondition, -1, -1)
-	fmt.Println(lst)
+	fmt.Println(list)
+	replaced := list.ReplaceIf(evenCondition, -1, -1)
+	fmt.Println(list)
 	fmt.Println(replaced)
 	// Output:
 	// [1 2 3 4 5 6 7 8 9 10]

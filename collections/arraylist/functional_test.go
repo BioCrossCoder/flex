@@ -139,18 +139,16 @@ func ExampleArrayList_Reduce() {
 
 func ExampleArrayList_ReduceRight() {
 	list := ArrayList{1, 2, 3, 4, 5}
-	sumHandler := func(a, b any) any {
-		return a.(int) + b.(int)
+	f := func(a, b any) any {
+		return a.(int) - b.(int)
 	}
-	// Example 1: Using ReduceRight without initial value
-	result1, _ := list.ReduceRight(sumHandler)
+	result1, _ := list.Reduce(f)
 	fmt.Println(result1)
-	// Example 2: Using ReduceRight with initial value
-	result2, _ := list.ReduceRight(sumHandler, 10)
+	result2, _ := list.ReduceRight(f)
 	fmt.Println(result2)
 	// Output:
-	// 15
-	// 25
+	// -13
+	// -5
 }
 
 func ExampleArrayList_Filter() {
