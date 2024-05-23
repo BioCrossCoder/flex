@@ -1,11 +1,11 @@
 package set
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
-	"testing"
-
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestAdd(t *testing.T) {
@@ -74,4 +74,56 @@ func TestPop(t *testing.T) {
 		assert.Equal(t, common.ErrEmptySet, err)
 		assert.Nil(t, element)
 	})
+}
+
+func ExampleSet_Add() {
+	s := Of()
+	fmt.Println(s.Has(1))
+	s.Add(1)
+	fmt.Println(s.Has(1))
+	// Output:
+	// false
+	// true
+}
+
+func ExampleSet_Discard() {
+	s := Of(1, 2, 3)
+	fmt.Println(s.Has(2))
+	s.Discard(2)
+	fmt.Println(s.Has(2))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleSet_Clear() {
+	s := Of(1, 2)
+	fmt.Println(s.Empty())
+	s.Clear()
+	fmt.Println(s.Empty())
+	fmt.Println(s)
+	// Output:
+	// false
+	// true
+	// {}
+}
+
+func ExampleSet_Update() {
+	s1 := Of(1)
+	fmt.Println(s1)
+	s2 := Of(2)
+	fmt.Println(s2)
+	s1.Update(s2)
+	fmt.Println(s1.Has(2))
+	// Output:
+	// {1}
+	// {2}
+	// true
+}
+
+func ExampleSet_Pop() {
+	s := Of(1)
+	element, _ := s.Pop()
+	fmt.Println(element)
+	// Output: 1
 }
