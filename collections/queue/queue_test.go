@@ -1,6 +1,7 @@
 package queue
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -32,4 +33,18 @@ func TestQueue(t *testing.T) {
 		}
 		assert.True(t, s.Empty())
 	})
+}
+
+func ExampleQueue() {
+	s := NewQueue(3)
+	for i := 0; i < 3; i++ {
+		s.Enqueue(i)
+	}
+	for i := 0; i < 3; i++ {
+		fmt.Println(s.Dequeue())
+	}
+	// Output:
+	// 0 true
+	// 1 true
+	// 2 true
 }
