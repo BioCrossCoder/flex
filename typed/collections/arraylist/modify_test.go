@@ -1,6 +1,7 @@
 package arraylist
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -229,4 +230,267 @@ func TestSet(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, result, 6)
 	})
+}
+
+func ExampleArrayList_Remove() {
+	l := ArrayList[int]{1, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5}
+	fmt.Println(l)
+	l.Remove(2)
+	fmt.Println(l)
+	l.Remove(4, -1)
+	fmt.Println(l)
+	l.Remove(5, 2)
+	fmt.Println(l)
+	// Output:
+	// [1 2 2 3 4 4 4 5 5 5 5 5]
+	// [1 2 3 4 4 4 5 5 5 5 5]
+	// [1 2 3 5 5 5 5 5]
+	// [1 2 3 5 5 5]
+}
+
+func ExampleArrayList_RemoveRight() {
+	l := ArrayList[int]{1, 2, 3, 4, 5, 4, 3, 2, 1}
+	l2 := l.Copy()
+	fmt.Println(l)
+	l.Remove(4)
+	l2.RemoveRight(4)
+	fmt.Println(l)
+	fmt.Println(l2)
+	// Output:
+	// [1 2 3 4 5 4 3 2 1]
+	// [1 2 3 5 4 3 2 1]
+	// [1 2 3 4 5 3 2 1]
+}
+
+func ExampleArrayList_Clear() {
+	list := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(list)
+	list.Clear()
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// []
+}
+
+func ExampleArrayList_Push() {
+	list := ArrayList[int]{1, 2, 3}
+	fmt.Println(list)
+	list.Push(4, 5, 6)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 2 3 4 5 6]
+}
+
+func ExampleArrayList_Pop() {
+	l := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(l)
+	// Remove the last element
+	element, _ := l.Pop()
+	fmt.Println(element)
+	fmt.Println(l)
+	// Remove the element at a specific index
+	element, _ = l.Pop(2)
+	fmt.Println(element)
+	fmt.Println(l)
+	// Output:
+	// [1 2 3 4 5]
+	// 5
+	// [1 2 3 4]
+	// 3
+	// [1 2 4]
+}
+
+func ExampleArrayList_Unshift() {
+	l := ArrayList[int]{1, 2, 3}
+	fmt.Println(l)
+	l.Unshift(4, 5)
+	fmt.Println(l)
+	// Output:
+	// [1 2 3]
+	// [4 5 1 2 3]
+}
+
+func ExampleArrayList_Shift() {
+	list := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(list)
+	element, _ := list.Shift()
+	fmt.Println(element)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// 1
+	// [2 3 4 5]
+}
+
+func ExampleArrayList_Insert() {
+	list := ArrayList[int]{1, 2, 3}
+	fmt.Println(list)
+	list.Insert(1, 5)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 5 2 3]
+}
+
+func ExampleArrayList_ForEach() {
+	list := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(list)
+	list.ForEach(func(item int) int {
+		return item * 2
+	})
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// [2 4 6 8 10]
+}
+
+func ExampleArrayList_Replace() {
+	l := ArrayList[int]{1, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5}
+	fmt.Println(l)
+	l.Replace(2, -2)
+	fmt.Println(l)
+	l.Replace(4, -4, -1)
+	fmt.Println(l)
+	l.Replace(5, -5, 2)
+	fmt.Println(l)
+	// Output:
+	// [1 2 2 3 4 4 4 5 5 5 5 5]
+	// [1 -2 2 3 4 4 4 5 5 5 5 5]
+	// [1 -2 2 3 -4 -4 -4 5 5 5 5 5]
+	// [1 -2 2 3 -4 -4 -4 -5 -5 5 5 5]
+}
+
+func ExampleArrayList_ReplaceRight() {
+	l := ArrayList[int]{1, 2, 3, 4, 5, 4, 3, 2, 1}
+	l2 := l.Copy()
+	fmt.Println(l)
+	l.Replace(4, 0)
+	l2.ReplaceRight(4, 0)
+	fmt.Println(l)
+	fmt.Println(l2)
+	// Output:
+	// [1 2 3 4 5 4 3 2 1]
+	// [1 2 3 0 5 4 3 2 1]
+	// [1 2 3 4 5 0 3 2 1]
+}
+
+func ExampleArrayList_Splice() {
+	arr := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(arr)
+	arr.Splice(2, 2, 6, 7, 8)
+	fmt.Println(arr)
+	// Output:
+	// [1 2 3 4 5]
+	// [1 2 6 7 8 5]
+}
+
+func ExampleArrayList_Fill() {
+	list := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(list)
+	list.Fill(0, 1, 3)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// [1 0 0 4 5]
+}
+
+func ExampleArrayList_Reverse() {
+	l := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(l)
+	l.Reverse()
+	fmt.Println(l)
+	// Output:
+	// [1 2 3 4 5]
+	// [5 4 3 2 1]
+}
+
+func ExampleArrayList_Set() {
+	list := ArrayList[int]{1, 2, 3}
+	fmt.Println(list)
+	_ = list.Set(2, 6)
+	fmt.Println(list)
+	_ = list.Set(-2, 5)
+	fmt.Println(list)
+	err := list.Set(5, 6)
+	fmt.Println(err)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 2 6]
+	// [1 5 6]
+	// the index is out of range
+	// [1 5 6]
+}
+
+func ExampleArrayList_RemoveIf() {
+	list := ArrayList[int]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	evenCondition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	removed := list.RemoveIf(evenCondition, -1)
+	fmt.Println(list)
+	fmt.Println(removed)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 3 5 7 9]
+	// [2 4 6 8 10]
+}
+
+func ExampleArrayList_RemoveRightIf() {
+	list := ArrayList[int]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	list2 := list.Copy()
+	condition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	removed1 := list.RemoveRightIf(condition, 3)
+	removed2 := list2.RemoveIf(condition, 3)
+	fmt.Println(list)
+	fmt.Println(removed1)
+	fmt.Println(list2)
+	fmt.Println(removed2)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 2 3 4 5 7 9]
+	// [10 8 6]
+	// [1 3 5 7 8 9 10]
+	// [2 4 6]
+}
+
+func ExampleArrayList_ReplaceIf() {
+	list := ArrayList[int]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	evenCondition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	replaced := list.ReplaceIf(evenCondition, -1, -1)
+	fmt.Println(list)
+	fmt.Println(replaced)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 -1 3 -1 5 -1 7 -1 9 -1]
+	// [2 4 6 8 10]
+}
+
+func ExampleArrayList_ReplaceRightIf() {
+	list := ArrayList[int]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	list2 := list.Copy()
+	condition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	replaced1 := list.ReplaceRightIf(condition, 0, 3)
+	replaced2 := list2.ReplaceIf(condition, 0, 3)
+	fmt.Println(list)
+	fmt.Println(replaced1)
+	fmt.Println(list2)
+	fmt.Println(replaced2)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 2 3 4 5 0 7 0 9 0]
+	// [10 8 6]
+	// [1 0 3 0 5 0 7 8 9 10]
+	// [2 4 6]
 }

@@ -1,6 +1,7 @@
 package arraylist
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -37,4 +38,57 @@ func TestEmpty(t *testing.T) {
 		assert.False(t, l1.Empty())
 		assert.True(t, l2.Empty())
 	})
+}
+
+func ExampleArrayList() {
+	al := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(al) // Output: [1 2 3 4 5]
+}
+
+func ExampleArrayList_Len() {
+	al := ArrayList[int]{1, 2, 3, 4, 5}
+	length := al.Len()
+	fmt.Println(length) // Output: 5
+}
+
+func ExampleArrayList_Count() {
+	al := ArrayList[int]{1, 2, 3, 4, 5, 5, 5}
+	fmt.Println(al.Count(5))
+	fmt.Println(al.Count(6))
+	// Output:
+	// 3
+	// 0
+}
+
+func ExampleArrayList_Includes() {
+	al := ArrayList[int]{1, 2, 3, 4, 5}
+	fmt.Println(al.Includes(3))
+	fmt.Println(al.Includes(6))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleArrayList_Empty() {
+	al := ArrayList[int]{}
+	fmt.Println(al.Empty())
+	al2 := ArrayList[int]{1, 2, 3}
+	fmt.Println(al2.Empty())
+	// Output:
+	// true
+	// false
+}
+
+func ExampleArrayList_Equal() {
+	al1 := ArrayList[int]{1, 2, 3}
+	al2 := ArrayList[int]{1, 2, 3}
+	al3 := ArrayList[int]{1, 2, 3, 4}
+	al4 := ArrayList[int]{1, 2, 4}
+	fmt.Println(al1.Equal(al2))
+	fmt.Println(al1.Equal(al3))
+	fmt.Println(al1.Equal(al4))
+	// Output:
+	// true
+	// false
+	// false
 }
