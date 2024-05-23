@@ -1,6 +1,7 @@
 package linkedlist
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -44,4 +45,52 @@ func TestToList(t *testing.T) {
 		d := NewLinkedList(1, 2, 3, 4, 5)
 		assert.Equal(t, []any{1, 2, 3, 4, 5}, d.ToArray())
 	})
+}
+
+func ExampleLinkedList_Len() {
+	ll := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(ll.Len())
+	// Output: 5
+}
+
+func ExampleLinkedList_Count() {
+	ll := NewLinkedList(1, 2, 3, 4, 5, 5, 5)
+	fmt.Println(ll.Count(5))
+	fmt.Println(ll.Count(6))
+	// Output:
+	// 3
+	// 0
+}
+
+func ExampleLinkedList_Includes() {
+	ll := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(ll.Includes(3))
+	fmt.Println(ll.Includes(6))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleLinkedList_Empty() {
+	ll := NewLinkedList()
+	fmt.Println(ll.Empty())
+	ll2 := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(ll2.Empty())
+	// Output:
+	// true
+	// false
+}
+
+func ExampleLinkedList_Equal() {
+	ll1 := NewLinkedList(1, 2, 3)
+	ll2 := NewLinkedList(1, 2, 3)
+	ll3 := NewLinkedList(1, 2, 3, 4)
+	ll4 := NewLinkedList(1, 2, 4)
+	fmt.Println(ll1.Equal(*ll2))
+	fmt.Println(ll1.Equal(*ll3))
+	fmt.Println(ll1.Equal(*ll4))
+	// Output:
+	// true
+	// false
+	// false
 }

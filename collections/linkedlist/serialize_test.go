@@ -18,3 +18,24 @@ func TestSerialize(t *testing.T) {
 		assert.Equal(t, fmt.Sprint(l), fmt.Sprint(l2))
 	})
 }
+
+func ExampleLinkedList_String() {
+	l := NewLinkedList(1, 2, 3)
+	fmt.Println(l)
+	// Output: [1 2 3]
+}
+
+func ExampleLinkedList_MarshalJSON() {
+	l := NewLinkedList(1, 2, 3)
+	jsonData, _ := json.Marshal(l)
+	fmt.Println(string(jsonData))
+	// Output: [1,2,3]
+}
+
+func ExampleLinkedList_UnmarshalJSON() {
+	jsonData := []byte("[4,5,6]")
+	var l LinkedList
+	_ = json.Unmarshal(jsonData, &l)
+	fmt.Println(l)
+	// Output: [4 5 6]
+}
