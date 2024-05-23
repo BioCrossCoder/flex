@@ -1,6 +1,7 @@
 package linkedlist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -92,4 +93,97 @@ func TestSomeAndAny(t *testing.T) {
 			}))
 		})
 	})
+}
+
+func ExampleLinkedList_Map() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	handler := func(val int) int {
+		return val * 2
+	}
+	newList := list.Map(handler)
+	fmt.Println(newList)
+	fmt.Println(list)
+	// Output:
+	// [2 4 6 8 10]
+	// [1 2 3 4 5]
+}
+
+func ExampleLinkedList_Reduce() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	// Example 1: Summing up the elements of the list
+	sum, _ := list.Reduce(func(a, b int) int {
+		return a + b
+	})
+	fmt.Println(sum)
+	// Example 2: Finding the maximum element in the list
+	max, _ := list.Reduce(func(a, b int) int {
+		if a > b {
+			return a
+		}
+		return b
+	}, 0)
+	fmt.Println(max)
+	// Example 3: Summing up the elements of the list with initial value
+	sum, _ = list.Reduce(func(a, b int) int {
+		return a + b
+	}, 10)
+	fmt.Println(sum)
+	// Output:
+	// 15
+	// 5
+	// 25
+}
+
+func ExampleLinkedList_ReduceRight() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	f := func(a, b int) int {
+		return a - b
+	}
+	result1, _ := list.Reduce(f)
+	fmt.Println(result1)
+	result2, _ := list.ReduceRight(f)
+	fmt.Println(result2)
+	// Output:
+	// -13
+	// -5
+}
+
+func ExampleLinkedList_Filter() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	condition := func(item int) bool {
+		return item%2 == 0
+	}
+	filteredList := list.Filter(condition)
+	fmt.Println(filteredList)
+	// Output: [2 4]
+}
+
+func ExampleLinkedList_Some() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	result := list.Some(func(i int) bool {
+		return i > 3
+	})
+	fmt.Println(result)
+	result = list.Some(func(i int) bool {
+		return i > 5
+	})
+	fmt.Println(result)
+	// Output:
+	// true
+	// false
+}
+
+func ExampleLinkedList_Every() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	allEven := list.Every(func(item int) bool {
+		return item%2 == 0
+	})
+	fmt.Println(allEven)
+	allPositive := list.Every(func(item int) bool {
+		return item > 0
+	})
+	fmt.Println(allPositive)
+	// Output:
+	// false
+	// true
 }

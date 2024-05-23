@@ -1,6 +1,7 @@
 package linkedlist
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -266,4 +267,309 @@ func TestSet(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, 9, result)
 	})
+}
+
+func ExampleLinkedList_Remove() {
+	l := NewLinkedList(1, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5)
+	fmt.Println(l)
+	l.Remove(2)
+	fmt.Println(l)
+	l.Remove(4, -1)
+	fmt.Println(l)
+	l.Remove(5, 2)
+	fmt.Println(l)
+	// Output:
+	// [1 2 2 3 4 4 4 5 5 5 5 5]
+	// [1 2 3 4 4 4 5 5 5 5 5]
+	// [1 2 3 5 5 5 5 5]
+	// [1 2 3 5 5 5]
+}
+
+func ExampleLinkedList_RemoveRight() {
+	l := NewLinkedList(1, 2, 3, 4, 5, 4, 3, 2, 1)
+	l2 := l.Copy()
+	fmt.Println(l)
+	l.Remove(4)
+	l2.RemoveRight(4)
+	fmt.Println(l)
+	fmt.Println(l2)
+	// Output:
+	// [1 2 3 4 5 4 3 2 1]
+	// [1 2 3 5 4 3 2 1]
+	// [1 2 3 4 5 3 2 1]
+}
+
+func ExampleLinkedList_Clear() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(list)
+	list.Clear()
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// []
+}
+
+func ExampleLinkedList_Append() {
+	list := NewLinkedList(1, 2, 3)
+	fmt.Println(list)
+	list.Append(4)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 2 3 4]
+}
+
+func ExampleLinkedList_AppendLeft() {
+	list := NewLinkedList(1, 2, 3)
+	fmt.Println(list)
+	list.AppendLeft(4)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [4 1 2 3]
+}
+
+func ExampleLinkedList_Pop() {
+	l := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(l)
+	element, _ := l.Pop()
+	fmt.Println(element)
+	fmt.Println(l)
+	// Output:
+	// [1 2 3 4 5]
+	// 5
+	// [1 2 3 4]
+}
+
+func ExampleLinkedList_PopLeft() {
+	l := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(l)
+	element, _ := l.PopLeft()
+	fmt.Println(element)
+	fmt.Println(l)
+	// Output:
+	// [1 2 3 4 5]
+	// 1
+	// [2 3 4 5]
+}
+
+func ExampleLinkedList_Extend() {
+	l1 := NewLinkedList(1, 2, 3)
+	fmt.Println(l1)
+	l2 := NewLinkedList(4, 5, 6)
+	l1.Extend(l2)
+	fmt.Println(l1)
+	// Output:
+	// [1 2 3]
+	// [1 2 3 4 5 6]
+}
+
+func ExampleLinkedList_ExtendLeft() {
+	l1 := NewLinkedList(1, 2, 3)
+	fmt.Println(l1)
+	l2 := NewLinkedList(4, 5, 6)
+	l1.ExtendLeft(l2)
+	fmt.Println(l1)
+	// Output:
+	// [1 2 3]
+	// [6 5 4 1 2 3]
+}
+
+func ExampleLinkedList_Insert() {
+	list := NewLinkedList(1, 2, 3)
+	fmt.Println(list)
+	list.Insert(1, 5)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 5 2 3]
+}
+
+func ExampleLinkedList_RemoveByIndex() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(list)
+	value, _ := list.RemoveByIndex(2)
+	fmt.Println(value)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// 3
+	// [1 2 4 5]
+}
+
+func ExampleLinkedList_Rotate() {
+	list := NewLinkedList(1, 2, 3)
+	fmt.Println(list)
+	// Rotate the linked list
+	list.Rotate()
+	fmt.Println(list)
+	// Rotate the linked list by -2 steps
+	list.Rotate(-2)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [3 1 2]
+	// [2 3 1]
+}
+
+func ExampleLinkedList_Reverse() {
+	l := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(l)
+	l.Reverse()
+	fmt.Println(l)
+	// Output:
+	// [1 2 3 4 5]
+	// [5 4 3 2 1]
+}
+
+func ExampleLinkedList_ForEach() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(list)
+	list.ForEach(func(item int) int {
+		return item * 2
+	})
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// [2 4 6 8 10]
+}
+
+func ExampleLinkedList_Replace() {
+	l := NewLinkedList(1, 2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 5)
+	fmt.Println(l)
+	l.Replace(2, -2)
+	fmt.Println(l)
+	l.Replace(4, -4, -1)
+	fmt.Println(l)
+	l.Replace(5, -5, 2)
+	fmt.Println(l)
+	// Output:
+	// [1 2 2 3 4 4 4 5 5 5 5 5]
+	// [1 -2 2 3 4 4 4 5 5 5 5 5]
+	// [1 -2 2 3 -4 -4 -4 5 5 5 5 5]
+	// [1 -2 2 3 -4 -4 -4 -5 -5 5 5 5]
+}
+
+func ExampleLinkedList_ReplaceRight() {
+	l := NewLinkedList(1, 2, 3, 4, 5, 4, 3, 2, 1)
+	l2 := l.Copy()
+	fmt.Println(l)
+	l.Replace(4, 0)
+	l2.ReplaceRight(4, 0)
+	fmt.Println(l)
+	fmt.Println(l2)
+	// Output:
+	// [1 2 3 4 5 4 3 2 1]
+	// [1 2 3 0 5 4 3 2 1]
+	// [1 2 3 4 5 0 3 2 1]
+}
+
+func ExampleLinkedList_Splice() {
+	arr := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(arr)
+	arr.Splice(2, 2, 6, 7, 8)
+	fmt.Println(arr)
+	// Output:
+	// [1 2 3 4 5]
+	// [1 2 6 7 8 5]
+}
+
+func ExampleLinkedList_Fill() {
+	list := NewLinkedList(1, 2, 3, 4, 5)
+	fmt.Println(list)
+	list.Fill(0, 1, 3)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3 4 5]
+	// [1 0 0 4 5]
+}
+
+func ExampleLinkedList_Set() {
+	list := NewLinkedList(1, 2, 3)
+	fmt.Println(list)
+	_ = list.Set(2, 6)
+	fmt.Println(list)
+	_ = list.Set(-2, 5)
+	fmt.Println(list)
+	err := list.Set(5, 6)
+	fmt.Println(err)
+	fmt.Println(list)
+	// Output:
+	// [1 2 3]
+	// [1 2 6]
+	// [1 5 6]
+	// the index is out of range
+	// [1 5 6]
+}
+
+func ExampleLinkedList_RemoveIf() {
+	list := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	evenCondition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	removed := list.RemoveIf(evenCondition, -1)
+	fmt.Println(list)
+	fmt.Println(removed)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 3 5 7 9]
+	// [2 4 6 8 10]
+}
+
+func ExampleLinkedList_RemoveRightIf() {
+	list := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	list2 := list.Copy()
+	condition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	removed1 := list.RemoveRightIf(condition, 3)
+	removed2 := list2.RemoveIf(condition, 3)
+	fmt.Println(list)
+	fmt.Println(removed1)
+	fmt.Println(list2)
+	fmt.Println(removed2)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 2 3 4 5 7 9]
+	// [10 8 6]
+	// [1 3 5 7 8 9 10]
+	// [2 4 6]
+}
+
+func ExampleLinkedList_ReplaceIf() {
+	list := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	evenCondition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	replaced := list.ReplaceIf(evenCondition, -1, -1)
+	fmt.Println(list)
+	fmt.Println(replaced)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 -1 3 -1 5 -1 7 -1 9 -1]
+	// [2 4 6 8 10]
+}
+
+func ExampleLinkedList_ReplaceRightIf() {
+	list := NewLinkedList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	list2 := list.Copy()
+	condition := func(val int) bool {
+		return val%2 == 0
+	}
+	fmt.Println(list)
+	replaced1 := list.ReplaceRightIf(condition, 0, 3)
+	replaced2 := list2.ReplaceIf(condition, 0, 3)
+	fmt.Println(list)
+	fmt.Println(replaced1)
+	fmt.Println(list2)
+	fmt.Println(replaced2)
+	// Output:
+	// [1 2 3 4 5 6 7 8 9 10]
+	// [1 2 3 4 5 0 7 0 9 0]
+	// [10 8 6]
+	// [1 0 3 0 5 0 7 8 9 10]
+	// [2 4 6]
 }
