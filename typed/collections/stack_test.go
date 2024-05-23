@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -32,4 +33,18 @@ func TestStack(t *testing.T) {
 		}
 		assert.True(t, s.Empty())
 	})
+}
+
+func ExampleStack() {
+	s := NewStack[int](3)
+	for i := 0; i < 3; i++ {
+		s.Push(i)
+	}
+	for i := 0; i < 3; i++ {
+		fmt.Println(s.Pop())
+	}
+	// Output:
+	// 2 true
+	// 1 true
+	// 0 true
 }

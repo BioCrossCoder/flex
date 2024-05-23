@@ -2,8 +2,8 @@ package collections
 
 import (
 	"encoding/json"
-	"github.com/biocrosscoder/flex/typed/collections/dict"
 	"fmt"
+	"github.com/biocrosscoder/flex/typed/collections/dict"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -53,4 +53,18 @@ func TestDefaultDict(t *testing.T) {
 		assert.Nil(t, json.Unmarshal(data, d2))
 		assert.Equal(t, fmt.Sprint(d1), fmt.Sprint(d2))
 	})
+}
+
+func ExampleDefaultDict() {
+	d := dict.Dict[string, int]{"a": 1, "b": 2, "c": 3}
+	d1 := NewDefaultDict(d, -1)
+	fmt.Println(d1.Get("a"))
+	fmt.Println(d1.Get("b"))
+	fmt.Println(d1.Get("c"))
+	fmt.Println(d1.Get("d"))
+	// Output:
+	// 1
+	// 2
+	// 3
+	// -1
 }

@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/typed/collections/arraylist"
 	"github.com/biocrosscoder/flex/typed/collections/set"
 	"github.com/smartystreets/goconvey/convey"
@@ -78,4 +79,103 @@ func TestCounter(t *testing.T) {
 			assert.Equal(t, mc.Get(element), c1.Get(element)+c2.Get(element))
 		}
 	})
+}
+
+func ExampleCounter() {
+	l := arraylist.ArrayList[int]{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
+	c := NewCounter(l, -1)
+	for i := 0; i < 10; i++ {
+		fmt.Println(i, c.Get(i))
+	}
+	// Output:
+	// 	0 -1
+	// 1 2
+	// 2 1
+	// 3 2
+	// 4 1
+	// 5 3
+	// 6 1
+	// 7 -1
+	// 8 -1
+	// 9 1
+}
+
+func ExampleCounter_MostCommon() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.MostCommon())
+	// Output: [2]
+}
+
+func ExampleCounter_LeastCommon() {
+	l := arraylist.ArrayList[int]{1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.LeastCommon())
+	// Output: [5]
+}
+
+func ExampleCounter_Increment() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.Get(2))
+	c.Increment(2, 2)
+	fmt.Println(c.Get(2))
+	// Output:
+	// 3
+	// 5
+}
+
+func ExampleCounter_Subtract() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.Get(2))
+	c.Subtract(2, 2)
+	fmt.Println(c.Get(2))
+	// Output:
+	// 3
+	// 1
+}
+
+func ExampleCounter_Remove() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.Get(2))
+	c.Remove(2)
+	fmt.Println(c.Get(2))
+	// Output:
+	// 3
+	// -1
+}
+
+func ExampleCounter_Total() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.Total())
+	// Output: 9
+}
+
+func ExampleCounter_Reset() {
+	l := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c := NewCounter(l, -1)
+	fmt.Println(c.Get(2))
+	c.Reset()
+	fmt.Println(c.Get(2))
+	// Output:
+	// 3
+	// -1
+}
+
+func ExampleMergeCounts() {
+	l1 := arraylist.ArrayList[int]{1, 2, 2, 2, 3, 3, 4, 4, 5}
+	c1 := NewCounter(l1)
+	l2 := arraylist.ArrayList[int]{1, 2, 7, 8, 9, 10}
+	c2 := NewCounter(l2)
+	mc := MergeCounts(c1, c2)
+	fmt.Println(c1.Get(2))
+	fmt.Println(c2.Get(2))
+	fmt.Println(mc.Get(2))
+	// Output:
+	// 3
+	// 1
+	// 4
 }
