@@ -1,6 +1,7 @@
 package itertools
 
 import (
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
@@ -32,4 +33,11 @@ func TestSlice(t *testing.T) {
 		assert.Equal(t, common.ErrOutOfRange, err)
 		assert.Nil(t, s)
 	})
+}
+
+func ExampleSlice() {
+	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	s, _ := Slice(arr, 5, 2, -1)
+	fmt.Println(s)
+	// Output: [6 5 4 3]
 }

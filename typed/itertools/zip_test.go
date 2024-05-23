@@ -1,11 +1,11 @@
 package itertools
 
 import (
-	"testing"
-
+	"fmt"
 	"github.com/biocrosscoder/flex/common"
 	"github.com/smartystreets/goconvey/convey"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestZip(t *testing.T) {
@@ -70,4 +70,56 @@ func TestZipPairLongest(t *testing.T) {
 		result := ZipPairLongest(arr1, arr2)
 		assert.Equal(t, expected, result.Pour())
 	})
+}
+
+func ExampleZip() {
+	arr := []int{1, 2, 3}
+	arr2 := []int{4, 5, 6}
+	arr3 := []int{-1, -2}
+	iter, _ := Zip(arr, arr2, arr3)
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// [1 4 -1]
+	// [2 5 -2]
+}
+
+func ExampleZipLongest() {
+	arr := []int{1, 2, 3}
+	arr2 := []int{4, 5, 6}
+	arr3 := []int{-1, -2}
+	iter, _ := ZipLongest(arr, arr2, arr3)
+	for iter.Next() {
+		fmt.Println(iter.Value())
+	}
+	// Output:
+	// [1 4 -1]
+	// [2 5 -2]
+	// [3 6 0]
+}
+
+func ExampleZipPair() {
+	arr := []int{1, 2, 3}
+	arr2 := []string{"a", "b"}
+	iter := ZipPair(arr, arr2)
+	for iter.Next() {
+		fmt.Println(*iter.Value())
+	}
+	// Output:
+	// {1 a}
+	// {2 b}
+}
+
+func ExampleZipPairLongest() {
+	arr := []int{1, 2, 3}
+	arr2 := []string{"a", "b"}
+	iter := ZipPairLongest(arr, arr2)
+	for iter.Next() {
+		fmt.Println(*iter.Value())
+	}
+	// Output:
+	// {1 a}
+	// {2 b}
+	// {3 }
 }
