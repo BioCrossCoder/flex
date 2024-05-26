@@ -10,7 +10,7 @@ import (
 
 func TestSearchElement(t *testing.T) {
 	convey.Convey("search element in list", t, func() {
-		l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4)
+		l := NewSortedList(AscendOrder[int], 1, 2, 3, 2, 4)
 		convey.Convey("search by index", func() {
 			assert.Equal(t, 1, l.IndexOf(2))
 			assert.Equal(t, 2, l.LastIndexOf(2))
@@ -73,7 +73,7 @@ func TestSearchElement(t *testing.T) {
 }
 
 func ExampleSortedList_Max() {
-	l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4)
+	l := NewSortedList(AscendOrder[int], 1, 2, 3, 2, 4)
 	m, _ := l.Max()
 	fmt.Println(m)
 	l.Reverse()
@@ -85,7 +85,7 @@ func ExampleSortedList_Max() {
 }
 
 func ExampleSortedList_Min() {
-	l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4)
+	l := NewSortedList(AscendOrder[int], 1, 2, 3, 2, 4)
 	m, _ := l.Min()
 	fmt.Println(m)
 	l.Reverse()

@@ -21,7 +21,7 @@ func NewSortedDict[K cmp.Ordered, V any](f func(a, b K) int, src dict.Dict[K, V]
 		src = make(dict.Dict[K, V])
 	}
 	if f == nil {
-		f = sortedlist.AscendOrder
+		f = sortedlist.AscendOrder[K]
 	}
 	return &SortedDict[K, V]{
 		src,
@@ -104,7 +104,10 @@ func (d SortedDict[K, V]) Items() []*dict.DictItem[K, V] {
 	for i := 0; i < length; i++ {
 		key, _ := d.KeyAt(i)
 		value := d.Get(key)
-		items[i] = &dict.DictItem[K, V]{key, value}
+		items[i] = &dict.DictItem[K, V]{
+			Key:   key,
+			Value: value,
+		}
 	}
 	return items
 }

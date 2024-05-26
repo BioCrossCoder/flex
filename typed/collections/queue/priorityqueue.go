@@ -36,7 +36,7 @@ func NewPriorityQueue[T any](capacity int) (q PriorityQueue[T], err error) {
 		err = common.ErrInvalidCapacity
 		return
 	}
-	elements := sortedcontainers.NewSortedDict(sortedlist.DescendOrder, dict.Dict[int, Queue[T]]{})
+	elements := sortedcontainers.NewSortedDict(sortedlist.DescendOrder[int], dict.Dict[int, Queue[T]]{})
 	q = &priorityQueue[T]{*elements, capacity, 0}
 	return
 }

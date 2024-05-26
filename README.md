@@ -16,4 +16,3 @@ A Golang library to make development easier and more efficient
 
 1. Robustness: Improve the coverage of unit tests.
 2. Functionality: Provide more practical functions in `functools` for manipulating `sequences` (`slice`/`array`/`string`).
-3. Compatibility: Support lower versions of `Golang` to ensure compatibility with older projects; split `typed` package.

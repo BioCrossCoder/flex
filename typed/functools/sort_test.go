@@ -13,8 +13,8 @@ import (
 func TestSort(t *testing.T) {
 	convey.Convey("simple sort", t, func() {
 		a := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
-		b := Sorted(a, sortedlist.AscendOrder)
-		Sort(a, sortedlist.AscendOrder)
+		b := Sorted(a, sortedlist.AscendOrder[int])
+		Sort(a, sortedlist.AscendOrder[int])
 		assert.Equal(t, []int{1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9}, a)
 		assert.Equal(t, a, b)
 	})
@@ -57,7 +57,7 @@ func ExampleSort() {
 
 func ExampleSorted() {
 	arr := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
-	arr2 := Sorted(arr, sortedlist.AscendOrder)
+	arr2 := Sorted(arr, sortedlist.AscendOrder[int])
 	fmt.Println(arr)
 	fmt.Println(arr2)
 	// Output:
@@ -67,9 +67,9 @@ func ExampleSorted() {
 
 func ExampleIsSorted() {
 	arr := []int{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}
-	fmt.Println(IsSorted(arr, sortedlist.AscendOrder))
-	Sort(arr, sortedlist.AscendOrder)
-	fmt.Println(IsSorted(arr, sortedlist.AscendOrder))
+	fmt.Println(IsSorted(arr, sortedlist.AscendOrder[int]))
+	Sort(arr, sortedlist.AscendOrder[int])
+	fmt.Println(IsSorted(arr, sortedlist.AscendOrder[int]))
 	// Output:
 	// false
 	// true

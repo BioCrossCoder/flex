@@ -93,7 +93,10 @@ func (d OrderedDict[K, V]) Values() []V {
 func (d OrderedDict[K, V]) Items() []*dict.DictItem[K, V] {
 	items := make([]*dict.DictItem[K, V], d.Size())
 	for i, key := range d.sequence {
-		items[i] = &dict.DictItem[K, V]{key, d.Get(key)}
+		items[i] = &dict.DictItem[K, V]{
+			Key:   key,
+			Value: d.Get(key),
+		}
 	}
 	return items
 }

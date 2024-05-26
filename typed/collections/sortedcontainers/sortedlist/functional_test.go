@@ -9,7 +9,7 @@ import (
 
 func TestReduce(t *testing.T) {
 	convey.Convey("reduce list", t, func() {
-		l := NewSortedList(AscendOrder, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		l := NewSortedList(AscendOrder[int], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x, y int) int {
 			return x - y
 		}
@@ -55,17 +55,17 @@ func TestReduce(t *testing.T) {
 
 func TestFilter(t *testing.T) {
 	convey.Convey("filter list", t, func() {
-		l := NewSortedList(DescendOrder, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		l := NewSortedList(DescendOrder[int], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x int) bool {
 			return x%2 == 0
 		}
-		assert.True(t, NewSortedList(DescendOrder, 2, 4, 6, 8, 10).Equal(l.Filter(f)))
+		assert.True(t, NewSortedList(DescendOrder[int], 2, 4, 6, 8, 10).Equal(l.Filter(f)))
 	})
 }
 
 func TestSomeAndEvery(t *testing.T) {
 	convey.Convey("check condition on list", t, func() {
-		l := NewSortedList(AscendOrder, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+		l := NewSortedList(AscendOrder[int], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 		f := func(x int) bool {
 			return x > 9
 		}

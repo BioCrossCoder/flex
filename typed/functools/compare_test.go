@@ -11,10 +11,10 @@ import (
 func TestCompare(t *testing.T) {
 	convey.Convey("get max/min element", t, func() {
 		arr := []int{1, 2, 3, 4, 5}
-		assert.Equal(t, 1, Max(sortedlist.DescendOrder, arr...))
-		assert.Equal(t, 1, Min(sortedlist.AscendOrder, arr...))
-		assert.Equal(t, 5, Max(sortedlist.AscendOrder, arr...))
-		assert.Equal(t, 5, Min(sortedlist.DescendOrder, arr...))
+		assert.Equal(t, 1, Max(sortedlist.DescendOrder[int], arr...))
+		assert.Equal(t, 1, Min(sortedlist.AscendOrder[int], arr...))
+		assert.Equal(t, 5, Max(sortedlist.AscendOrder[int], arr...))
+		assert.Equal(t, 5, Min(sortedlist.DescendOrder[int], arr...))
 	})
 	convey.Convey("compare elements", t, func() {
 		cmp := func(a, b []int) int {
@@ -29,28 +29,28 @@ func TestCompare(t *testing.T) {
 	})
 	convey.Convey("check monotonicity of array", t, func() {
 		arr := []int{1, 2, 3, 4, 5}
-		assert.True(t, IsMonotonic(arr, sortedlist.AscendOrder, true))
-		assert.True(t, IsMonotonic(arr, sortedlist.AscendOrder, false))
+		assert.True(t, IsMonotonic(arr, sortedlist.AscendOrder[int], true))
+		assert.True(t, IsMonotonic(arr, sortedlist.AscendOrder[int], false))
 		arr2 := []int{1, 2, 3, 4, 4}
-		assert.False(t, IsMonotonic(arr2, sortedlist.AscendOrder, true))
-		assert.True(t, IsMonotonic(arr2, sortedlist.AscendOrder, false))
+		assert.False(t, IsMonotonic(arr2, sortedlist.AscendOrder[int], true))
+		assert.True(t, IsMonotonic(arr2, sortedlist.AscendOrder[int], false))
 		arr3 := []int{5, 4, 3, 2, 1}
-		assert.True(t, IsMonotonic(arr3, sortedlist.AscendOrder, true))
-		assert.True(t, IsMonotonic(arr3, sortedlist.AscendOrder, false))
+		assert.True(t, IsMonotonic(arr3, sortedlist.AscendOrder[int], true))
+		assert.True(t, IsMonotonic(arr3, sortedlist.AscendOrder[int], false))
 		arr4 := []int{5, 3, 3, 2, 1}
-		assert.False(t, IsMonotonic(arr4, sortedlist.AscendOrder, true))
-		assert.True(t, IsMonotonic(arr4, sortedlist.AscendOrder, false))
+		assert.False(t, IsMonotonic(arr4, sortedlist.AscendOrder[int], true))
+		assert.True(t, IsMonotonic(arr4, sortedlist.AscendOrder[int], false))
 	})
 }
 
 func ExampleMax() {
-	max := Max(sortedlist.DescendOrder, 5, 3, 9, 2, 7)
+	max := Max(sortedlist.DescendOrder[int], 5, 3, 9, 2, 7)
 	fmt.Println(max)
 	// Output: 2
 }
 
 func ExampleMin() {
-	min := Min(sortedlist.DescendOrder, 5, 3, 9, 2, 7)
+	min := Min(sortedlist.DescendOrder[int], 5, 3, 9, 2, 7)
 	fmt.Println(min)
 	// Output: 9
 }
@@ -87,8 +87,8 @@ func ExampleGreater() {
 
 func ExampleIsIncreasing() {
 	arr := []int{1, 2, 3, 3, 4}
-	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder, false))
-	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder, true))
+	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder[int], false))
+	fmt.Println(IsIncreasing(arr, sortedlist.AscendOrder[int], true))
 	// Output:
 	// true
 	// false
@@ -96,8 +96,8 @@ func ExampleIsIncreasing() {
 
 func ExampleIsDecreasing() {
 	arr := []int{5, 4, 3, 3, 2}
-	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder, false))
-	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder, true))
+	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder[int], false))
+	fmt.Println(IsDecreasing(arr, sortedlist.AscendOrder[int], true))
 	// Output:
 	// true
 	// false
@@ -105,9 +105,9 @@ func ExampleIsDecreasing() {
 
 func ExampleIsMonotonic() {
 	arr := []int{1, 2, 2, 4, 5}
-	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder, false))
-	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder, true))
-	fmt.Println(IsMonotonic(arr, sortedlist.DescendOrder, false))
+	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder[int], false))
+	fmt.Println(IsMonotonic(arr, sortedlist.AscendOrder[int], true))
+	fmt.Println(IsMonotonic(arr, sortedlist.DescendOrder[int], false))
 	// Output:
 	// true
 	// false

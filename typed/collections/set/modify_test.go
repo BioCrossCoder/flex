@@ -69,10 +69,10 @@ func TestPop(t *testing.T) {
 		assert.False(t, s.Has(element))
 	})
 	convey.Convey("pop an element from an empty set", t, func() {
-		s := Set[any]{}
+		s := Set[int]{}
 		element, err := s.Pop()
 		assert.Equal(t, common.ErrEmptySet, err)
-		assert.Nil(t, element)
+		assert.Zero(t, element)
 	})
 }
 

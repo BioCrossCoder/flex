@@ -99,7 +99,10 @@ func (d OrderedChainDict[K, V]) Items() []*dict.DictItem[K, V] {
 	items := make([]*dict.DictItem[K, V], d.Size())
 	i := 0
 	_ = d.sequence.ForEach(func(key K) K {
-		items[i] = &dict.DictItem[K, V]{key, d.Get(key)}
+		items[i] = &dict.DictItem[K, V]{
+			Key:   key,
+			Value: d.Get(key),
+		}
 		i++
 		return key
 	})

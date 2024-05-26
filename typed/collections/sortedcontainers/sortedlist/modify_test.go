@@ -8,7 +8,7 @@ import (
 )
 
 func TestRemove(t *testing.T) {
-	l := NewSortedList(AscendOrder, 1, 2, 3, 2, 4, 2, 3, 2, 1)
+	l := NewSortedList(AscendOrder[int], 1, 2, 3, 2, 4, 2, 3, 2, 1)
 	entry := 2
 	count := l.Count(entry)
 	length := l.Len()
@@ -68,7 +68,7 @@ func TestRemove(t *testing.T) {
 }
 
 func TestAddOrCutElement(t *testing.T) {
-	l := NewSortedList(AscendOrder, 1, 2, 3, 4, 5)
+	l := NewSortedList(AscendOrder[int], 1, 2, 3, 4, 5)
 	length := l.Len()
 	convey.Convey("remove one element from list tail", t, func() {
 		l2 := l.Copy()
@@ -110,14 +110,14 @@ func TestAddOrCutElement(t *testing.T) {
 
 func TestReverse(t *testing.T) {
 	convey.Convey("reverse the list", t, func() {
-		l := NewSortedList(AscendOrder, 1, 2, 3, 4, 5)
+		l := NewSortedList(AscendOrder[int], 1, 2, 3, 4, 5)
 		_ = l.Reverse()
-		assert.True(t, l.Equal(*NewSortedList(DescendOrder, 1, 2, 3, 4, 5)))
+		assert.True(t, l.Equal(*NewSortedList(DescendOrder[int], 1, 2, 3, 4, 5)))
 	})
 }
 
 func ExampleSortedList_RemoveRange() {
-	l := NewSortedList(AscendOrder, 2, 3, 1, 4, 5)
+	l := NewSortedList(AscendOrder[int], 2, 3, 1, 4, 5)
 	fmt.Println(l.ToArray())
 	removed := l.RemoveRange(1, 3)
 	fmt.Println(removed.ToArray())
@@ -129,7 +129,7 @@ func ExampleSortedList_RemoveRange() {
 }
 
 func ExampleSortedList_Insert() {
-	l := NewSortedList(AscendOrder, 1, 5, 8)
+	l := NewSortedList(AscendOrder[int], 1, 5, 8)
 	fmt.Println(l.ToArray())
 	l.Insert(3)
 	fmt.Println(l.ToArray())

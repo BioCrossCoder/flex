@@ -85,14 +85,28 @@ func (z *zipPairIterator[T, U]) Pour() []*zipPair[T, U] {
 	return result
 }
 
+func smaller(a, b int) int {
+	if a <= b {
+		return a
+	}
+	return b
+}
+
+func larger(a, b int) int {
+	if a >= b {
+		return a
+	}
+	return b
+}
+
 // ZipPair creates an iterator for paired elements from two collections of equal length.
 func ZipPair[T, U any](entry1 []T, entry2 []U) ZipIterator[T, U] {
-	return newZipPairIterator(entry1, entry2, min(len(entry1), len(entry2)))
+	return newZipPairIterator(entry1, entry2, smaller(len(entry1), len(entry2)))
 }
 
 // ZipPairLongest creates an iterator for paired elements from two collections of unequal length.
 func ZipPairLongest[T, U any](entry1 []T, entry2 []U) ZipIterator[T, U] {
-	return newZipPairIterator(entry1, entry2, max(len(entry1), len(entry2)))
+	return newZipPairIterator(entry1, entry2, larger(len(entry1), len(entry2)))
 }
 
 // zipListIterator is an iterator for paired elements from multiple collections.
@@ -161,7 +175,7 @@ func Zip[T any](entries ...[]T) (iterator ListIterator[[]T], err error) {
 	}
 	length := len(entries[0])
 	for i := 1; i < entryCount; i++ {
-		length = min(length, len(entries[i]))
+		length = smaller(length, len(entries[i]))
 	}
 	iterator = newZipListIterator(entries, length)
 	return
@@ -176,7 +190,7 @@ func ZipLongest[T any](entries ...[]T) (iterator ListIterator[[]T], err error) {
 	}
 	length := len(entries[0])
 	for i := 1; i < entryCount; i++ {
-		length = max(length, len(entries[i]))
+		length = larger(length, len(entries[i]))
 	}
 	iterator = newZipListIterator(entries, length)
 	return
