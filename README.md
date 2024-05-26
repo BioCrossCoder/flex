@@ -86,3 +86,10 @@ func main() {
 
 1. Robustness: Improve the coverage of unit tests.
 2. Functionality: Provide more practical functions in `functools` for manipulating `sequences` (`slice`/`array`/`string`).
+3. Feature: Add concurrent programming support.
+   1. A flexible and light-weight event-loop mechanism.
+   2. A simple and light-weight Goroutine pool.
+   3. Concurrency Safety `map` and `slice`.
+   4. A structure to support chain syntax for concurrent programming just like `Promise` in `JavaScript`.
+   5. A structure to support behavioral control like `Proxy` in `JavaScript`.
+   6. A simple and light-weight `Generator` mechanism.
