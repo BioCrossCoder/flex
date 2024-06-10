@@ -93,3 +93,6 @@ func main() {
    4. A structure to support chain syntax for concurrent programming just like `Promise` in `JavaScript`.
    5. A structure to support behavioral control like `Proxy` in `JavaScript`.
    6. A simple and light-weight `Generator` mechanism.
+4. Feature: Make Programming in `Golang` happier!
+   1. Safe goroutine: auto recovered from panic.
+   2. Auto return: say goodbye to `if err != nil`.
