@@ -22,6 +22,29 @@ Alternatively, use `go get`:
 go get -u github.com/biocrosscoder/flex
 ```
 
+***The package path above is not actually used in the code, use the following pacakge paths when necessary:***
+
++ github.com/biocrosscoder/flex/itertools
++ github.com/biocrosscoder/flex/functools
++ github.com/biocrosscoder/flex/collections
++ github.com/biocrosscoder/flex/collections/arraylist
++ github.com/biocrosscoder/flex/collections/linkedlist
++ github.com/biocrosscoder/flex/collections/queue
++ github.com/biocrosscoder/flex/collections/set
++ github.com/biocrosscoder/flex/collections/dict
++ github.com/biocrosscoder/flex/collections/orderedcontainers
++ github.com/biocrosscoder/flex/typed/itertools
++ github.com/biocrosscoder/flex/typed/functools
++ github.com/biocrosscoder/flex/typed/collections
++ github.com/biocrosscoder/flex/typed/collections/arraylist
++ github.com/biocrosscoder/flex/typed/collections/linkedlist
++ github.com/biocrosscoder/flex/typed/collections/queue
++ github.com/biocrosscoder/flex/typed/collections/set
++ github.com/biocrosscoder/flex/typed/collections/dict
++ github.com/biocrosscoder/flex/typed/collections/orderedcontainers
++ github.com/biocrosscoder/flex/typed/collections/sortedcontainers
++ github.com/biocrosscoder/flex/typed/collections/sortedcontainers/sortedlist
+
 ### Running Flex
 
 Example 1: Remove duplicates from a slice
