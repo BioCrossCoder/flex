@@ -53,19 +53,19 @@ Example 1: Remove duplicates from a slice
 package main
 
 import (
-	"fmt"
-	"github.com/biocrosscoder/flex/typed/collections/orderedcontainers"
-	"math/rand"
+ "fmt"
+ "github.com/biocrosscoder/flex/typed/collections/orderedcontainers"
+ "math/rand"
 )
 
 func main() {
-	arr := make([]int, 20)
-	for i := 0; i < 20; i++ {
-		arr[i] = rand.Intn(10)
-	}
-	fmt.Println("Original array:", arr)
-	rd := orderedcontainers.NewOrderedSet(arr...).Elements()
-	fmt.Println("Removed duplicates: ", rd)
+ arr := make([]int, 20)
+ for i := 0; i < 20; i++ {
+  arr[i] = rand.Intn(10)
+ }
+ fmt.Println("Original array:", arr)
+ rd := orderedcontainers.NewOrderedSet(arr...).Elements()
+ fmt.Println("Removed duplicates: ", rd)
 }
 ```
 
@@ -75,25 +75,25 @@ Example 2: Sort a slice of complicated structures
 package main
 
 import (
-	"fmt"
-	"github.com/biocrosscoder/flex/typed/functools"
-	"math/rand"
+ "fmt"
+ "github.com/biocrosscoder/flex/typed/functools"
+ "math/rand"
 )
 
 func main() {
-	arr := make([][]int, 10)
-	for i := 0; i < 10; i++ {
-		arr[i] = []int{rand.Intn(5), rand.Intn(5)}
-	}
-	fmt.Println("Before sorting:", arr)
-	f1 := func(x, y []int) int {
-		return x[0] - y[0]
-	}
-	f2 := func(x, y []int) int {
-		return y[1] - x[1]
-	}
-	functools.Sort(arr, f1, f2)
-	fmt.Println("After sorting: ", arr)
+ arr := make([][]int, 10)
+ for i := 0; i < 10; i++ {
+  arr[i] = []int{rand.Intn(5), rand.Intn(5)}
+ }
+ fmt.Println("Before sorting:", arr)
+ f1 := func(x, y []int) int {
+  return x[0] - y[0]
+ }
+ f2 := func(x, y []int) int {
+  return y[1] - x[1]
+ }
+ functools.Sort(arr, f1, f2)
+ fmt.Println("After sorting: ", arr)
 }
 ```
 
@@ -119,3 +119,6 @@ func main() {
 4. Feature: Make Programming in `Golang` happier!
    1. Safe goroutine: auto recovered from panic.
    2. Auto return: say goodbye to `if err != nil`.
+5. Feature: enhance the current functions.
+   1. A stronger `Dict` that supports unhashable keys.
+   2. Make a new version of `GroupBy` that returns a `Dict` instead of a `slice`.
