@@ -119,6 +119,7 @@ func main() {
 4. Feature: Make Programming in `Golang` happier!
    1. Safe goroutine: auto recovered from panic.
    2. Auto return: say goodbye to `if err != nil`.
+   3. Pipeline: say goodbye to nesting hell in function calls.
 5. Feature: enhance the current functions.
    1. A stronger `Dict` that supports unhashable keys.
    2. Make a new version of `GroupBy` that returns a `Dict` instead of a `slice`.
