@@ -123,3 +123,5 @@ func main() {
 5. Feature: enhance the current functions.
    1. A stronger `Dict` that supports unhashable keys.
    2. Make a new version of `GroupBy` that returns a `Dict` instead of a `slice`.
+   3. Add different underlying algorithm support to Sequence Searching.
+   4. Add different data structure support to Hash Structures.
