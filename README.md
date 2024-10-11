@@ -104,24 +104,3 @@ func main() {
 3. `collections` provide a series of powerful and practical containers to store and manipulate data.
 4. `typed` provide `itertools`, `functools` and `collections` with `generics` support.
 5. This library mainly refers to `Python` and `JavaScript`, considering the feature of `Golang` as well.
-
-## ToDo List
-
-1. Robustness: Improve the coverage of unit tests.
-2. Functionality: Provide more practical functions in `functools` for manipulating `sequences` (`slice`/`array`/`string`).
-3. Feature: Add concurrent programming support.
-   1. A flexible and light-weight event-loop mechanism.
-   2. A simple and light-weight Goroutine pool.
-   3. Concurrency Safety `map` and `slice`.
-   4. A structure to support chain syntax for concurrent programming just like `Promise` in `JavaScript`.
-   5. A structure to support behavioral control like `Proxy` in `JavaScript`.
-   6. A simple and light-weight `Generator` mechanism.
-4. Feature: Make Programming in `Golang` happier!
-   1. Safe goroutine: auto recovered from panic.
-   2. Auto return: say goodbye to `if err != nil`.
-   3. Pipeline: say goodbye to nesting hell in function calls.
-5. Feature: enhance the current functions.
-   1. A stronger `Dict` that supports unhashable keys.
-   2. Make a new version of `GroupBy` that returns a `Dict` instead of a `slice`.
-   3. Add different underlying algorithm support to Sequence Searching.
-   4. Add different data structure support to Hash Structures.
